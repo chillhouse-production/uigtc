@@ -15,7 +15,7 @@ import kapalTengah from '../assets/KapalTengah.svg'
 import botolKiri from '../assets/BotolKiri.svg'
 import petiKanan from '../assets/PetiKanan.svg'
 import bayang from '../assets/Bayang.svg'
-import fotoMuter from '../assets/RollingPhotos.svg'
+import fotoMuter from '../assets/RollingPhotos.png'
 import bgBiruMuda from '../assets/BackGroundBiruMuda.png'
 
 
@@ -46,7 +46,7 @@ export default function MainPage() {
                     <img src={batuKiri} alt="" />
                 </div>
 
-                <div className="z-10 translate-y-[25px] animate-float">
+                <div className="z-10 translate-y-[25px] animate-float-slow">
                     <img src={hartaTengah} alt="" />
                 </div>
 
@@ -105,7 +105,7 @@ export default function MainPage() {
                         <div className="flex flex-col items-center gap-2 w-1/3 transform -translate-x-5 -translate-y-12">
                             <h4 className="font-serif text-[15px] uppercase italic">Pre-Event</h4>
                             <p className="font-serif text-[10px] opacity-90 mb-2">Tarima Kareba Madeceng</p>
-                            <img src={botolKiri} alt="" className="w-10 mb-4 drop-shadow-xl" />
+                            <img src={botolKiri} alt="" className="w-10 mb-4 drop-shadow-xl animate-sway-slow" />
                             <div className="bg-[#3d2314] rounded-md border flex-col items-center flex border-black/20 shadow-lg">
                                 <span className="text-[#f1e7d0] px-2 py-1 font-serif font-bold text-[10px] whitespace-nowrap">
                                     4–23 January 2026
@@ -117,7 +117,7 @@ export default function MainPage() {
                         <div className="flex flex-col items-center gap-2 w-1/3 transform -translate-y-7">
                             <h4 className="font-serif text-[15px] uppercase italic">RoadShow</h4>
                             <p className="font-serif text-[10px] opacity-90 mb-2">Pangolli Lao Sompe</p>
-                            <img src={kapalTengah} alt="" className="w-20 mb-4 drop-shadow-xl" />
+                            <img src={kapalTengah} alt="" className="w-20 mb-4 drop-shadow-xl animate-sway-slow" />
                             <div className="bg-[#3d2314] rounded-md border flex-col items-center flex border-black/20 shadow-lg">
                                 <span className="text-[#f1e7d0] px-2 py-1 font-serif font-bold text-[10px] whitespace-nowrap">
                                     5–23 January 2026
@@ -129,7 +129,7 @@ export default function MainPage() {
                         <div className="flex flex-col items-center translate-x-7 w-1/3 transform -translate-y-15">
                             <h4 className="font-serif text-[15px] uppercase italic">Main Event</h4>
                             <p className="font-serif text-[10px] opacity-90 mb-2">Lao Sompe</p>
-                            <img src={petiKanan} alt="" className="w-20 mb-4 drop-shadow-xl" />
+                            <img src={petiKanan} alt="" className="w-20 mb-4 drop-shadow-xl animate-sway-slow" />
                             <div className="bg-[#3d2314] rounded-md border flex-col items-center flex  border-black/20 shadow-lg">
                                 <span className="text-[#f1e7d0] px-2 py-1 font-serif font-bold text-[10px] whitespace-nowrap">
                                     25 January 2026

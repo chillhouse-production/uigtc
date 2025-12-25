@@ -56,4 +56,45 @@
   .animate-fade-up {
     animation: fadeUp 1s ease-out forwards;
   }
+
+  @keyframes sway {
+    0% {
+      transform: translateY(0) rotate(0deg);
+    }
+    25% {
+      transform: translateY(-6px) rotate(-2deg);
+    }
+    50% {
+      transform: translateY(0) rotate(2deg);
+    }
+    75% {
+      transform: translateY(-4px) rotate(-1deg);
+    }
+    100% {
+      transform: translateY(0) rotate(0deg);
+    }
+  }
+
+  @keyframes swaySlow {
+    0% {
+      transform: translateY(0) rotate(0deg);
+    }
+    50% {
+      transform: translateY(-8px) rotate(1.5deg);
+    }
+    100% {
+      transform: translateY(0) rotate(0deg);
+    }
+  }
+
+  .animate-sway {
+    animation: sway 4s ease-in-out infinite;
+    transform-origin: center bottom;
+  }
+
+  .animate-sway-slow {
+    animation: swaySlow 6s ease-in-out infinite;
+    transform-origin: center bottom;
+  }
+
 </style>
