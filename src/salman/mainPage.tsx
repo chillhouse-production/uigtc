@@ -14,6 +14,7 @@ import kapalTengah from '../assets/KapalTengah.svg'
 import botolKiri from '../assets/BotolKiri.svg'
 import petiKanan from '../assets/PetiKanan.svg'
 import bayang from '../assets/Bayang.svg'
+import fotoMuter from '../assets/RollingPhotos.svg'
 
 
 export default function MainPage() {
@@ -22,7 +23,12 @@ export default function MainPage() {
         <div className="block flex flex-col h-max-screen  sm:hidden z-0 pt-20 bg-gradient-to-b from-[#EAB775] to-[#F3CC91] overflow-hidden">
             <div className="flex flex-col w-screen items-center justify-center">
                 <img src={judulImg} alt="UIGTC judul" className="h-32 w-300px mb-4" />
-                <h2 className="text-2xl font-semibold text-white">Sail The Sea Reach Your Degree</h2>
+                <h2 className="text-sm italic font-[Lora] text-white
+               [text-shadow:1px_1px_2px_rgba(0,0,0,0.7),0_4px_8px_rgba(0,0,0,0.6)]">
+                    Sail The Sea Reach Your Degree
+                </h2>
+
+
             </div>
             <div className="flex flex-col h-400px w-screen items-center justify-center mt-10"></div>
             <div className="flex flex-row w-screen items-center justify-center mt-10">
@@ -82,7 +88,7 @@ export default function MainPage() {
                     </h3>
 
                     <div className="relative w-full max-w-5xl flex justify-between items-center">
-                        <img src={bayang} alt="bayang1" className="absolute top-1/2 -translate-x-8 -translate-y-35 w-[45%]"/>
+                        <img src={bayang} alt="bayang1" className="absolute top-1/2 -translate-x-8 -translate-y-35 w-[45%]" />
                         <div className="flex flex-col items-center gap-2 w-1/3 transform -translate-x-5 -translate-y-12">
                             <h4 className="font-serif text-[15px] uppercase italic">Pre-Event</h4>
                             <p className="font-serif text-[10px] opacity-90 mb-2">Tarima Kareba Madeceng</p>
@@ -94,7 +100,7 @@ export default function MainPage() {
                             </div>
                         </div>
                         <img src={garisKiri} alt="" className="absolute left-[15%] top-1/2 -translate-y-12 w-[25%]" />
-                        <img src={bayang} alt="bayang2" className="absolute top-1/2 translate-x-30 -translate-y-30 w-[45%]"/>
+                        <img src={bayang} alt="bayang2" className="absolute top-1/2 translate-x-30 -translate-y-30 w-[45%]" />
                         <div className="flex flex-col items-center gap-2 w-1/3 transform -translate-y-7">
                             <h4 className="font-serif text-[15px] uppercase italic">RoadShow</h4>
                             <p className="font-serif text-[10px] opacity-90 mb-2">Pangolli Lao Sompe</p>
@@ -106,7 +112,7 @@ export default function MainPage() {
                             </div>
                         </div>
                         <img src={garisKanan} alt="" className="absolute right-[15%] top-4/12 -translate-y-1/2 w-[25%]" />
-                        <img src={bayang} alt="bayang2" className="absolute top-1/2 translate-x-70 -translate-y-40 w-[45%]"/>
+                        <img src={bayang} alt="bayang2" className="absolute top-1/2 translate-x-70 -translate-y-40 w-[45%]" />
                         <div className="flex flex-col items-center translate-x-7 w-1/3 transform -translate-y-15">
                             <h4 className="font-serif text-[15px] uppercase italic">Main Event</h4>
                             <p className="font-serif text-[10px] opacity-90 mb-2">Lao Sompe</p>
@@ -121,8 +127,27 @@ export default function MainPage() {
                     </div>
                 </div>
             </div>
+            <div className="flex flex-col items-center justify-center -translate-y-60">
+                <div className="mb-10">
+                    <h2 className="text-4xl italic font-[Lora] text-white
+               [text-shadow:1px_1px_2px_rgba(0,0,0,0.7),0_4px_8px_rgba(0,0,0,0.6)]">
+                        UIGTC 2025'S ARCHIVE
+                    </h2>
+                </div>
+                <div className="relative w-full overflow-hidden">
+                    <div className="flex w-max animate-scroll">
+                        <img src={fotoMuter} alt="archive" className="h-48 shrink-0 rounded-xl" />
+                        <img src={fotoMuter} alt="archive" className="h-48 shrink-0 rounded-xl" />
+                        <img src={fotoMuter} alt="archive" className="h-48 shrink-0 rounded-xl" />
+                        <img src={fotoMuter} alt="archive" className="h-48 shrink-0 rounded-xl" />
+                        <img src={fotoMuter} alt="archive" className="h-48 shrink-0 rounded-xl" />
+                        <img src={fotoMuter} alt="archive" className="h-48 shrink-0 rounded-xl" />
+                        <img src={fotoMuter} alt="archive" className="h-48 shrink-0 rounded-xl" />
+                        <img src={fotoMuter} alt="archive" className="h-48 shrink-0 rounded-xl" />
+                    </div>
+                </div>
 
-
+            </div>
         </div>
     )
 }
