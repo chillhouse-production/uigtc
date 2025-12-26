@@ -1,0 +1,35 @@
+name: Deploy React to VPS
+
+on:
+  push:
+    branches:
+      - main  # Sesuaikan dengan branch kamu
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: 22
+          script: |
+            # Masuk ke folder frontend
+            cd /home/pudil/uigtc-fe
+            
+            # Reset code agar sama persis dengan GitHub
+            git fetch origin main
+            git reset --hard origin/main
+            
+            # Install & Build ulang
+            npm install
+            npm run build
+            
+            # SELESAI. Tidak perlu restart apapun.
+            # Nginx akan otomatis menyajikan file index.html yang baru setelah build selesai.
