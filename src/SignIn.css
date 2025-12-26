@@ -1,0 +1,539 @@
+@import url('https://fonts.googleapis.com/css2?family=Pirata+One&family=Roboto:wght@300;400;500;700&display=swap');
+
+.signin-container {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  /* Darker, more muted gradient */
+  background: linear-gradient(180deg, #6baed6 0%, #4292c6 40%, #2171b5 100%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  overflow: hidden;
+  font-family: 'Roboto', sans-serif;
+  /* padding: 2rem 0; Removed padding to fit screen exact */
+}
+
+/* Background Elements */
+.cloud {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.9;
+}
+
+.cloud-left {
+  top: 0%;
+  left: -5%;
+  width: 45%;
+  min-width: 400px;
+  max-width: 800px;
+  animation: floatCloudLeft 25s infinite ease-in-out alternate;
+}
+
+.cloud-right {
+  top: 25%;
+  /* Lowered from 10% */
+  right: -5%;
+  width: 35%;
+  min-width: 300px;
+  max-width: 600px;
+  animation: floatCloudRight 28s infinite ease-in-out alternate;
+}
+
+.bird {
+  position: absolute;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.9;
+  filter: brightness(0.2);
+  /* Darken birds to silhouettes */
+}
+
+/* Adjust Bird Positions to match design */
+.bird-1 {
+  top: -5%;
+  right: -5%;
+  width: 150px;
+  transform: rotate(20deg);
+  /* Top right corner giant bird */
+}
+
+.bird-2 {
+  top: 15%;
+  right: 25%;
+  width: 50px;
+}
+
+.bird-3 {
+  top: 8%;
+  left: 30%;
+  width: 45px;
+}
+
+.bird-4 {
+  top: 28%;
+  left: 2%;
+  width: 90px;
+  transform: scaleX(-1) rotate(-15deg);
+  /* Facing right? or left? Image shows flying left */
+}
+
+.bird-5 {
+  top: 18%;
+  left: 18%;
+  width: 35px;
+  transform: scaleX(-1);
+}
+
+
+.waves-bottle-bg {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: auto;
+  min-height: 50vh;
+  /* Ensure it stays visible on distinct aspect ratios */
+  object-fit: cover;
+  /* or contain, depending on the SVG content */
+  z-index: 2;
+  pointer-events: none;
+}
+
+/* Glassmorphism Card */
+.signin-card {
+  position: relative;
+  z-index: 10;
+  background: rgba(255, 255, 255, 0.55);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-radius: 30px;
+  padding: 3rem 4rem;
+  width: 100%;
+  max-width: 500px;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  /* IMPORTANT FIX */
+}
+
+.signin-title {
+  font-family: 'Pirata One', cursive;
+  font-size: 4.5rem;
+  color: #0d2830;
+  /* Very dark teal/black */
+  margin: 0 0 2rem 0;
+  text-shadow: 2px 2px 0px rgba(255, 255, 255, 0.3);
+  letter-spacing: 2px;
+  line-height: 1;
+  text-transform: uppercase;
+}
+
+.signin-form {
+  width: 100%;
+}
+
+.input-group {
+  margin-bottom: 1.5rem;
+  width: 100%;
+}
+
+.input-group label {
+  display: block;
+  margin-bottom: 0.5rem;
+  color: #1a4e56;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.form-input {
+  width: 100%;
+  padding: 0.9rem 1.2rem;
+  padding-right: 2.8rem;
+  border: 2px solid #1a4e56;
+  /* Dark teal border */
+  border-radius: 12px;
+  /* More rounded */
+  background: rgba(255, 255, 255, 0.4);
+  /* Light transparent background */
+  color: #0d2830;
+  font-size: 1rem;
+  font-weight: 500;
+  outline: none;
+  transition: all 0.3s ease;
+  box-sizing: border-box;
+}
+
+.form-input::placeholder {
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 400;
+}
+
+.form-input:focus {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: #0d2830;
+}
+
+.eye-icon {
+  position: absolute;
+  right: 15px;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  color: #1a4e56;
+  display: flex;
+  align-items: center;
+}
+
+.signin-button {
+  width: 100%;
+  padding: 1rem;
+  background-color: #1a5664;
+  /* Deep teal/petrol */
+  color: #e0f7fa;
+  /* Light cyan text */
+  border: none;
+  border-radius: 10px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.1s ease;
+  margin-top: 1.5rem;
+  box-shadow: 0 4px 15px rgba(26, 86, 100, 0.3);
+  letter-spacing: 0.5px;
+}
+
+.signin-button:hover {
+  background-color: #13424d;
+  transform: translateY(-1px);
+}
+
+.signin-button:active {
+  transform: translateY(0);
+}
+
+.signup-link-text {
+  margin-top: 2rem;
+  font-size: 0.95rem;
+  color: #1a4e56;
+  font-weight: 600;
+}
+
+.signup-link {
+  color: #3e2723;
+  /* Dark brown styling */
+  text-decoration: underline;
+  text-decoration-thickness: 2px;
+  font-weight: 800;
+  cursor: pointer;
+  margin-left: 5px;
+}
+
+/* Animations */
+@keyframes floatCloudLeft {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(30px);
+  }
+}
+
+@keyframes floatCloudRight {
+  from {
+    transform: translateX(0);
+  }
+
+  to {
+    transform: translateX(-30px);
+  }
+}
+
+@keyframes fly {
+  from {
+    transform: translateX(0) translateY(0);
+  }
+
+  50% {
+    transform: translateX(30px) translateY(-15px);
+  }
+
+  to {
+    transform: translateX(0) translateY(0);
+  }
+}
+
+/* Responsive visibility */
+.mobile-only {
+  display: none;
+}
+
+.desktop-only {
+  display: block;
+}
+
+/* Mobile specific styling */
+.cloud-mobile {
+  top: 5%;
+  left: -20%;
+  width: 140%;
+  /* Very large as per usual mobile designs */
+  max-width: none;
+  animation: floatCloudLeft 20s infinite ease-in-out alternate;
+}
+
+.bird-mobile-1 {
+  top: 15%;
+  right: 10%;
+  width: 40px;
+}
+
+.bird-mobile-2 {
+  top: 25%;
+  right: 50%;
+  width: 45px;
+}
+
+.bird-mobile-3 {
+  top: 10%;
+  right: 40%;
+  width: 25px;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .waves-bottle-bg {
+    height: auto;
+    width: 120%;
+    /* wider to cover */
+    left: -10%;
+    /* Center it roughly */
+  }
+
+
+
+}
+
+@media (max-width: 768px) {
+  .mobile-only {
+    display: block;
+  }
+
+  .desktop-only {
+    display: none;
+  }
+
+  .signin-container {
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  /* Fix background coverage */
+  .waves-bottle-bg {
+    width: 100%;
+    left: 0;
+    bottom: 0;
+    opacity: 1;
+    object-fit: cover;
+  }
+
+  /* Card styling with spacing */
+  .signin-card {
+    padding: 2rem 1.5rem;
+    /* Reduced further */
+    width: 90%;
+    /* Changed from auto to fill more space */
+    margin: 0 1.5rem;
+    max-width: 480px;
+    /* Increased from 450px */
+  }
+
+  .signin-title {
+    font-size: 2.5rem;
+    /* Reduced from 3rem */
+    margin-bottom: 0.5rem;
+    /* Reduced from 1.5rem */
+  }
+
+  .input-group {
+    margin-bottom: 0.5rem;
+    /* Reduced from 1.5rem */
+  }
+
+  .form-input {
+    padding: 0.6rem 1rem;
+    font-size: 0.9rem;
+  }
+
+  .signin-button {
+    margin-top: 1rem;
+    padding: 0.8rem;
+  }
+
+  .signup-link-text {
+    margin-top: 0.8rem;
+    font-size: 0.9rem;
+  }
+
+  /* Cloud fixed at top */
+  .cloud-mobile {
+    top: 0;
+    left: 0;
+    width: 100%;
+    transform: none;
+    animation: none;
+  }
+
+  /* Mobile/Tablet Birds */
+  .bird-mobile-1 {
+    top: 5%;
+    right: 5%;
+    width: 70px;
+    transform: rotate(10deg);
+  }
+
+  .bird-mobile-2 {
+    top: 37%;
+    left: 0%;
+    width: 55px;
+    transform: rotate(10deg);
+  }
+
+  .bird-mobile-3 {
+    top: 7%;
+    left: 80%;
+    width: 50px;
+    transform: scaleX(-1) rotate(-10deg);
+  }
+}
+
+@media (max-width: 480px) {
+  .signin-container {
+    align-items: flex-start;
+    /* Start from top to utilize full height if needed */
+    padding-top: 1rem;
+  }
+
+  .signin-card {
+    padding: 0.5rem 0.8rem;
+    margin: 0 0.5rem;
+    width: 95%;
+    max-height: 95vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .signin-title {
+    font-size: 1.8rem;
+    margin-bottom: 0.2rem;
+    margin-top: 0;
+  }
+
+  .input-group label {
+    margin-bottom: 0;
+    font-size: 0.75rem;
+  }
+
+  .input-group {
+    margin-bottom: 0.2rem;
+  }
+
+  .signin-button {
+    margin-top: 0.3rem;
+    padding: 0.6rem;
+    font-size: 0.9rem;
+  }
+
+  .signup-link-text {
+    margin-top: 0.3rem;
+    font-size: 0.75rem;
+    margin-bottom: 0;
+  }
+
+  .form-input {
+    padding: 0.3rem 0.5rem;
+    font-size: 0.8rem;
+    height: 30px;
+    /* Force small height */
+  }
+
+  .bird-mobile-1 {
+    width: 40px;
+  }
+
+  .bird-mobile-2 {
+    width: 30px;
+  }
+
+  .bird-mobile-3 {
+    width: 30px;
+  }
+}
+
+/* Dedicated section for Tablet Birds (490px - 768px) */
+/* Initially consistent with current styles, ready for independent editing */
+@media (min-width: 490px) and (max-width: 768px) {
+  .bird-mobile-1 {
+    top: 5%;
+    right: -5%;
+    width: 70px;
+    transform: rotate(10deg);
+  }
+
+  .bird-mobile-2 {
+    top: 17%;
+    left: 0%;
+    width: 55px;
+    transform: rotate(10deg);
+  }
+
+  .bird-mobile-3 {
+    top: 7%;
+    left: 110%;
+    width: 50px;
+    transform: scaleX(-1) rotate(-10deg);
+  }
+}
+
+/* Desktop Compact Mode for Sign Up (>768px) */
+/* Ensures the taller form fits without scrolling on valid heights */
+@media (min-width: 769px) {
+  .signup-mode {
+    padding: 2rem 3rem;
+    max-width: 450px;
+  }
+
+  .signup-mode .signin-title {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  .signup-mode .input-group {
+    margin-bottom: 0.8rem;
+  }
+
+  .signup-mode .form-input {
+    padding: 0.7rem 1rem;
+    font-size: 0.95rem;
+  }
+
+  .signup-mode .signin-button {
+    margin-top: 1rem;
+    padding: 0.8rem;
+  }
+
+  .signup-mode .signup-link-text {
+    margin-top: 1rem;
+  }
+}
