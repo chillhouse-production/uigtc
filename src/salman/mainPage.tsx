@@ -181,8 +181,8 @@ export default function MainPage() {
                     </section>
                 </div>
             </div>
-            <section className="hidden sm:flex relative min-h-screen w-full bg-gradient-to-b from-[#EAB775] to-[#F3CC91] overflow-hidden justify-center">
-                <div className="relative w-full max-w-[1400px] border-l border-r border-[#3d2314]/30 flex flex-col items-center pt-30">
+            <section className="hidden sm:flex relative overflow-hidden min-h-screen w-full bg-gradient-to-b from-[#EAB775] to-[#F3CC91] overflow-x-hidden justify-center">
+                <div className="relative w-full max-w-[2000px] border-l border-r border-[#3d2314]/30 flex flex-col items-center pt-30">
                     <div className="w-full flex flex-col items-center justify-center -mb-20">
                         <img
                             src={judulImg}
@@ -194,48 +194,68 @@ export default function MainPage() {
                 [text-shadow:1px_1px_2px_rgba(0,0,0,0.7),0_4px_8px_rgba(0,0,0,0.6)]
                 /* Ukuran teks responsif: minimal 1.25rem, ideal 2.5vw, maksimal 2rem */
                 text-[clamp(1.25rem,2.5vw,2rem)]">
-                Sail The Sea Reach Your Degree
-            </h2>
+                            Sail The Sea Reach Your Degree
+                        </h2>
                     </div>
 
                     <div className={`mt-24 grid grid-cols-3 items-end w-full ${mounted ? "animate-fade-up" : "opacity-0"}`}>
                         <div className="flex justify-start animate-float-slow">
                             <img
                                 src={batuKiri}
-                                className="w-[18vw] min-w-[80px] max-w-[280px] object-contain"
+                                className="w-[18vw] min-w-[100px] max-w-[380px] object-contain"
                                 alt="Batu Kiri"
                             />
                         </div>
                         <div className="flex justify-center translate-y-8 animate-float-slow">
                             <img
                                 src={hartaTengah}
-                                className="w-[30vw] min-w-[150px] max-w-[500px] object-contain"
+                                className="w-[30vw] min-w-[250px] max-w-[700px] object-contain"
                                 alt="Harta Karun"
                             />
                         </div>
                         <div className="flex justify-end animate-float-slow">
                             <img
                                 src={batuKanan}
-                                className="w-[18vw] min-w-[80px] max-w-[280px] object-contain"
+                                className="w-[18vw] min-w-[100px] max-w-[380px] object-contain"
                                 alt="Batu Kanan"
                             />
                         </div>
                     </div>
-                    <div className="relative z-20 -mt-30 w-full">
-                        <img
-                            src={pasirBg}
-                            alt="Sand Background"
-                            className="w-full object-cover"
-                        />
-                        <button className="absolute top-[30%] left-1/2 -translate-x-1/2 -translate-y-1/2 
-                bg-[#135D66] hover:bg-[#0E464D] text-[#E3FEF7] 
-                font-semibold py-4 px-12 rounded-lg shadow-md 
-                transition-all duration-300 
-                text-xl md:text-2xl whitespace-nowrap">
+                    <div className="relative z-20 w-full">
+                        <img src={pasirBg} alt="Sand Background" className="w-full object-cover relative -translate-y-1/7" />
+                        <button className="absolute top-[10%] left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#135D66] hover:bg-[#0E464D] text-[#E3FEF7] font-semibold py-4 px-12 rounded-lg shadow-md transition-all duration-300 text-xl md:text-2xl whitespace-nowrap">
                             Explore
                         </button>
                     </div>
+                    <div className="relative w-full z-30 overflow-hidden -translate-y-3/7">
+                        <img
+                            src={ombakDesc}
+                            alt="ombakDeskripsi"
+                            className="w-full h-auto object-cover animate-float-slow"
+                        />
+                        <div className="absolute inset-0 flex items-center justify-center z-40">
+                            <div className="w-[95%] max-w-[1400px] grid grid-cols-2 gap-24 md:gap-32 items-center">
 
+                                <div className="flex justify-end">
+                                    <img
+                                        src={logoUIGTC}
+                                        alt="Logo UIGTC"
+                                        className="w-[45vw] max-w-[650px] aspect-square object-contain drop-shadow-2xl"
+                                    />
+                                </div>
+
+                                <div className="text-[#0B2E34] flex flex-col justify-center">
+                                    <h3 className="text-5xl md:text-7xl lg:text-[5.5rem] font-black leading-[1.03] mb-8 text-left uppercase font-[Lora]">
+                                        What’s <br /> UI Goes to <br /> Celebes?
+                                    </h3>
+
+                                    <p className="text-lg md:text-2xl lg:text-3xl leading-relaxed text-left max-w-[650px] font-medium">
+                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </section>
         </div>
