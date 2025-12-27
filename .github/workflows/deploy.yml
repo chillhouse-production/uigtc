@@ -1,35 +1,35 @@
-name: Deploy Frontend
+name: Deploy React to VPS
 
 on:
   push:
-    branches: [ main ] # Atau master
+    branches:
+      - main  # Sesuaikan dengan branch kamu
 
 jobs:
-  build-and-deploy:
+  deploy:
     runs-on: ubuntu-latest
-
     steps:
-    - name: Checkout Code
-      uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-    - name: Install Node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: '20'
-
-    - name: Install Dependencies & Build
-      run: |
-        npm install
-        npm run build
-      # Pastikan output build kamu ada di folder 'dist' atau 'build'
-      # Sesuaikan nama folder di langkah bawah (misal: build/ atau dist/)
-
-    - name: Deploy to VPS via SCP
-      uses: appleboy/scp-action@master
-      with:
-        host: ${{ secrets.VPS_HOST }}
-        username: ${{ secrets.VPS_USERNAME }}
-        key: ${{ secrets.VPS_SSH_KEY }}
-        source: "dist/*" # Sesuaikan dengan folder output build React (biasanya 'dist' atau 'build')
-        target: "/var/www/frontend"
-        strip_components: 1 # Agar folder 'dist' tidak ikut ter-copy, hanya isinya
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USERNAME }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          port: 22
+          script: |
+            # Masuk ke folder frontend
+            cd /home/pudil/uigtc-fe
+            
+            # Reset code agar sama persis dengan GitHub
+            git fetch origin main
+            git reset --hard origin/main
+            
+            # Install & Build ulang
+            npm install
+            npm run build
+            
+            # SELESAI. Tidak perlu restart apapun.
+            # Nginx akan otomatis menyajikan file index.html yang baru setelah build selesai.
