@@ -1,6 +1,7 @@
 
 import { useEffect, useState } from "react"
 import Navbar from "./navBar"
+import Footer from "./footer"
 
 import judulImg from '../assets/UIGTC-judul.png'
 import hartaTengah from '../assets/Hartakarun-Tengah.png'
@@ -18,6 +19,7 @@ import petiKanan from '../assets/PetiKanan.svg'
 import bayang from '../assets/Bayang.svg'
 import fotoMuter from '../assets/RollingPhotos.png'
 import bgBiruMuda from '../assets/BackGroundBiruMuda.png'
+
 
 
 export default function MainPage() {
@@ -384,7 +386,9 @@ export default function MainPage() {
                         </div>
                     </section>
                 </div>
+                <Footer/>
             </div>
+            
             <section className="hidden sm:flex relative overflow-hidden min-h-screen w-full bg-gradient-to-b from-[#EAB775] to-[#F3CC91] overflow-x-hidden justify-center">
                 <div className="relative w-full max-w-[2000px] overflow-hidden border-l border-r border-[#3d2314]/30 flex flex-col items-center pt-16 sm:pt-20 md:pt-24 lg:pt-30">
                 <Navbar/>
@@ -779,6 +783,7 @@ export default function MainPage() {
                             </div>
                         </section>
                     </div>
+                    <Footer/>
                 </div>
             </section>
         </div>
