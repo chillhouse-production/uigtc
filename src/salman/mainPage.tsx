@@ -1,5 +1,6 @@
 
 import { useEffect, useState } from "react"
+import Navbar from "./navBar"
 
 import judulImg from '../assets/UIGTC-judul.png'
 import hartaTengah from '../assets/Hartakarun-Tengah.png'
@@ -32,8 +33,10 @@ export default function MainPage() {
     }, [])
 
     return (
+        
         <div>
             <div className="block flex flex-col h-max-screen  sm:hidden z-0 pt-20 bg-gradient-to-b from-[#EAB775] to-[#F3CC91] overflow-hidden">
+                <Navbar />
                 <div className="flex flex-col w-screen items-center justify-center">
                     <img src={judulImg} alt="UIGTC judul" className="h-32 w-300px mb-4" />
                     <h2 className="text-sm italic font-[Lora] text-white
@@ -97,7 +100,6 @@ export default function MainPage() {
 
                 </div>
 
-
                 <div className="relative z-40 -translate-y-[260px] w-full">
                     <img src={lautDalam} alt="" className="w-full h-[600px] object-cover" />
                     <div className="absolute inset-0 flex flex-col items-center justify-center text-white px-4">
@@ -111,7 +113,12 @@ export default function MainPage() {
                             <div className="flex flex-col items-center gap-2 w-1/3 transform -translate-x-5 -translate-y-12">
                                 <h4 className="font-serif text-[15px] uppercase italic">Pre-Event</h4>
                                 <p className="font-serif text-[10px] opacity-90 mb-2">Tarima Kareba Madeceng</p>
-                                <img src={botolKiri} alt="" className="w-10 mb-4 drop-shadow-xl animate-sway-slow" />
+                                <img
+                                    src={botolKiri}
+                                    alt=""
+                                    onClick={() => setShowPopup1(true)}
+                                    className="w-10 mb-4 drop-shadow-xl animate-sway-slow cursor-pointer transition-all duration-300 hover:scale-110 hover:rotate-6"
+                                />
                                 <div className="bg-[#3d2314] rounded-md border flex-col items-center flex border-black/20 shadow-lg">
                                     <span className="text-[#f1e7d0] px-2 py-1 font-serif font-bold text-[10px] whitespace-nowrap">
                                         4–23 January 2026
@@ -123,7 +130,12 @@ export default function MainPage() {
                             <div className="flex flex-col items-center gap-2 w-1/3 transform -translate-y-7">
                                 <h4 className="font-serif text-[15px] uppercase italic">RoadShow</h4>
                                 <p className="font-serif text-[10px] opacity-90 mb-2">Pangolli Lao Sompe</p>
-                                <img src={kapalTengah} alt="" className="w-20 mb-4 drop-shadow-xl animate-sway-slow" />
+                                <img
+                                    src={kapalTengah}
+                                    alt=""
+                                    onClick={() => setShowPopup2(true)}
+                                    className="w-20 mb-4 drop-shadow-xl animate-sway-slow cursor-pointer transition-all duration-300 hover:scale-110 hover:-translate-y-2"
+                                />
                                 <div className="bg-[#3d2314] rounded-md border flex-col items-center flex border-black/20 shadow-lg">
                                     <span className="text-[#f1e7d0] px-2 py-1 font-serif font-bold text-[10px] whitespace-nowrap">
                                         5–23 January 2026
@@ -135,7 +147,12 @@ export default function MainPage() {
                             <div className="flex flex-col items-center translate-x-7 w-1/3 transform -translate-y-15">
                                 <h4 className="font-serif text-[15px] uppercase italic">Main Event</h4>
                                 <p className="font-serif text-[10px] opacity-90 mb-2">Lao Sompe</p>
-                                <img src={petiKanan} alt="" className="w-20 mb-4 drop-shadow-xl animate-sway-slow" />
+                                <img
+                                    src={petiKanan}
+                                    alt=""
+                                    onClick={() => setShowPopup(true)}
+                                    className="w-20 mb-4 drop-shadow-xl animate-sway-slow cursor-pointer transition-all duration-300 hover:scale-110 hover:brightness-110"
+                                />
                                 <div className="bg-[#3d2314] rounded-md border flex-col items-center flex  border-black/20 shadow-lg">
                                     <span className="text-[#f1e7d0] px-2 py-1 font-serif font-bold text-[10px] whitespace-nowrap">
                                         25 January 2026
@@ -146,9 +163,191 @@ export default function MainPage() {
                         </div>
                     </div>
                 </div>
+                {showPopup1 && (
+                    <div
+                        className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-fade-in px-4"
+                        onClick={() => setShowPopup1(false)}
+                    >
+                        <div
+                            className="relative bg-gradient-to-b from-[#B8D4DB] to-[#9BC4CC] rounded-2xl shadow-2xl max-w-md w-full p-6 animate-scale-in max-h-[90vh] overflow-y-auto"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <button
+                                onClick={() => setShowPopup1(false)}
+                                className="absolute top-4 right-4 text-[#0B2E34] hover:text-[#1a3d44] transition-colors z-10"
+                            >
+                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                            <div className="flex flex-col items-center text-[#0B2E34]">
+                                <h2 className="text-2xl font-serif font-bold mb-2 text-center uppercase">
+                                    Pre-Event
+                                </h2>
+                                <p className="text-sm font-serif mb-4 text-center italic">
+                                    Tarima Kareba Madeceng
+                                </p>
+                                <div className="bg-white rounded-lg px-4 py-2 mb-6 shadow-md">
+                                    <span className="font-serif font-bold text-sm">
+                                        4–23 January 2026
+                                    </span>
+                                </div>
+
+                                <img
+                                    src={botolKiri}
+                                    alt="bottle"
+                                    className="w-20 mb-6 drop-shadow-xl animate-float-gentle"
+                                />
+
+                                <p className="text-sm leading-relaxed text-justify mb-4 font-medium">
+                                    'Tarima Kareba Madeceng', yang berarti 'menerima kabar gembira'
+                                    dalam Bahasa Bugis, menjadi simbol awal dari perjalanan edukasi menuju
+                                    Universitas Indonesia (UI). Pre-event menjadi momen ketika filosofi bahwa UIGTC
+                                    hadir sebagai kabar baik atau 'harta karun' yang membawa harapan dan semangat
+                                    baru bagi para peserta.
+                                </p>
+                                <p className="text-sm leading-relaxed text-justify mb-6 font-medium">
+                                    Dalam tahap ini, peserta akan menunjukkan antusiasme mereka dengan
+                                    berekspresi melalui video pendek yang menggambarkan reaksi mereka saat
+                                    menerima kabar gembira tentang UIGTC 2026 dan harapan mereka dalam
+                                    mengejar cita-cita pendidikan. Layaknya seseorang yang menemukan peta
+                                    menuju harta karun, peserta diajak untuk mulai menyusun langkah awal
+                                    mereka menuju impian, dengan semangat, imajinasi, dan kreativitas.
+                                </p>
+
+                                <button
+                                    onClick={() => setShowPopup1(false)}
+                                    className="bg-[#135D66] hover:bg-[#0E464D] text-white font-bold py-2 px-6 rounded-lg shadow-lg transition-all duration-300 hover:scale-105"
+                                >
+                                    Done
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+                {showPopup2 && (
+                    <div
+                        className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-fade-in px-4"
+                        onClick={() => setShowPopup2(false)}
+                    >
+                        <div
+                            className="relative bg-gradient-to-b from-[#B8D4DB] to-[#9BC4CC] rounded-2xl shadow-2xl max-w-md w-full p-6 animate-scale-in max-h-[90vh] overflow-y-auto"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <button
+                                onClick={() => setShowPopup2(false)}
+                                className="absolute top-4 right-4 text-[#0B2E34] hover:text-[#1a3d44] transition-colors z-10"
+                            >
+                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                            <div className="flex flex-col items-center text-[#0B2E34]">
+                                <h2 className="text-2xl font-serif font-bold mb-2 text-center uppercase">
+                                    RoadShow
+                                </h2>
+                                <p className="text-sm font-serif mb-4 text-center italic">
+                                    Pangolli Lao Sompe
+                                </p>
+                                <div className="bg-white rounded-lg px-4 py-2 mb-6 shadow-md">
+                                    <span className="font-serif font-bold text-sm">
+                                        5–23 January 2026
+                                    </span>
+                                </div>
+                                <img
+                                    src={kapalTengah}
+                                    alt="ship"
+                                    className="w-24 mb-6 drop-shadow-xl animate-sail"
+                                />
+                                <p className="text-sm leading-relaxed text-justify mb-4 font-medium">
+                                    'Pangolli Lao Sompe' dalam Bahasa Bugis berarti 'mengayuh menuju harta karun',
+                                    melambangkan perjalanan aktif peserta dalam mengarungi tantangan untuk mencapai
+                                    tujuan mereka. Seperti kapal yang berlayar melintasi lautan luas, roadshow ini
+                                    mengajak peserta untuk terus bergerak maju, menghadapi ombak kehidupan dengan
+                                    semangat dan determinasi.
+                                </p>
+                                <p className="text-sm leading-relaxed text-justify mb-6 font-medium">
+                                    Dalam tahap ini, UIGTC akan mengunjungi berbagai sekolah di Sulawesi untuk
+                                    memberikan sosialisasi, seminar, dan workshop. Peserta akan mendapatkan
+                                    kesempatan untuk berinteraksi langsung dengan kakak-kakak UI, mendapatkan tips
+                                    persiapan SNBT, dan memahami lebih dalam tentang kehidupan kampus. Seperti
+                                    pelaut yang mengikuti peta, peserta dibimbing untuk menavigasi jalan mereka
+                                    menuju impian kuliah di Universitas Indonesia.
+                                </p>
+                                <button
+                                    onClick={() => setShowPopup2(false)}
+                                    className="bg-[#135D66] hover:bg-[#0E464D] text-white font-bold py-2 px-6 rounded-lg shadow-lg transition-all duration-300 hover:scale-105"
+                                >
+                                    Done
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {showPopup && (
+                    <div
+                        className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-fade-in px-4"
+                        onClick={() => setShowPopup(false)}
+                    >
+                        <div
+                            className="relative bg-gradient-to-b from-[#B8D4DB] to-[#9BC4CC] rounded-2xl shadow-2xl max-w-md w-full p-6 animate-scale-in max-h-[90vh] overflow-y-auto"
+                            onClick={(e) => e.stopPropagation()}
+                        >
+                            <button
+                                onClick={() => setShowPopup(false)}
+                                className="absolute top-4 right-4 text-[#0B2E34] hover:text-[#1a3d44] transition-colors z-10"
+                            >
+                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                </svg>
+                            </button>
+                            <div className="flex flex-col items-center text-[#0B2E34]">
+                                <h2 className="text-2xl font-serif font-bold mb-2 text-center uppercase">
+                                    Main Event
+                                </h2>
+                                <p className="text-sm font-serif mb-4 text-center italic">
+                                    Lao Sompe
+                                </p>
+                                <div className="bg-white rounded-lg px-4 py-2 mb-6 shadow-md">
+                                    <span className="font-serif font-bold text-sm">
+                                        25 January 2026
+                                    </span>
+                                </div>
+                                <img
+                                    src={petiKanan}
+                                    alt="chest"
+                                    className="w-28 sm:w-32 mb-6 drop-shadow-xl animate-treasure-glow"
+                                />
+                                <p className="text-sm leading-relaxed text-justify mb-4 font-medium">
+                                    'Lao Sompe' yang berarti 'menuju harta karun' adalah puncak dari seluruh
+                                    perjalanan UIGTC. Setelah menerima kabar gembira dan mengayuh melewati
+                                    berbagai rintangan, akhirnya peserta tiba di destinasi utama—harta karun
+                                    yang sesungguhnya. Harta karun ini bukan hanya tentang pengetahuan akademis,
+                                    tetapi juga pengalaman berharga, koneksi dengan teman sebaya, dan inspirasi
+                                    untuk meraih mimpi.
+                                </p>
+                                <p className="text-sm leading-relaxed text-justify mb-6 font-medium">
+                                    Main Event adalah hari di mana semua peserta berkumpul untuk mengikuti
+                                    serangkaian kegiatan edukatif dan inspiratif. Acara ini mencakup talkshow
+                                    dengan alumni UI yang sukses, sesi tanya jawab interaktif, games edukatif,
+                                    dan pengenalan mendalam tentang berbagai fakultas di UI. Ini adalah momen
+                                    di mana peserta tidak hanya mendapatkan ilmu, tetapi juga merasakan atmosfer
+                                    kampus UI dan membangun networking yang akan berguna untuk masa depan mereka.
+                                </p>
+                                <button
+                                    onClick={() => setShowPopup(false)}
+                                    className="bg-[#135D66] hover:bg-[#0E464D] text-white font-bold py-2 px-6 rounded-lg shadow-lg transition-all duration-300 hover:scale-105"
+                                >
+                                    Done
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                )}
                 <div className="flex flex-col items-center justify-center -mt-60">
-                    <div className="mb-10">
-                        <h2 className="text-4xl italic font-[Lora] text-white
+                    <div className="mb-10 items-center justify-center flex flex-col">
+                        <h2 className="text-4xl text-center italic font-[Lora] text-white
                [text-shadow:1px_1px_2px_rgba(0,0,0,0.7),0_4px_8px_rgba(0,0,0,0.6)]">
                             UIGTC 2025'S ARCHIVE
                         </h2>
@@ -188,6 +387,7 @@ export default function MainPage() {
             </div>
             <section className="hidden sm:flex relative overflow-hidden min-h-screen w-full bg-gradient-to-b from-[#EAB775] to-[#F3CC91] overflow-x-hidden justify-center">
                 <div className="relative w-full max-w-[2000px] overflow-hidden border-l border-r border-[#3d2314]/30 flex flex-col items-center pt-16 sm:pt-20 md:pt-24 lg:pt-30">
+                <Navbar/>
                     <div className="w-full flex flex-col items-center justify-center -mb-12 sm:-mb-16 md:-mb-20 px-4">
                         <img
                             src={judulImg}
@@ -286,16 +486,16 @@ export default function MainPage() {
                                     alt="bayang3"
                                     className="absolute right-0 top-[45%] translate-x-[45%] -translate-y-1/2 w-[38%] sm:w-[40%] md:w-[92%] lg:w-[45%] opacity-40"
                                 />
-          <img
-            src={garisKiri}
-            alt="garis kiri"
-            className="absolute left-[18%] sm:left-[16%] md:left-[14%] lg:left-[12%] xl:left-[10%] 2xl:left-[8%] top-[52%] sm:top-[53%] md:top-[54%] lg:top-[55%] xl:top-[56%] -translate-y-1/2 w-[20%] sm:w-[22%] md:w-[24%] lg:w-[26%] xl:w-[28%] 2xl:w-[30%] h-auto"
-          />
-          <img
-            src={garisKanan}
-            alt="garis kanan"
-            className="absolute right-[24%] sm:right-[22%] md:right-[20%] lg:right-[18%] xl:right-[16%] 2xl:right-[14%] top-[52%] sm:top-[53%] md:top-[54%] lg:top-[55%] xl:top-[56%] -translate-y-1/2 w-[20%] sm:w-[22%] md:w-[24%] lg:w-[26%] xl:w-[28%] 2xl:w-[30%] h-auto"
-          />
+                                <img
+                                    src={garisKiri}
+                                    alt="garis kiri"
+                                    className="absolute left-[18%] sm:left-[16%] md:left-[14%] lg:left-[12%] xl:left-[10%] 2xl:left-[8%] top-[52%] sm:top-[53%] md:top-[54%] lg:top-[55%] xl:top-[56%] -translate-y-1/2 w-[20%] sm:w-[22%] md:w-[24%] lg:w-[26%] xl:w-[28%] 2xl:w-[30%] h-auto"
+                                />
+                                <img
+                                    src={garisKanan}
+                                    alt="garis kanan"
+                                    className="absolute right-[24%] sm:right-[22%] md:right-[20%] lg:right-[18%] xl:right-[16%] 2xl:right-[14%] top-[52%] sm:top-[53%] md:top-[54%] lg:top-[55%] xl:top-[56%] -translate-y-1/2 w-[20%] sm:w-[22%] md:w-[24%] lg:w-[26%] xl:w-[28%] 2xl:w-[30%] h-auto"
+                                />
                                 <div className="absolute left-[5%] sm:left-[3%] md:left-[1%] lg:left-[-2%] xl:left-[-4%] 2xl:left-[-6%] top-0 flex flex-col items-center w-[35%] sm:w-[32%] md:w-[30%] lg:w-[28%] xl:w-[26%] 2xl:w-[24%]">
                                     <h4 className="font-serif text-[clamp(0.75rem,2.2vw,2rem)] uppercase italic text-center leading-tight mb-1 sm:mb-2">
                                         Pre-Event
