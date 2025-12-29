@@ -5,6 +5,7 @@ import ProductsPage from "./pages/ProductsPage"
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 import './App.css';
+import MerchList from "./salman/merchList";
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState<'signin' | 'signup'>('signin');
@@ -13,6 +14,7 @@ export default function App() {
     <Routes>
       <Route path="/" element={<MainPage />} />
       <Route path="/products" element={<ProductsPage />} />
+      <Route path="/merchlist" element={<MerchList/>}/>
       <Route path="/auth" element={
         <>
           {currentPage === 'signin' && (

@@ -11,7 +11,7 @@ const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
   const [showMobileSidebar, setShowMobileSidebar] = useState<boolean>(false);
   const [showMobileProfileDropdown, setShowMobileProfileDropdown] = useState<boolean>(false);
-  const [isLoggedIn, setIsLoggedIn] = useState<boolean>(true);
+  const [isLoggedIn] = useState<boolean>(true);
 
   const menuItemsLoggedOut = [
     { id: 'home', icon: iconHome, path: '/', label: 'Home' },
@@ -19,7 +19,7 @@ const Navbar = () => {
 
   const menuItemsLoggedIn = [
     { id: 'home', icon: iconHome, path: '/', label: 'Home' },
-    { id: 'toko', icon: iconToko, path: '/', label: 'Merchandise' },
+    { id: 'toko', icon: iconToko, path: '/merchlist', label: 'Merchandise' },
     { id: 'keranjang', icon: iconKeranjang, path: '/', label: 'Cart' },
   ];
 
