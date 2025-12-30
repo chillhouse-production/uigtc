@@ -35,7 +35,7 @@ export default function MainPage() {
     }, [])
 
     return (
-        
+
         <div>
             <div className="block flex flex-col h-max-screen  sm:hidden z-0 pt-20 bg-gradient-to-b from-[#EAB775] to-[#F3CC91] overflow-hidden">
                 <Navbar />
@@ -386,12 +386,12 @@ export default function MainPage() {
                         </div>
                     </section>
                 </div>
-                <Footer/>
+                <Footer />
             </div>
-            
+
             <section className="hidden sm:flex relative overflow-hidden min-h-screen w-full bg-gradient-to-b from-[#EAB775] to-[#F3CC91] overflow-x-hidden justify-center">
                 <div className="relative w-full max-w-[2000px] overflow-hidden border-l border-r border-[#3d2314]/30 flex flex-col items-center pt-16 sm:pt-20 md:pt-24 lg:pt-30">
-                <Navbar/>
+                    <Navbar />
                     <div className="w-full flex flex-col items-center justify-center -mb-12 sm:-mb-16 md:-mb-20 px-4">
                         <img
                             src={judulImg}
@@ -521,59 +521,119 @@ export default function MainPage() {
                                 </div>
                                 {showPopup1 && (
                                     <div
-                                        className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-fade-in px-4"
+                                        className="
+      fixed inset-0 z-[9999]
+      flex items-center justify-center
+      bg-black/60 backdrop-blur-sm
+      px-4 py-20
+    "
                                         onClick={() => setShowPopup1(false)}
                                     >
                                         <div
-                                            className="relative bg-gradient-to-b from-[#B8D4DB] to-[#9BC4CC] rounded-2xl shadow-2xl max-w-md w-full p-8 sm:p-10 animate-scale-in"
                                             onClick={(e) => e.stopPropagation()}
+                                            className="
+        relative
+        w-[min(90vw,640px)]
+        max-h-[calc(100vh-160px)]
+        overflow-y-auto
+        rounded-2xl
+        bg-gradient-to-b from-[#B8D4DB] to-[#9BC4CC]
+        shadow-2xl
+        p-6 sm:p-8 md:p-10
+        animate-scale-in
+        scrollbar-thin scrollbar-thumb-[#135D66]/40 scrollbar-track-transparent
+        hover:scrollbar-thumb-[#135D66]/60
+      "
+                                            style={{
+                                                minWidth: '320px',
+                                                scrollBehavior: 'smooth',
+                                            }}
                                         >
+                                            {/* CLOSE BUTTON */}
                                             <button
                                                 onClick={() => setShowPopup1(false)}
-                                                className="absolute top-4 right-4 text-[#0B2E34] hover:text-[#1a3d44] transition-colors"
+                                                aria-label="Close popup"
+                                                className="
+          absolute top-3 right-3
+          bg-white/90 hover:bg-white
+          rounded-full p-2
+          text-[#0B2E34]
+          shadow-md transition
+          z-10
+        "
                                             >
-                                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                                <svg
+                                                    className="w-5 h-5"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        strokeWidth={2}
+                                                        d="M6 18L18 6M6 6l12 12"
+                                                    />
                                                 </svg>
                                             </button>
+
+                                            {/* CONTENT */}
                                             <div className="flex flex-col items-center text-[#0B2E34]">
-                                                <h2 className="text-3xl sm:text-4xl font-serif font-bold mb-2 text-center uppercase">
+                                                <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-center uppercase pt-4 sm:pt-6">
                                                     Pre-Event
                                                 </h2>
-                                                <p className="text-base sm:text-lg font-serif mb-4 text-center italic">
+
+                                                <p className="italic text-center text-sm sm:text-base mt-1 sm:mt-2">
                                                     Tarima Kareba Madeceng
                                                 </p>
-                                                <div className="bg-white rounded-lg px-4 py-2 mb-6 shadow-md">
-                                                    <span className="font-serif font-bold text-sm sm:text-base">
+
+                                                <div className="bg-white rounded-lg px-4 py-2 mt-3 shadow-md">
+                                                    <span className="font-bold text-sm sm:text-base">
                                                         4–23 January 2026
                                                     </span>
                                                 </div>
 
-                                                <img
-                                                    src={botolKiri}
-                                                    alt="bottle"
-                                                    className="w-24 sm:w-32 mb-6 drop-shadow-xl animate-float-gentle"
-                                                />
+                                                <div className="w-24 sm:w-28 md:w-32 my-6">
+                                                    <img
+                                                        src={botolKiri}
+                                                        alt="bottle"
+                                                        className="
+              w-full h-auto
+              object-contain
+              drop-shadow-xl
+              animate-float-gentle
+            "
+                                                    />
+                                                </div>
 
-                                                <p className="text-sm sm:text-base leading-relaxed text-justify mb-6 font-medium">
-                                                    'Tarima Kareba Madeceng', yang berarti 'menerima kabar gembira'
-                                                    dalam Bahasa Bugis, menjadi simbol awal dari perjalanan edukasi menuju
-                                                    Universitas Indonesia (UI). Pre-event menjadi momen ketika filosofi bahwa UIGTC
-                                                    hadir sebagai kabar baik atau 'harta karun' yang membawa harapan dan semangat
-                                                    baru bagi para peserta.
-                                                </p>
-                                                <p className="text-sm sm:text-base leading-relaxed text-justify mb-6 font-medium">
-                                                    Dalam tahap ini, peserta akan menunjukkan antusiasme mereka dengan
-                                                    berekspresi melalui video pendek yang menggambarkan reaksi mereka saat
-                                                    menerima kabar gembira tentang UIGTC 2026 dan harapan mereka dalam
-                                                    mengejar cita-cita pendidikan. Layaknya seseorang yang menemukan peta
-                                                    menuju harta karun, peserta diajak untuk mulai menyusun langkah awal
-                                                    mereka menuju impian, dengan semangat, imajinasi, dan kreativitas.
-                                                </p>
+                                                <div className="space-y-4 text-justify w-full">
+                                                    <p className="text-xs sm:text-sm md:text-base leading-relaxed font-medium">
+                                                        'Tarima Kareba Madeceng', yang berarti 'menerima kabar gembira'
+                                                        dalam Bahasa Bugis, menjadi simbol awal dari perjalanan edukasi menuju
+                                                        Universitas Indonesia (UI). Pre-event menjadi momen ketika filosofi bahwa UIGTC
+                                                        hadir sebagai kabar baik atau 'harta karun' yang membawa harapan dan semangat
+                                                        baru bagi para peserta.
+                                                    </p>
+
+                                                    <p className="text-xs sm:text-sm md:text-base leading-relaxed font-medium">
+                                                        "Tarima Kareba Madeceng", yang berarti 'menerima kabar gembira' dalam Bahasa Bugis, menjadi simbol awal dari perjalanan edukasi menuju Universitas Indonesia (UI). Pre-event ini mengusung filosofi bahwa UIGTC hadir sebagai kabar baik atau 'harta karun' yang membawa harapan dan semangat baru bagi para peserta.
+                                                        Dalam tahap ini, peserta akan menunjukkan antusiasme mereka dengan berkreasi melalui video pendek yang menggambarkan reaksi mereka saat menerima kabar gembira tentang UIGTC 2026 dan harapan mereka dalam mengejar cita-cita pendidikan. Layaknya seseorang yang menemukan peta menuju harta karun, peserta diajak untuk mulai menyusun langkah awal mereka menuju impian, dengan semangat, imajinasi, dan kreativitas.
+                                                    </p>
+                                                </div>
 
                                                 <button
                                                     onClick={() => setShowPopup1(false)}
-                                                    className="bg-[#135D66] hover:bg-[#0E464D] text-white font-bold py-3 px-8 rounded-lg shadow-lg transition-all duration-300 hover:scale-105"
+                                                    className="
+            mt-6 sm:mt-8
+            bg-[#135D66] hover:bg-[#0E464D]
+            text-white font-bold
+            py-2.5 sm:py-3 px-8 sm:px-10
+            rounded-lg
+            shadow-lg
+            transition
+            hover:scale-105 active:scale-95
+            text-sm sm:text-base
+          "
                                                 >
                                                     Done
                                                 </button>
@@ -581,6 +641,7 @@ export default function MainPage() {
                                         </div>
                                     </div>
                                 )}
+
                                 <div className="absolute left-1/2 top-[18%] sm:top-[20%] md:top-[22%] -translate-x-1/2 flex flex-col items-center w-[30%] sm:w-[28%] md:w-[26%]">
                                     <h4 className="font-serif text-[clamp(0.7rem,2vw,1.8rem)] uppercase italic text-center leading-tight mb-1 sm:mb-2">
                                         RoadShow
@@ -603,56 +664,123 @@ export default function MainPage() {
 
                                 {showPopup2 && (
                                     <div
-                                        className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-fade-in px-4"
+                                        className="
+      fixed inset-0 z-[9999]
+      flex items-center justify-center
+      bg-black/60 backdrop-blur-sm
+      px-4 py-20
+    "
                                         onClick={() => setShowPopup2(false)}
                                     >
                                         <div
-                                            className="relative bg-gradient-to-b from-[#B8D4DB] to-[#9BC4CC] rounded-2xl shadow-2xl max-w-md w-full p-8 sm:p-10 animate-scale-in"
                                             onClick={(e) => e.stopPropagation()}
+                                            className="
+        relative
+        w-[min(90vw,640px)]
+        max-h-[calc(100vh-160px)]
+        overflow-y-auto
+        rounded-2xl
+        bg-gradient-to-b from-[#B8D4DB] to-[#9BC4CC]
+        shadow-2xl
+        p-6 sm:p-8 md:p-10
+        animate-scale-in
+        scrollbar-thin scrollbar-thumb-[#135D66]/40 scrollbar-track-transparent
+        hover:scrollbar-thumb-[#135D66]/60
+      "
+                                            style={{
+                                                minWidth: '320px',
+                                                scrollBehavior: 'smooth',
+                                            }}
                                         >
+                                            {/* CLOSE BUTTON */}
                                             <button
                                                 onClick={() => setShowPopup2(false)}
-                                                className="absolute top-4 right-4 text-[#0B2E34] hover:text-[#1a3d44] transition-colors"
+                                                aria-label="Close popup"
+                                                className="
+          absolute top-3 right-3
+          bg-white/90 hover:bg-white
+          rounded-full p-2
+          text-[#0B2E34]
+          shadow-md transition
+          z-10
+        "
                                             >
-                                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                                <svg
+                                                    className="w-5 h-5"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        strokeWidth={2}
+                                                        d="M6 18L18 6M6 6l12 12"
+                                                    />
                                                 </svg>
                                             </button>
+
+                                            {/* CONTENT */}
                                             <div className="flex flex-col items-center text-[#0B2E34]">
-                                                <h2 className="text-3xl sm:text-4xl font-serif font-bold mb-2 text-center uppercase">
+                                                <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-center uppercase pt-4 sm:pt-6">
                                                     RoadShow
                                                 </h2>
-                                                <p className="text-base sm:text-lg font-serif mb-4 text-center italic">
+
+                                                <p className="italic text-center text-sm sm:text-base mt-1 sm:mt-2">
                                                     Pangolli Lao Sompe
                                                 </p>
-                                                <div className="bg-white rounded-lg px-4 py-2 mb-6 shadow-md">
-                                                    <span className="font-serif font-bold text-sm sm:text-base">
+
+                                                <div className="bg-white rounded-lg px-4 py-2 mt-3 shadow-md">
+                                                    <span className="font-bold text-sm sm:text-base">
                                                         5–23 January 2026
                                                     </span>
                                                 </div>
-                                                <img
-                                                    src={kapalTengah}
-                                                    alt="ship"
-                                                    className="w-28 sm:w-36 mb-6 drop-shadow-xl animate-sail"
-                                                />
-                                                <p className="text-sm sm:text-base leading-relaxed text-justify mb-6 font-medium">
-                                                    'Pangolli Lao Sompe' dalam Bahasa Bugis berarti 'mengayuh menuju harta karun',
-                                                    melambangkan perjalanan aktif peserta dalam mengarungi tantangan untuk mencapai
-                                                    tujuan mereka. Seperti kapal yang berlayar melintasi lautan luas, roadshow ini
-                                                    mengajak peserta untuk terus bergerak maju, menghadapi ombak kehidupan dengan
-                                                    semangat dan determinasi.
-                                                </p>
-                                                <p className="text-sm sm:text-base leading-relaxed text-justify mb-6 font-medium">
-                                                    Dalam tahap ini, UIGTC akan mengunjungi berbagai sekolah di Sulawesi untuk
-                                                    memberikan sosialisasi, seminar, dan workshop. Peserta akan mendapatkan
-                                                    kesempatan untuk berinteraksi langsung dengan kakak-kakak UI, mendapatkan tips
-                                                    persiapan SNBT, dan memahami lebih dalam tentang kehidupan kampus. Seperti
-                                                    pelaut yang mengikuti peta, peserta dibimbing untuk menavigasi jalan mereka
-                                                    menuju impian kuliah di Universitas Indonesia.
-                                                </p>
+
+                                                <div className="w-24 sm:w-28 md:w-32 my-6">
+                                                    <img
+                                                        src={kapalTengah}
+                                                        alt="ship"
+                                                        className="
+              w-full h-auto
+              object-contain
+              drop-shadow-xl
+              animate-sail
+            "
+                                                    />
+                                                </div>
+
+                                                <div className="space-y-4 text-justify w-full">
+                                                    <p className="text-xs sm:text-sm md:text-base leading-relaxed font-medium">
+                                                        'Pangolli Lao Sompe' dalam Bahasa Bugis berarti 'mengayuh menuju harta karun',
+                                                        melambangkan perjalanan aktif peserta dalam mengarungi tantangan untuk mencapai
+                                                        tujuan mereka. Seperti kapal yang berlayar melintasi lautan luas, roadshow ini
+                                                        mengajak peserta untuk terus bergerak maju, menghadapi ombak kehidupan dengan
+                                                        semangat dan determinasi.
+                                                    </p>
+
+                                                    <p className="text-xs sm:text-sm md:text-base leading-relaxed font-medium">
+                                                        Dalam tahap ini, UIGTC akan mengunjungi berbagai sekolah di Sulawesi untuk
+                                                        memberikan sosialisasi, seminar, dan workshop. Peserta akan mendapatkan
+                                                        kesempatan untuk berinteraksi langsung dengan kakak-kakak UI, mendapatkan tips
+                                                        persiapan SNBT, dan memahami lebih dalam tentang kehidupan kampus. Seperti
+                                                        pelaut yang mengikuti peta, peserta dibimbing untuk menavigasi jalan mereka
+                                                        menuju impian kuliah di Universitas Indonesia.
+                                                    </p>
+                                                </div>
+
                                                 <button
                                                     onClick={() => setShowPopup2(false)}
-                                                    className="bg-[#135D66] hover:bg-[#0E464D] text-white font-bold py-3 px-8 rounded-lg shadow-lg transition-all duration-300 hover:scale-105"
+                                                    className="
+            mt-6 sm:mt-8
+            bg-[#135D66] hover:bg-[#0E464D]
+            text-white font-bold
+            py-2.5 sm:py-3 px-8 sm:px-10
+            rounded-lg
+            shadow-lg
+            transition
+            hover:scale-105 active:scale-95
+            text-sm sm:text-base
+          "
                                                 >
                                                     Done
                                                 </button>
@@ -681,57 +809,124 @@ export default function MainPage() {
                                 </div>
                                 {showPopup && (
                                     <div
-                                        className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/60 backdrop-blur-sm animate-fade-in px-4"
+                                        className="
+      fixed inset-0 z-[9999]
+      flex items-center justify-center
+      bg-black/60 backdrop-blur-sm
+      px-4 py-20
+    "
                                         onClick={() => setShowPopup(false)}
                                     >
                                         <div
-                                            className="relative bg-gradient-to-b from-[#B8D4DB] to-[#9BC4CC] rounded-2xl shadow-2xl max-w-md w-full p-8 sm:p-10 animate-scale-in"
                                             onClick={(e) => e.stopPropagation()}
+                                            className="
+        relative
+        w-[min(90vw,640px)]
+        max-h-[calc(100vh-160px)]
+        overflow-y-auto
+        rounded-2xl
+        bg-gradient-to-b from-[#B8D4DB] to-[#9BC4CC]
+        shadow-2xl
+        p-6 sm:p-8 md:p-10
+        animate-scale-in
+        scrollbar-thin scrollbar-thumb-[#135D66]/40 scrollbar-track-transparent
+        hover:scrollbar-thumb-[#135D66]/60
+      "
+                                            style={{
+                                                minWidth: '320px',
+                                                scrollBehavior: 'smooth',
+                                            }}
                                         >
+                                            {/* CLOSE BUTTON */}
                                             <button
                                                 onClick={() => setShowPopup(false)}
-                                                className="absolute top-4 right-4 text-[#0B2E34] hover:text-[#1a3d44] transition-colors"
+                                                aria-label="Close popup"
+                                                className="
+          absolute top-3 right-3
+          bg-white/90 hover:bg-white
+          rounded-full p-2
+          text-[#0B2E34]
+          shadow-md transition
+          z-10
+        "
                                             >
-                                                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                                                <svg
+                                                    className="w-5 h-5"
+                                                    fill="none"
+                                                    stroke="currentColor"
+                                                    viewBox="0 0 24 24"
+                                                >
+                                                    <path
+                                                        strokeLinecap="round"
+                                                        strokeLinejoin="round"
+                                                        strokeWidth={2}
+                                                        d="M6 18L18 6M6 6l12 12"
+                                                    />
                                                 </svg>
                                             </button>
+
+                                            {/* CONTENT */}
                                             <div className="flex flex-col items-center text-[#0B2E34]">
-                                                <h2 className="text-3xl sm:text-4xl font-serif font-bold mb-2 text-center uppercase">
+                                                <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-center uppercase pt-4 sm:pt-6">
                                                     Main Event
                                                 </h2>
-                                                <p className="text-base sm:text-lg font-serif mb-4 text-center italic">
+
+                                                <p className="italic text-center text-sm sm:text-base mt-1 sm:mt-2">
                                                     Lao Sompe
                                                 </p>
-                                                <div className="bg-white rounded-lg px-4 py-2 mb-6 shadow-md">
-                                                    <span className="font-serif font-bold text-sm sm:text-base">
+
+                                                <div className="bg-white rounded-lg px-4 py-2 mt-3 shadow-md">
+                                                    <span className="font-bold text-sm sm:text-base">
                                                         25 January 2026
                                                     </span>
                                                 </div>
-                                                <img
-                                                    src={petiKanan}
-                                                    alt="chest"
-                                                    className="w-32 sm:w-40 mb-6 drop-shadow-xl animate-treasure-glow"
-                                                />
-                                                <p className="text-sm sm:text-base leading-relaxed text-justify mb-6 font-medium">
-                                                    'Lao Sompe' yang berarti 'menuju harta karun' adalah puncak dari seluruh
-                                                    perjalanan UIGTC. Setelah menerima kabar gembira dan mengayuh melewati
-                                                    berbagai rintangan, akhirnya peserta tiba di destinasi utama—harta karun
-                                                    yang sesungguhnya. Harta karun ini bukan hanya tentang pengetahuan akademis,
-                                                    tetapi juga pengalaman berharga, koneksi dengan teman sebaya, dan inspirasi
-                                                    untuk meraih mimpi.
-                                                </p>
-                                                <p className="text-sm sm:text-base leading-relaxed text-justify mb-6 font-medium">
-                                                    Main Event adalah hari di mana semua peserta berkumpul untuk mengikuti
-                                                    serangkaian kegiatan edukatif dan inspiratif. Acara ini mencakup talkshow
-                                                    dengan alumni UI yang sukses, sesi tanya jawab interaktif, games edukatif,
-                                                    dan pengenalan mendalam tentang berbagai fakultas di UI. Ini adalah momen
-                                                    di mana peserta tidak hanya mendapatkan ilmu, tetapi juga merasakan atmosfer
-                                                    kampus UI dan membangun networking yang akan berguna untuk masa depan mereka.
-                                                </p>
+
+                                                <div className="w-24 sm:w-28 md:w-32 my-6">
+                                                    <img
+                                                        src={petiKanan}
+                                                        alt="chest"
+                                                        className="
+              w-full h-auto
+              object-contain
+              drop-shadow-xl
+              animate-treasure-glow
+            "
+                                                    />
+                                                </div>
+
+                                                <div className="space-y-4 text-justify w-full">
+                                                    <p className="text-xs sm:text-sm md:text-base leading-relaxed font-medium">
+                                                        'Lao Sompe' yang berarti 'menuju harta karun' adalah puncak dari seluruh
+                                                        perjalanan UIGTC. Setelah menerima kabar gembira dan mengayuh melewati
+                                                        berbagai rintangan, akhirnya peserta tiba di destinasi utama—harta karun
+                                                        yang sesungguhnya. Harta karun ini bukan hanya tentang pengetahuan akademis,
+                                                        tetapi juga pengalaman berharga, koneksi dengan teman sebaya, dan inspirasi
+                                                        untuk meraih mimpi.
+                                                    </p>
+
+                                                    <p className="text-xs sm:text-sm md:text-base leading-relaxed font-medium">
+                                                        Main Event adalah hari di mana semua peserta berkumpul untuk mengikuti
+                                                        serangkaian kegiatan edukatif dan inspiratif. Acara ini mencakup talkshow
+                                                        dengan alumni UI yang sukses, sesi tanya jawab interaktif, games edukatif,
+                                                        dan pengenalan mendalam tentang berbagai fakultas di UI. Ini adalah momen
+                                                        di mana peserta tidak hanya mendapatkan ilmu, tetapi juga merasakan atmosfer
+                                                        kampus UI dan membangun networking yang akan berguna untuk masa depan mereka.
+                                                    </p>
+                                                </div>
+
                                                 <button
                                                     onClick={() => setShowPopup(false)}
-                                                    className="bg-[#135D66] hover:bg-[#0E464D] text-white font-bold py-3 px-8 rounded-lg shadow-lg transition-all duration-300 hover:scale-105"
+                                                    className="
+            mt-6 sm:mt-8
+            bg-[#135D66] hover:bg-[#0E464D]
+            text-white font-bold
+            py-2.5 sm:py-3 px-8 sm:px-10
+            rounded-lg
+            shadow-lg
+            transition
+            hover:scale-105 active:scale-95
+            text-sm sm:text-base
+          "
                                                 >
                                                     Done
                                                 </button>
@@ -783,7 +978,7 @@ export default function MainPage() {
                             </div>
                         </section>
                     </div>
-                    <Footer/>
+                    <Footer />
                 </div>
             </section>
         </div>
