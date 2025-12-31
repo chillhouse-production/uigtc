@@ -3,6 +3,8 @@ import { useState } from 'react';
 import MainPage from "./salman/mainPage"
 import ProductsPage from "./pages/ProductsPage"
 import ProfilePage from "./pages/ProfilePage"
+import CheckoutPage from "./pages/CheckoutPage"
+import TransactionSuccessPage from "./pages/TransactionSuccessPage"
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 import './App.css';
@@ -15,6 +17,8 @@ export default function App() {
       <Route path="/" element={<MainPage />} />
       <Route path="/products" element={<ProductsPage />} />
       <Route path="/profile" element={<ProfilePage />} />
+      <Route path="/checkout" element={<CheckoutPage />} />
+      <Route path="/transactionsuccess" element={<TransactionSuccessPage />} />
       <Route path="/auth" element={
         <>
           {currentPage === 'signin' && (
