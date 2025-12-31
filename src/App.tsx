@@ -2,6 +2,7 @@ import { Routes, Route } from "react-router-dom"
 import { useState } from 'react';
 import MainPage from "./salman/mainPage"
 import ProductsPage from "./pages/ProductsPage"
+import ProfilePage from "./pages/ProfilePage"
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 import './App.css';
@@ -13,6 +14,7 @@ export default function App() {
     <Routes>
       <Route path="/" element={<MainPage />} />
       <Route path="/products" element={<ProductsPage />} />
+      <Route path="/profile" element={<ProfilePage />} />
       <Route path="/auth" element={
         <>
           {currentPage === 'signin' && (
