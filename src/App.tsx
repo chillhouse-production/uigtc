@@ -5,6 +5,7 @@ import ProductsPage from "./pages/ProductsPage"
 import ProfilePage from "./pages/ProfilePage"
 import CheckoutPage from "./pages/CheckoutPage"
 import TransactionSuccessPage from "./pages/TransactionSuccessPage"
+import HistoryPage from "./pages/HistoryPage"
 import SignIn from './SignIn';
 import SignUp from './SignUp';
 import './App.css';
@@ -19,6 +20,7 @@ export default function App() {
       <Route path="/profile" element={<ProfilePage />} />
       <Route path="/checkout" element={<CheckoutPage />} />
       <Route path="/transactionsuccess" element={<TransactionSuccessPage />} />
+      <Route path="/history" element={<HistoryPage />} />
       <Route path="/auth" element={
         <>
           {currentPage === 'signin' && (
