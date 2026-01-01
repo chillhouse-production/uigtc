@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import listBg from "../assets/merchListBg.png";
-import iconFilter from "../assets/iconFilter.png";
 import Navbar from './navBar';
 const DUMMY_MERCH_DATA = [
     {
