@@ -1,6 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Pirata+One&display=swap');
 @import "tailwindcss";
 
+/* Scroll Animation */
 @keyframes scroll {
   from {
     transform: translateX(0);
@@ -11,90 +13,140 @@
 }
 
 .animate-scroll {
-  animation: scroll 30s linear infinite;
+  animation: scroll 80s linear infinite;
 }
 
-
-<style>
-  @keyframes float {
-    0%, 100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-12px);
-    }
+/* Float Animations */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
   }
-
-  @keyframes floatSlow {
-    0%, 100% {
-      transform: translateY(0);
-    }
-    50% {
-      transform: translateY(-20px);
-    }
+  50% {
+    transform: translateY(-12px);
   }
+}
 
-  @keyframes fadeUp {
-    from {
-      opacity: 0;
-      transform: translateY(40px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+@keyframes floatSlow {
+  0%, 100% {
+    transform: translateY(0);
   }
-
-  .animate-float {
-    animation: float 3s ease-in-out infinite;
+  50% {
+    transform: translateY(-20px);
   }
+}
 
-  .animate-float-slow {
-    animation: floatSlow 5s ease-in-out infinite;
+@keyframes float-gentle {
+  0%, 100% {
+    transform: translateY(0);
   }
-
-  .animate-fade-up {
-    animation: fadeUp 1s ease-out forwards;
+  50% {
+    transform: translateY(-8px);
   }
+}
 
-  @keyframes sway {
-    0% {
-      transform: translateY(0) rotate(0deg);
-    }
-    25% {
-      transform: translateY(-6px) rotate(-2deg);
-    }
-    50% {
-      transform: translateY(0) rotate(2deg);
-    }
-    75% {
-      transform: translateY(-4px) rotate(-1deg);
-    }
-    100% {
-      transform: translateY(0) rotate(0deg);
-    }
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: floatSlow 5s ease-in-out infinite;
+}
+
+.animate-float-gentle {
+  animation: float-gentle 2.5s ease-in-out infinite;
+}
+
+/* Fade Animations */
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(40px);
   }
-
-  @keyframes swaySlow {
-    0% {
-      transform: translateY(0) rotate(0deg);
-    }
-    50% {
-      transform: translateY(-8px) rotate(1.5deg);
-    }
-    100% {
-      transform: translateY(0) rotate(0deg);
-    }
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
+}
 
-  .animate-sway {
-    animation: sway 4s ease-in-out infinite;
-    transform-origin: center bottom;
+@keyframes fade-in {
+  from {
+    opacity: 0;
   }
-
-  .animate-sway-slow {
-    animation: swaySlow 6s ease-in-out infinite;
-    transform-origin: center bottom;
+  to {
+    opacity: 1;
   }
+}
 
-</style>
+.animate-fade-up {
+  animation: fadeUp 1s ease-out forwards;
+}
+
+.animate-fade-in {
+  animation: fade-in 0.3s ease-out;
+}
+
+/* Sway Animations */
+@keyframes sway {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-6px) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(0) rotate(2deg);
+  }
+  75% {
+    transform: translateY(-4px) rotate(-1deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
+@keyframes swaySlow {
+  0% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(1.5deg);
+  }
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+}
+
+@keyframes sway-slow {
+  0%, 100% {
+    transform: rotate(-3deg);
+  }
+  50% {
+    transform: rotate(3deg);
+  }
+}
+
+.animate-sway {
+  animation: sway 4s ease-in-out infinite;
+  transform-origin: center bottom;
+}
+
+.animate-sway-slow {
+  animation: sway-slow 3s ease-in-out infinite;
+  transform-origin: center bottom;
+}
+
+/* Scale Animation */
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.animate-scale-in {
+  animation: scale-in 0.3s ease-out;
+}
