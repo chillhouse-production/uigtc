@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UIGTC - API Test Pages</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+Pro:wght@300;400;600&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    :root {
+      --primary: #0B2E34;
+      --secondary: #135D66;
+      --accent: #E39A3B;
+      --sand: #F3CC91;
+      --light: #E3FEF7;
+      --dark: #1F2D2F;
+    }
+    
+    body {
+      font-family: 'Source Sans Pro', sans-serif;
+      background: linear-gradient(135deg, var(--sand) 0%, #EAB775 100%);
+      min-height: 100vh;
+      color: var(--primary);
+    }
+    
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+    
+    header {
+      text-align: center;
+      margin-bottom: 60px;
+      animation: fadeInDown 0.8s ease-out;
+    }
+    
+    @keyframes fadeInDown {
+      from {
+        opacity: 0;
+        transform: translateY(-30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5rem;
+      color: var(--primary);
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+      margin-bottom: 10px;
+    }
+    
+    .subtitle {
+      font-size: 1.2rem;
+      color: var(--secondary);
+      font-style: italic;
+    }
+    
+    .api-status {
+      background: var(--light);
+      padding: 15px 30px;
+      border-radius: 50px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
+    
+    .status-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: #ccc;
+      animation: pulse 2s infinite;
+    }
+    
+    .status-dot.online {
+      background: #22c55e;
+    }
+    
+    .status-dot.offline {
+      background: #ef4444;
+    }
+    
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.5; }
+    }
+    
+    .pages-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      animation: fadeInUp 0.8s ease-out 0.2s both;
+    }
+    
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    
+    .page-card {
+      background: white;
+      border-radius: 20px;
+      padding: 30px;
+      text-decoration: none;
+      color: inherit;
+      transition: all 0.3s ease;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .page-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 5px;
+      background: linear-gradient(90deg, var(--secondary), var(--accent));
+    }
+    
+    .page-card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+    }
+    
+    .page-icon {
+      font-size: 3rem;
+      margin-bottom: 20px;
+      display: block;
+    }
+    
+    .page-card h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      color: var(--primary);
+    }
+    
+    .page-card p {
+      color: #666;
+      line-height: 1.6;
+      margin-bottom: 20px;
+    }
+    
+    .page-card .endpoints {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+    
+    .endpoint-tag {
+      background: var(--light);
+      color: var(--secondary);
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+    
+    .btn-enter {
+      display: inline-block;
+      background: linear-gradient(135deg, var(--secondary), var(--primary));
+      color: white;
+      padding: 12px 30px;
+      border-radius: 30px;
+      text-decoration: none;
+      font-weight: 600;
+      margin-top: 20px;
+      transition: all 0.3s ease;
+    }
+    
+    .btn-enter:hover {
+      transform: scale(1.05);
+      box-shadow: 0 5px 20px rgba(19, 93, 102, 0.4);
+    }
+    
+    .api-info {
+      background: var(--primary);
+      color: white;
+      padding: 30px;
+      border-radius: 20px;
+      margin-top: 50px;
+      animation: fadeInUp 0.8s ease-out 0.4s both;
+    }
+    
+    .api-info h3 {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.5rem;
+      margin-bottom: 15px;
+    }
+    
+    .api-info code {
+      background: rgba(255,255,255,0.1);
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-family: 'Fira Code', monospace;
+    }
+    
+    footer {
+      text-align: center;
+      margin-top: 60px;
+      padding: 20px;
+      color: var(--secondary);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>⚓ UIGTC API Tester</h1>
+      <p class="subtitle">Sail The Sea, Reach Your Degree</p>
+      <div class="api-status">
+        <span class="status-dot" id="statusDot"></span>
+        <span id="statusText">Checking API...</span>
+      </div>
+    </header>
+
+    <div class="pages-grid">
+      <a href="products.html" class="page-card">
+        <span class="page-icon">📦</span>
+        <h2>Products</h2>
+        <p>Test semua endpoint produk: daftar produk, merchandise, tiket, dan kategori.</p>
+        <div class="endpoints">
+          <span class="endpoint-tag">GET /products</span>
+          <span class="endpoint-tag">GET /merchandise</span>
+          <span class="endpoint-tag">GET /tickets</span>
+          <span class="endpoint-tag">GET /categories</span>
+        </div>
+        <span class="btn-enter">Test Products →</span>
+      </a>
+
+      <a href="auth.html" class="page-card">
+        <span class="page-icon">🔐</span>
+        <h2>Authentication</h2>
+        <p>Test register, login, logout, dan verifikasi email user.</p>
+        <div class="endpoints">
+          <span class="endpoint-tag">POST /auth/register</span>
+          <span class="endpoint-tag">POST /auth/login</span>
+          <span class="endpoint-tag">POST /auth/logout</span>
+          <span class="endpoint-tag">GET /auth/me</span>
+        </div>
+        <span class="btn-enter">Test Auth →</span>
+      </a>
+
+      <a href="orders.html" class="page-card">
+        <span class="page-icon">🛒</span>
+        <h2>Orders</h2>
+        <p>Test pembuatan order, daftar pesanan, dan upload bukti bayar.</p>
+        <div class="endpoints">
+          <span class="endpoint-tag">POST /orders</span>
+          <span class="endpoint-tag">GET /orders/my-orders</span>
+          <span class="endpoint-tag">POST /upload-proof</span>
+        </div>
+        <span class="btn-enter">Test Orders →</span>
+      </a>
+
+      <a href="admin.html" class="page-card">
+        <span class="page-icon">👨‍💼</span>
+        <h2>Admin</h2>
+        <p>Test endpoint admin: dashboard, kelola produk dan pesanan.</p>
+        <div class="endpoints">
+          <span class="endpoint-tag">GET /admin/dashboard</span>
+          <span class="endpoint-tag">CRUD /admin/products</span>
+          <span class="endpoint-tag">MANAGE /admin/orders</span>
+        </div>
+        <span class="btn-enter">Test Admin →</span>
+      </a>
+
+      <a href="cart.html" class="page-card">
+        <span class="page-icon">🛒</span>
+        <h2>Carts</h2>
+        <p>Test endpoint chart: .</p>
+        <div class="endpoints">
+          <span class="endpoint-tag">GET /chart/</span>
+          <span class="endpoint-tag">CRUD /chart/</span>
+          <span class="endpoint-tag">MANAGE /chart/orders</span>
+        </div>
+        <span class="btn-enter">Test Chart →</span>
+      </a>
+    </div>
+
+    <div class="api-info">
+      <h3>📡 API Information</h3>
+      <p>Base URL: <code id="apiUrl">https://uigtc.id/api</code></p>
+      <p style="margin-top: 10px;">Authentication menggunakan JWT Token via HTTP-only Cookie atau Authorization Header.</p>
+    </div>
+
+    <footer>
+      <p>UIGTC - UI Goes to Celebes © 2025</p>
+    </footer>
+  </div>
+
+  <script>
+    const API_BASE_URL = 'https://uigtc.id/api';
+    
+    // Check API status
+    async function checkApiStatus() {
+      const statusDot = document.getElementById('statusDot');
+      const statusText = document.getElementById('statusText');
+      
+      try {
+        const response = await fetch(`${API_BASE_URL}/health`, {
+          credentials: 'include'
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          statusDot.classList.add('online');
+          statusDot.classList.remove('offline');
+          statusText.textContent = `API Online - ${data.service || 'UIGTC Backend'}`;
+        } else {
+          throw new Error('API not responding');
+        }
+      } catch (error) {
+        statusDot.classList.add('offline');
+        statusDot.classList.remove('online');
+        statusText.textContent = 'API Offline - Pastikan backend berjalan';
+      }
+    }
+    
+    // Check on load
+    checkApiStatus();
+    
+    // Recheck every 30 seconds
+    setInterval(checkApiStatus, 30000);
+  </script>
+</body>
+</html>
+

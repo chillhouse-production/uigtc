@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orders API Test - UIGTC</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+Pro:wght@300;400;600&family=Fira+Code&display=swap');
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    :root {
+      --primary: #0B2E34; --secondary: #135D66; --accent: #E39A3B;
+      --sand: #F3CC91; --light: #E3FEF7; --dark: #1F2D2F;
+      --success: #22c55e; --error: #ef4444; --warning: #f59e0b; --info: #3b82f6;
+    }
+    
+    body {
+      font-family: 'Source Sans Pro', sans-serif;
+      background: linear-gradient(135deg, var(--sand) 0%, #d4a852 100%);
+      min-height: 100vh; color: var(--primary);
+    }
+    
+    .container { max-width: 1400px; margin: 0 auto; padding: 30px 20px; }
+    
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 40px; flex-wrap: wrap; gap: 20px;
+    }
+    
+    .back-link {
+      display: inline-flex; align-items: center; gap: 8px; color: var(--primary);
+      text-decoration: none; font-weight: 600; transition: all 0.3s;
+    }
+    .back-link:hover { color: var(--secondary); transform: translateX(-5px); }
+    
+    h1 { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--primary); }
+    
+    .auth-warning {
+      background: linear-gradient(135deg, var(--warning), #d97706); color: white;
+      padding: 15px 25px; border-radius: 10px; display: flex; align-items: center;
+      gap: 15px; margin-bottom: 30px;
+    }
+    .auth-warning a { color: white; font-weight: 600; }
+    
+    .main-grid { display: grid; grid-template-columns: 400px 1fr; gap: 30px; }
+    @media (max-width: 900px) { .main-grid { grid-template-columns: 1fr; } }
+    
+    .sidebar { display: flex; flex-direction: column; gap: 20px; }
+    
+    .card {
+      background: white; border-radius: 16px; padding: 25px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    }
+    .card h2 {
+      font-family: 'Playfair Display', serif; font-size: 1.3rem; margin-bottom: 20px;
+      color: var(--primary); display: flex; align-items: center; gap: 10px;
+    }
+    
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--primary); }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%; padding: 12px 16px; border: 2px solid #eee; border-radius: 10px;
+      font-size: 1rem; transition: all 0.3s;
+    }
+    .form-group textarea { resize: vertical; min-height: 80px; }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      outline: none; border-color: var(--secondary);
+    }
+    
+    .btn {
+      width: 100%; padding: 14px 20px; border: none; border-radius: 10px;
+      font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s;
+      display: flex; align-items: center; justify-content: center; gap: 10px;
+    }
+    .btn-primary { background: linear-gradient(135deg, var(--secondary), var(--primary)); color: white; }
+    .btn-accent { background: linear-gradient(135deg, var(--accent), #c97d20); color: var(--dark); }
+    .btn-outline { background: transparent; color: var(--secondary); border: 2px solid var(--secondary); }
+    .btn:hover { transform: translateY(-2px); box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+    
+    .response-area { flex: 1; }
+    .response-card {
+      background: var(--primary); border-radius: 16px; overflow: hidden; height: 100%; min-height: 800px;
+    }
+    
+    .response-header {
+      background: rgba(255,255,255,0.1); padding: 15px 25px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .response-header h3 { color: white; font-family: 'Playfair Display', serif; }
+    
+    .status-badge { padding: 6px 15px; border-radius: 20px; font-weight: 600; font-size: 0.9rem; }
+    .status-badge.success { background: var(--success); color: white; }
+    .status-badge.error { background: var(--error); color: white; }
+    .status-badge.pending { background: var(--warning); color: var(--dark); }
+    
+    .response-body { padding: 25px; max-height: 730px; overflow-y: auto; }
+    .response-body pre {
+      background: rgba(255,255,255,0.05); padding: 20px; border-radius: 10px;
+      color: var(--light); font-family: 'Fira Code', monospace; font-size: 0.9rem;
+      white-space: pre-wrap; word-wrap: break-word;
+    }
+    
+    .orders-list { display: flex; flex-direction: column; gap: 15px; margin-bottom: 20px; }
+    .order-item {
+      background: rgba(255,255,255,0.1); padding: 20px; border-radius: 12px;
+      border-left: 4px solid var(--accent);
+    }
+    .order-item h4 { color: var(--sand); font-size: 1.1rem; margin-bottom: 10px; }
+    .order-item p { color: rgba(255,255,255,0.8); font-size: 0.9rem; margin-bottom: 5px; }
+    
+    .order-status {
+      display: inline-block; padding: 4px 12px; border-radius: 15px;
+      font-size: 0.8rem; font-weight: 600; margin-top: 10px;
+    }
+    .order-status.pending { background: var(--warning); color: var(--dark); }
+    .order-status.waiting_payment { background: var(--info); color: white; }
+    .order-status.payment_review { background: #8b5cf6; color: white; }
+    .order-status.completed { background: var(--success); color: white; }
+    .order-status.rejected { background: var(--error); color: white; }
+    .order-status.cancelled { background: #6b7280; color: white; }
+    
+    .file-upload {
+      border: 2px dashed #ddd; padding: 30px; text-align: center; border-radius: 10px;
+      cursor: pointer; transition: all 0.3s;
+    }
+    .file-upload:hover { border-color: var(--secondary); background: rgba(19, 93, 102, 0.05); }
+    .file-upload input { display: none; }
+    .file-upload .icon { font-size: 3rem; margin-bottom: 10px; }
+    .file-upload .filename { color: var(--secondary); font-weight: 600; margin-top: 10px; }
+    
+    .loading { display: flex; align-items: center; justify-content: center; padding: 40px; color: var(--light); }
+    .spinner {
+      width: 40px; height: 40px; border: 4px solid rgba(255,255,255,0.2);
+      border-top-color: var(--accent); border-radius: 50%; animation: spin 1s linear infinite; margin-right: 15px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    
+    .alert { padding: 15px 20px; border-radius: 10px; margin-bottom: 15px; display: flex; align-items: center; gap: 10px; }
+    .alert-warning { background: rgba(245, 158, 11, 0.2); border: 1px solid var(--warning); color: #92400e; }
+    .alert-success { background: rgba(34, 197, 94, 0.2); border: 1px solid var(--success); color: #166534; }
+    .alert-error { background: rgba(239, 68, 68, 0.2); border: 1px solid var(--error); color: #991b1b; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <a href="index.html" class="back-link">← Kembali ke Menu</a>
+      <h1>🛒 Orders API Test</h1>
+    </header>
+
+    <div id="authWarning" class="auth-warning" style="display: none;">
+      ⚠️ <span>Anda belum login. <a href="auth.html">Login terlebih dahulu</a> untuk mengakses fitur orders.</span>
+    </div>
+
+    <div class="main-grid">
+      <div class="sidebar">
+        <div class="card">
+          <h2>📋 My Orders</h2>
+          <button class="btn btn-primary" onclick="getMyOrders()">📦 Get My Orders</button>
+        </div>
+        
+        <div class="card">
+          <h2>➕ Create Order</h2>
+          <div class="form-group">
+            <label>Pilih Produk</label>
+            <select id="productId" onchange="updateSelectedProduct()">
+              <option value="">-- Pilih Produk --</option>
+            </select>
+          </div>
+          <div id="selectedProductInfo" style="display: none; margin-bottom: 15px; padding: 15px; background: #f8f9fa; border-radius: 10px;">
+            <strong id="selectedProductName"></strong>
+            <p id="selectedProductPrice" style="color: var(--accent); font-weight: 600;"></p>
+          </div>
+          <div class="form-group">
+            <label for="quantity">Jumlah</label>
+            <input type="number" id="quantity" min="1" value="1" onchange="calculateTotal()">
+          </div>
+          <div class="form-group">
+            <label for="shippingName">Nama Penerima</label>
+            <input type="text" id="shippingName" placeholder="Nama lengkap">
+          </div>
+          <div class="form-group">
+            <label for="shippingPhone">No. Telepon</label>
+            <input type="tel" id="shippingPhone" placeholder="08123456789">
+          </div>
+          <div class="form-group">
+            <label for="shippingAddress">Alamat Pengiriman</label>
+            <textarea id="shippingAddress" placeholder="Alamat lengkap..."></textarea>
+          </div>
+          <div style="background: var(--light); padding: 15px; border-radius: 10px; margin-bottom: 15px;">
+            <p style="font-size: 0.9rem; color: #666;">Total:</p>
+            <p style="font-size: 1.5rem; font-weight: 700; color: var(--accent);" id="totalAmount">Rp 0</p>
+          </div>
+          <button class="btn btn-accent" onclick="createOrder()">🛍️ Buat Pesanan</button>
+        </div>
+        
+        <div class="card">
+          <h2>📤 Upload Bukti Bayar</h2>
+          <div class="form-group">
+            <label for="orderId">Order ID</label>
+            <input type="text" id="orderId" placeholder="UUID order">
+          </div>
+          <div class="form-group">
+            <label>Bukti Pembayaran</label>
+            <label class="file-upload" for="paymentProof">
+              <div class="icon">📎</div>
+              <p>Klik untuk upload gambar</p>
+              <p style="font-size: 0.85rem; color: #999;">JPG, PNG, max 5MB</p>
+              <input type="file" id="paymentProof" accept="image/*" onchange="updateFileName()">
+              <p class="filename" id="fileName"></p>
+            </label>
+          </div>
+          <button class="btn btn-primary" onclick="uploadProof()">📤 Upload Bukti</button>
+        </div>
+        
+        <div class="card">
+          <h2>🔍 Get Order Detail</h2>
+          <div class="form-group">
+            <label for="orderDetailId">Order ID</label>
+            <input type="text" id="orderDetailId" placeholder="UUID order">
+          </div>
+          <button class="btn btn-outline" onclick="getOrderDetail()">🔍 Lihat Detail</button>
+        </div>
+      </div>
+
+      <div class="response-area">
+        <div class="response-card">
+          <div class="response-header">
+            <h3>📡 Response</h3>
+            <span class="status-badge pending" id="statusBadge">Ready</span>
+          </div>
+          <div class="response-body" id="responseBody">
+            <div id="alertArea"></div>
+            <div id="ordersDisplay"></div>
+            <pre id="responseJson">// Klik salah satu action untuk melihat response...</pre>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_BASE_URL = 'https://uigtc.id/api';
+    let products = [];
+    let selectedProduct = null;
+    
+    // --- HELPER UTILS ---
+    function formatCurrency(price) {
+      return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(price);
+    }
+    
+    function formatDate(dateStr) {
+      return new Date(dateStr).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    }
+    
+    function showAlert(message, type = 'success') {
+      document.getElementById('alertArea').innerHTML = `
+        <div class="alert alert-${type}">
+          ${type === 'success' ? '✅' : type === 'warning' ? '⚠️' : '❌'} ${message}
+        </div>
+      `;
+    }
+
+    function showResponse(data, success = true) {
+      const badge = document.getElementById('statusBadge');
+      badge.className = `status-badge ${success ? 'success' : 'error'}`;
+      badge.textContent = success ? '200 OK' : 'Error';
+      document.getElementById('responseJson').textContent = JSON.stringify(data, null, 2);
+    }
+
+    function showLoading() {
+      document.getElementById('statusBadge').className = 'status-badge pending';
+      document.getElementById('statusBadge').textContent = 'Loading...';
+      document.getElementById('alertArea').innerHTML = '';
+      document.getElementById('ordersDisplay').innerHTML = '<div class="loading"><div class="spinner"></div><span>Loading...</span></div>';
+      document.getElementById('responseJson').textContent = '';
+    }
+
+    // --- API CALL WRAPPER (THE FIX) ---
+    // Fungsi ini otomatis mengambil Token dari LocalStorage
+    async function apiCall(endpoint, method = 'GET', body = null) {
+      try {
+        const token = localStorage.getItem('token'); // <--- AMBIL TOKEN
+        const headers = {
+          'Content-Type': 'application/json'
+        };
+
+        // Jika ada token, pasang di Header Authorization
+        if (token) {
+          headers['Authorization'] = `Bearer ${token}`;
+        }
+
+        const options = {
+          method,
+          headers,
+          // credentials: 'include' // Opsional, kita utamakan Bearer Token
+        };
+        
+        if (body) {
+          options.body = JSON.stringify(body);
+        }
+        
+        const response = await fetch(`${API_BASE_URL}${endpoint}`, options);
+        const data = await response.json();
+        
+        showResponse(data, response.ok);
+        return { data, ok: response.ok };
+      } catch (error) {
+        showResponse({ success: false, error: error.message }, false);
+        return { data: null, ok: false };
+      }
+    }
+    
+    // --- FUNCTIONS ---
+
+    async function checkAuth() {
+      // Gunakan apiCall agar token terkirim
+      const { data, ok } = await apiCall('/auth/me');
+      
+      if (!ok || !data.success) {
+        document.getElementById('authWarning').style.display = 'flex';
+      } else {
+        document.getElementById('authWarning').style.display = 'none';
+      }
+    }
+    
+    async function loadProducts() {
+      // Products usually public, but using apiCall is fine
+      const { data, ok } = await apiCall('/products');
+      
+      if (ok && data.success && data.data) {
+        products = data.data;
+        const select = document.getElementById('productId');
+        select.innerHTML = '<option value="">-- Pilih Produk --</option>';
+        
+        products.forEach(p => {
+          if (p.stock > 0 && p.isActive) {
+            select.innerHTML += `<option value="${p.id}">${p.name} - ${formatCurrency(p.price)} (Stok: ${p.stock})</option>`;
+          }
+        });
+      }
+    }
+
+    async function getMyOrders() {
+      showLoading();
+      const { data, ok } = await apiCall('/orders/my-orders');
+      
+      if (ok && data.success && data.data) {
+        renderOrders(data.data);
+      } else {
+        showAlert(data?.message || 'Gagal mengambil data orders', 'error');
+        document.getElementById('ordersDisplay').innerHTML = '';
+      }
+    }
+    
+    async function createOrder() {
+      const productId = document.getElementById('productId').value;
+      const quantity = parseInt(document.getElementById('quantity').value);
+      const shippingName = document.getElementById('shippingName').value.trim();
+      const shippingPhone = document.getElementById('shippingPhone').value.trim();
+      const shippingAddress = document.getElementById('shippingAddress').value.trim();
+      
+      if (!productId) return showAlert('Pilih produk terlebih dahulu!', 'warning');
+      if (!shippingName || !shippingPhone || !shippingAddress) return showAlert('Lengkapi data pengiriman!', 'warning');
+      
+      showLoading();
+      
+      const { data, ok } = await apiCall('/orders', 'POST', {
+        productId, quantity, shippingName, shippingPhone, shippingAddress
+      });
+      
+      if (ok && data.success) {
+        showAlert('Pesanan berhasil dibuat!', 'success');
+        if (data.data) {
+          renderOrderDetail(data.data);
+          document.getElementById('orderId').value = data.data.id;
+        }
+        // Reset inputs...
+        document.getElementById('quantity').value = 1;
+        updateSelectedProduct();
+      } else {
+        showAlert(data?.message || 'Gagal membuat pesanan', 'error');
+      }
+    }
+    
+    async function getOrderDetail() {
+      const orderId = document.getElementById('orderDetailId').value.trim();
+      if (!orderId) return showAlert('Masukkan Order ID!', 'warning');
+      
+      showLoading();
+      const { data, ok } = await apiCall(`/orders/${orderId}`);
+      
+      if (ok && data.success && data.data) {
+        renderOrderDetail(data.data);
+      } else {
+        showAlert(data?.message || 'Order tidak ditemukan', 'error');
+      }
+    }
+
+    // --- UPLOAD PERLU HANDLING KHUSUS (MULTIPART/FORM-DATA) ---
+    async function uploadProof() {
+      const orderId = document.getElementById('orderId').value.trim();
+      const fileInput = document.getElementById('paymentProof');
+      
+      if (!orderId) return showAlert('Masukkan Order ID!', 'warning');
+      if (!fileInput.files || !fileInput.files[0]) return showAlert('Pilih file bukti pembayaran!', 'warning');
+      
+      showLoading();
+      
+      const formData = new FormData();
+      formData.append('paymentProof', fileInput.files[0]);
+      
+      try {
+        const token = localStorage.getItem('token');
+        const response = await fetch(`${API_BASE_URL}/orders/${orderId}/upload-proof`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${token}` // <--- HANYA AUTH HEADER, Content-Type biarkan otomatis
+          },
+          body: formData
+        });
+        
+        const data = await response.json();
+        showResponse(data, response.ok);
+        
+        if (response.ok && data.success) {
+          showAlert('Bukti pembayaran berhasil diupload!', 'success');
+          fileInput.value = '';
+          document.getElementById('fileName').textContent = '';
+        } else {
+          showAlert(data.message || 'Gagal upload bukti', 'error');
+        }
+      } catch (error) {
+        showResponse({ success: false, error: error.message }, false);
+      }
+    }
+
+    // --- UI HELPERS ---
+    function updateSelectedProduct() {
+      const productId = document.getElementById('productId').value;
+      selectedProduct = products.find(p => p.id === productId);
+      const infoDiv = document.getElementById('selectedProductInfo');
+      
+      if (selectedProduct) {
+        infoDiv.style.display = 'block';
+        document.getElementById('selectedProductName').textContent = selectedProduct.name;
+        document.getElementById('selectedProductPrice').textContent = formatCurrency(selectedProduct.price);
+        calculateTotal();
+      } else {
+        infoDiv.style.display = 'none';
+        document.getElementById('totalAmount').textContent = 'Rp 0';
+      }
+    }
+    
+    function calculateTotal() {
+      if (!selectedProduct) return;
+      const quantity = parseInt(document.getElementById('quantity').value) || 1;
+      document.getElementById('totalAmount').textContent = formatCurrency(selectedProduct.price * quantity);
+    }
+    
+    function updateFileName() {
+      const input = document.getElementById('paymentProof');
+      if (input.files[0]) document.getElementById('fileName').textContent = input.files[0].name;
+    }
+
+    // --- RENDER HELPERS ---
+    function renderOrders(orders) {
+      if (!orders || orders.length === 0) {
+        document.getElementById('ordersDisplay').innerHTML = '<p style="color: #ccc; text-align: center; padding: 20px;">Belum ada pesanan</p>';
+        return;
+      }
+      const html = `
+        <div class="orders-list">
+          ${orders.map(o => `
+            <div class="order-item">
+              <h4>Order #${o.id.substring(0, 8)}...</h4>
+              <p><strong>Total:</strong> ${formatCurrency(o.totalAmount)}</p>
+              <p><strong>Tanggal:</strong> ${formatDate(o.createdAt)}</p>
+              <span class="order-status ${o.status.toLowerCase()}">${o.status.replace('_', ' ').toUpperCase()}</span>
+              <br><br>
+              <button onclick="document.getElementById('orderDetailId').value='${o.id}'; getOrderDetail();" 
+                style="padding: 8px 15px; background: var(--accent); border: none; border-radius: 5px; cursor: pointer; font-weight: 600;">Lihat Detail</button>
+              ${o.status === 'PENDING_PAYMENT' || o.status === 'waiting_payment' ? `
+                <button onclick="document.getElementById('orderId').value='${o.id}';" 
+                  style="padding: 8px 15px; background: var(--info); color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: 600; margin-left: 10px;">Upload Bukti</button>
+              ` : ''}
+            </div>
+          `).join('')}
+        </div>`;
+      document.getElementById('ordersDisplay').innerHTML = html;
+    }
+
+    function renderOrderDetail(order) {
+      const html = `
+        <div class="order-item" style="border-left-width: 6px;">
+          <h4>Order #${order.id}</h4>
+          <span class="order-status ${order.status}">${order.status.replace('_', ' ').toUpperCase()}</span>
+          <div style="margin-top: 20px;">
+            <p><strong>Total:</strong> ${formatCurrency(order.totalAmount)}</p>
+            <p><strong>Tanggal:</strong> ${formatDate(order.createdAt)}</p>
+            ${order.shippingName ? `<p><strong>Penerima:</strong> ${order.shippingName}</p>` : ''}
+          </div>
+          ${order.items ? `
+            <div style="margin-top: 20px; padding-top: 20px; border-top: 1px solid rgba(255,255,255,0.1);">
+              <p><strong>Items:</strong></p>
+              ${order.items.map(item => `
+                <div style="background:rgba(0,0,0,0.2); padding:10px; margin-bottom:5px; border-radius:5px;">
+                  ${item.productName || item.product?.name} (${item.quantity}x)
+                </div>`).join('')}
+            </div>` : ''}
+          ${order.paymentProof ? `
+            <div style="margin-top: 20px;">
+              <p><strong>Bukti Pembayaran:</strong></p>
+              <a href="${API_BASE_URL.replace('/api','')}${order.paymentProof}" target="_blank">Lihat Gambar</a>
+            </div>` : ''}
+        </div>`;
+      document.getElementById('ordersDisplay').innerHTML = html;
+    }
+    
+    // Initialize
+    checkAuth();
+    loadProducts();
+  </script>
+</body>
+</html>

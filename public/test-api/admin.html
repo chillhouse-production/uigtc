@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin API Test - UIGTC</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Source+Sans+Pro:wght@300;400;600&family=Fira+Code&display=swap');
+    
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    :root {
+      --primary: #0B2E34; --secondary: #135D66; --accent: #E39A3B;
+      --sand: #F3CC91; --light: #E3FEF7; --dark: #1F2D2F;
+      --success: #22c55e; --error: #ef4444; --warning: #f59e0b;
+      --info: #3b82f6; --purple: #8b5cf6;
+    }
+    
+    body {
+      font-family: 'Source Sans Pro', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh; color: var(--light);
+    }
+    
+    .container { max-width: 1600px; margin: 0 auto; padding: 30px 20px; }
+    
+    header {
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 40px; flex-wrap: wrap; gap: 20px;
+    }
+    
+    .back-link {
+      display: inline-flex; align-items: center; gap: 8px; color: var(--sand);
+      text-decoration: none; font-weight: 600; transition: all 0.3s;
+    }
+    .back-link:hover { color: var(--accent); transform: translateX(-5px); }
+    
+    h1 { font-family: 'Playfair Display', serif; font-size: 2.5rem; color: var(--sand); }
+    
+    .admin-badge {
+      background: linear-gradient(135deg, var(--purple), #6d28d9); padding: 10px 25px;
+      border-radius: 25px; display: flex; align-items: center; gap: 10px; font-weight: 600;
+    }
+    
+    .auth-warning {
+      background: linear-gradient(135deg, var(--error), #dc2626); color: white;
+      padding: 15px 25px; border-radius: 10px; display: flex; align-items: center;
+      gap: 15px; margin-bottom: 30px;
+    }
+    .auth-warning a { color: white; font-weight: 600; }
+    
+    /* Tabs */
+    .tabs-container { display: flex; gap: 10px; margin-bottom: 30px; flex-wrap: wrap; }
+    .tab-btn {
+      padding: 15px 30px; border: none; border-radius: 10px; font-size: 1rem;
+      font-weight: 600; cursor: pointer; transition: all 0.3s;
+      background: rgba(255,255,255,0.1); color: var(--light);
+      display: flex; align-items: center; gap: 10px;
+    }
+    .tab-btn.active { background: linear-gradient(135deg, var(--purple), #6d28d9); }
+    .tab-btn:hover:not(.active) { background: rgba(255,255,255,0.2); }
+    
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+    
+    .main-grid { display: grid; grid-template-columns: 380px 1fr; gap: 30px; }
+    @media (max-width: 1000px) { .main-grid { grid-template-columns: 1fr; } }
+    
+    .sidebar { display: flex; flex-direction: column; gap: 20px; }
+    
+    .card {
+      background: rgba(255,255,255,0.05); border-radius: 16px; padding: 25px;
+      backdrop-filter: blur(10px); border: 1px solid rgba(255,255,255,0.1);
+    }
+    .card h2 {
+      font-family: 'Playfair Display', serif; font-size: 1.3rem; margin-bottom: 20px;
+      color: var(--sand); display: flex; align-items: center; gap: 10px;
+    }
+    
+    .form-group { margin-bottom: 15px; }
+    .form-group label { display: block; font-weight: 600; margin-bottom: 8px; color: var(--light); }
+    .form-group input, .form-group select, .form-group textarea {
+      width: 100%; padding: 12px 16px; border: 2px solid rgba(255,255,255,0.1);
+      border-radius: 10px; font-size: 1rem; background: rgba(0,0,0,0.3);
+      color: white; transition: all 0.3s;
+    }
+    .form-group textarea { resize: vertical; min-height: 80px; }
+    .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+      outline: none; border-color: var(--purple); background: rgba(0,0,0,0.5);
+    }
+    
+    .btn {
+      width: 100%; padding: 14px 20px; border: none; border-radius: 10px;
+      font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s;
+      display: flex; align-items: center; justify-content: center; gap: 10px; margin-bottom: 10px;
+    }
+    .btn:last-child { margin-bottom: 0; }
+    .btn-primary { background: linear-gradient(135deg, var(--purple), #6d28d9); color: white; }
+    .btn-success { background: linear-gradient(135deg, var(--success), #16a34a); color: white; }
+    .btn-danger { background: linear-gradient(135deg, var(--error), #dc2626); color: white; }
+    .btn-warning { background: linear-gradient(135deg, var(--warning), #d97706); color: var(--dark); }
+    .btn-info { background: linear-gradient(135deg, var(--info), #2563eb); color: white; }
+    
+    .response-area { flex: 1; }
+    .response-card {
+      background: rgba(0,0,0,0.4); border-radius: 16px; overflow: hidden;
+      height: 100%; min-height: 700px; border: 1px solid rgba(255,255,255,0.1);
+    }
+    .response-header {
+      background: rgba(255,255,255,0.05); padding: 15px 25px;
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .response-header h3 { color: var(--sand); font-family: 'Playfair Display', serif; }
+    
+    .status-badge { padding: 6px 15px; border-radius: 20px; font-weight: 600; font-size: 0.9rem; }
+    .status-badge.success { background: var(--success); color: white; }
+    .status-badge.error { background: var(--error); color: white; }
+    .status-badge.pending { background: var(--warning); color: var(--dark); }
+    
+    .response-body { padding: 25px; max-height: 630px; overflow-y: auto; }
+    .response-body pre {
+      background: rgba(0,0,0,0.3); padding: 20px; border-radius: 10px;
+      color: var(--light); font-family: 'Fira Code', monospace;
+      font-size: 0.85rem; overflow-x: auto; white-space: pre-wrap; word-wrap: break-word;
+    }
+    
+    /* Dashboard Stats */
+    .stats-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 15px; margin-bottom: 20px;
+    }
+    .stat-card {
+      background: linear-gradient(135deg, rgba(139, 92, 246, 0.3), rgba(109, 40, 217, 0.3));
+      padding: 20px; border-radius: 12px; text-align: center;
+    }
+    .stat-card .number { font-size: 2rem; font-weight: 700; color: var(--sand); }
+    .stat-card .label { font-size: 0.9rem; color: rgba(255,255,255,0.7); margin-top: 5px; }
+    
+    /* Products Table */
+    .data-table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+    .data-table th, .data-table td {
+      padding: 12px 15px; text-align: left; border-bottom: 1px solid rgba(255,255,255,0.1);
+    }
+    .data-table th { background: rgba(255,255,255,0.05); font-weight: 600; color: var(--sand); }
+    .data-table tr:hover { background: rgba(255,255,255,0.05); }
+    .data-table img { width: 50px; height: 50px; object-fit: cover; border-radius: 5px; }
+    
+    /* Orders list */
+    .orders-list { display: flex; flex-direction: column; gap: 15px; }
+    .order-card {
+      background: rgba(255,255,255,0.05); padding: 20px; border-radius: 12px;
+      border-left: 4px solid var(--purple);
+    }
+    .order-card h4 { color: var(--sand); margin-bottom: 10px; }
+    .order-card p { color: rgba(255,255,255,0.8); font-size: 0.9rem; margin-bottom: 5px; }
+    
+    .order-status {
+      display: inline-block; padding: 4px 12px; border-radius: 15px;
+      font-size: 0.8rem; font-weight: 600;
+    }
+    .order-status.pending { background: var(--warning); color: var(--dark); }
+    .order-status.waiting_payment { background: var(--info); color: white; }
+    .order-status.payment_review { background: var(--purple); color: white; }
+    .order-status.completed { background: var(--success); color: white; }
+    .order-status.rejected { background: var(--error); color: white; }
+    .order-status.cancelled { background: #6b7280; color: white; }
+    
+    .order-actions { display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap; }
+    .order-actions button {
+      padding: 8px 15px; border: none; border-radius: 5px; cursor: pointer;
+      font-weight: 600; font-size: 0.85rem; transition: all 0.3s;
+    }
+    
+    .file-upload {
+      border: 2px dashed rgba(255,255,255,0.2); padding: 25px; text-align: center;
+      border-radius: 10px; cursor: pointer; transition: all 0.3s;
+    }
+    .file-upload:hover { border-color: var(--purple); background: rgba(139, 92, 246, 0.1); }
+    .file-upload input { display: none; }
+    
+    .alert {
+      padding: 15px 20px; border-radius: 10px; margin-bottom: 15px;
+      display: flex; align-items: center; gap: 10px;
+    }
+    .alert-success { background: rgba(34, 197, 94, 0.2); border: 1px solid var(--success); color: var(--success); }
+    .alert-error { background: rgba(239, 68, 68, 0.2); border: 1px solid var(--error); color: var(--error); }
+    
+    .loading { display: flex; align-items: center; justify-content: center; padding: 40px; }
+    .spinner {
+      width: 40px; height: 40px; border: 4px solid rgba(255,255,255,0.2);
+      border-top-color: var(--purple); border-radius: 50%; animation: spin 1s linear infinite; margin-right: 15px;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .btn-small { padding: 8px 15px; font-size: 0.85rem; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <a href="index.html" class="back-link">← Kembali ke Menu</a>
+      <h1>👨‍💼 Admin API Test</h1>
+      <div class="admin-badge" id="adminBadge">
+        <span>👤</span>
+        <span id="adminName">Not Logged In</span>
+      </div>
+    </header>
+
+    <div id="authWarning" class="auth-warning" style="display: none;">
+      ⚠️ <span>Anda perlu login sebagai admin. <a href="auth.html">Login terlebih dahulu</a></span>
+    </div>
+
+    <div class="tabs-container">
+      <button class="tab-btn active" onclick="switchTab('dashboard')">📊 Dashboard</button>
+      <button class="tab-btn" onclick="switchTab('products')">📦 Products</button>
+      <button class="tab-btn" onclick="switchTab('orders')">🛒 Orders</button>
+    </div>
+
+    <div class="tab-content active" id="dashboardTab">
+      <div class="main-grid">
+        <div class="sidebar">
+          <div class="card">
+            <h2>📊 Dashboard</h2>
+            <button class="btn btn-primary" onclick="getDashboard()">🔄 Load Dashboard Stats</button>
+          </div>
+        </div>
+        <div class="response-area">
+          <div class="response-card">
+            <div class="response-header">
+              <h3>📡 Dashboard Data</h3>
+              <span class="status-badge pending" id="dashboardStatus">Ready</span>
+            </div>
+            <div class="response-body">
+              <div id="dashboardStats"></div>
+              <pre id="dashboardJson">// Klik Load Dashboard untuk melihat data...</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="productsTab">
+      <div class="main-grid">
+        <div class="sidebar">
+          <div class="card">
+            <h2>📦 Products</h2>
+            <button class="btn btn-primary" onclick="getAdminProducts()">📋 Get All Products</button>
+          </div>
+          
+          <div class="card">
+            <h2>➕ Create Product</h2>
+            <div class="form-group">
+              <label for="prodName">Nama Produk</label>
+              <input type="text" id="prodName" placeholder="Nama produk">
+            </div>
+            <div class="form-group">
+              <label for="prodDesc">Deskripsi</label>
+              <textarea id="prodDesc" placeholder="Deskripsi produk"></textarea>
+            </div>
+            <div class="form-group">
+              <label for="prodPrice">Harga (IDR)</label>
+              <input type="number" id="prodPrice" placeholder="50000">
+            </div>
+            <div class="form-group">
+              <label for="prodStock">Stok</label>
+              <input type="number" id="prodStock" placeholder="100">
+            </div>
+            <div class="form-group">
+              <label for="prodType">Tipe Produk</label>
+              <select id="prodType">
+                <option value="merchandise">Merchandise</option>
+                <option value="ticket_single">Tiket Single</option>
+                <option value="ticket_bundle">Tiket Bundle</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="prodCategory">Kategori</label>
+              <select id="prodCategory">
+                <option value="">-- Pilih Kategori --</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Gambar Produk</label>
+              <label class="file-upload" for="prodImage">
+                <div style="font-size: 2rem; margin-bottom: 10px;">📎</div>
+                <p>Klik untuk upload</p>
+                <input type="file" id="prodImage" accept="image/*">
+                <p id="prodFileName" style="color: var(--purple); margin-top: 10px;"></p>
+              </label>
+            </div>
+            <button class="btn btn-success" onclick="createProduct()">➕ Create Product</button>
+          </div>
+          
+          <div class="card">
+            <h2>🗑️ Delete Product</h2>
+            <div class="form-group">
+              <label for="deleteProductId">Product ID</label>
+              <input type="text" id="deleteProductId" placeholder="UUID">
+            </div>
+            <button class="btn btn-danger" onclick="deleteProduct()">🗑️ Delete</button>
+          </div>
+        </div>
+        
+        <div class="response-area">
+          <div class="response-card">
+            <div class="response-header">
+              <h3>📡 Products Data</h3>
+              <span class="status-badge pending" id="productsStatus">Ready</span>
+            </div>
+            <div class="response-body">
+              <div id="productsAlert"></div>
+              <div id="productsDisplay"></div>
+              <pre id="productsJson">// Klik Get All Products untuk melihat data...</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="tab-content" id="ordersTab">
+      <div class="main-grid">
+        <div class="sidebar">
+          <div class="card">
+            <h2>🛒 Orders</h2>
+            <button class="btn btn-primary" onclick="getAdminOrders()">📋 Get All Orders</button>
+            <div class="form-group" style="margin-top: 15px;">
+              <label for="orderStatusFilter">Filter by Status</label>
+              <select id="orderStatusFilter" onchange="getAdminOrders()">
+                <option value="">All Status</option>
+                <option value="pending">Pending</option>
+                <option value="waiting_payment">Waiting Payment</option>
+                <option value="payment_review">Payment Review</option>
+                <option value="completed">Completed</option>
+                <option value="rejected">Rejected</option>
+                <option value="cancelled">Cancelled</option>
+              </select>
+            </div>
+          </div>
+          
+          <div class="card">
+            <h2>✅ Accept Order</h2>
+            <div class="form-group">
+              <label for="acceptOrderId">Order ID</label>
+              <input type="text" id="acceptOrderId" placeholder="UUID">
+            </div>
+            <button class="btn btn-success" onclick="acceptOrder()">✅ Accept Order</button>
+          </div>
+          
+          <div class="card">
+            <h2>❌ Reject Order</h2>
+            <div class="form-group">
+              <label for="rejectOrderId">Order ID</label>
+              <input type="text" id="rejectOrderId" placeholder="UUID">
+            </div>
+            <div class="form-group">
+              <label for="rejectReason">Alasan Penolakan</label>
+              <textarea id="rejectReason" placeholder="Alasan..."></textarea>
+            </div>
+            <button class="btn btn-danger" onclick="rejectOrder()">❌ Reject Order</button>
+          </div>
+          
+          <div class="card">
+            <h2>🎉 Complete Order</h2>
+            <div class="form-group">
+              <label for="completeOrderId">Order ID</label>
+              <input type="text" id="completeOrderId" placeholder="UUID">
+            </div>
+            <button class="btn btn-info" onclick="completeOrder()">🎉 Complete Order</button>
+          </div>
+        </div>
+        
+        <div class="response-area">
+          <div class="response-card">
+            <div class="response-header">
+              <h3>📡 Orders Data</h3>
+              <span class="status-badge pending" id="ordersStatus">Ready</span>
+            </div>
+            <div class="response-body">
+              <div id="ordersAlert"></div>
+              <div id="ordersDisplay"></div>
+              <pre id="ordersJson">// Klik Get All Orders untuk melihat data...</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // --- GANTI KE HTTPS DOMAIN ---
+    const API_BASE_URL = 'https://uigtc.id/api';
+    
+    // --- FORMATTER ---
+    function formatCurrency(price) {
+      return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(price);
+    }
+    
+    function formatDate(dateStr) {
+      return new Date(dateStr).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric', hour: '2-digit', minute: '2-digit' });
+    }
+
+    // --- API CALLER with TOKEN ---
+    async function apiCall(endpoint, method = 'GET', body = null, isFormData = false) {
+      try {
+        const token = localStorage.getItem('token');
+        const headers = {};
+        
+        if (token) {
+          headers['Authorization'] = `Bearer ${token}`;
+        }
+        
+        if (!isFormData) {
+          headers['Content-Type'] = 'application/json';
+        }
+
+        const options = {
+          method,
+          headers,
+          // credentials: 'include' // Opsional jika cors sudah allow credential
+        };
+        
+        if (body) {
+          options.body = isFormData ? body : JSON.stringify(body);
+        }
+        
+        const response = await fetch(`${API_BASE_URL}${endpoint}`, options);
+        const data = await response.json();
+        
+        return { data, ok: response.ok };
+      } catch (error) {
+        return { data: { message: error.message }, ok: false };
+      }
+    }
+    
+    // --- AUTH ---
+    async function checkAuth() {
+      const { data, ok } = await apiCall('/auth/me');
+      
+      if (ok && data.success && data.data) {
+        if (data.data.role === 'admin') {
+          document.getElementById('authWarning').style.display = 'none';
+          document.getElementById('adminName').textContent = data.data.name;
+        } else {
+          document.getElementById('authWarning').innerHTML = '⚠️ <span>Anda login sebagai user biasa, bukan admin.</span>';
+          document.getElementById('authWarning').style.display = 'flex';
+          document.getElementById('adminName').textContent = data.data.name + ' (User)';
+        }
+      } else {
+        document.getElementById('authWarning').style.display = 'flex';
+        document.getElementById('adminName').textContent = 'Not Logged In';
+      }
+    }
+    
+    // --- UTILS ---
+    function switchTab(tab) {
+      document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
+      event.target.classList.add('active');
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      document.getElementById(`${tab}Tab`).classList.add('active');
+    }
+    
+    function showLoading(section) {
+      document.getElementById(`${section}Status`).className = 'status-badge pending';
+      document.getElementById(`${section}Status`).textContent = 'Loading...';
+    }
+    
+    function showStatus(section, success) {
+      const badge = document.getElementById(`${section}Status`);
+      badge.className = `status-badge ${success ? 'success' : 'error'}`;
+      badge.textContent = success ? '200 OK' : 'Error';
+    }
+    
+    function showAlert(section, message, type = 'success') {
+      const alertEl = document.getElementById(`${section}Alert`);
+      if (alertEl) {
+        alertEl.innerHTML = `<div class="alert alert-${type}">${type === 'success' ? '✅' : '❌'} ${message}</div>`;
+      }
+    }
+
+    // --- DASHBOARD ---
+    async function getDashboard() {
+      showLoading('dashboard');
+      document.getElementById('dashboardStats').innerHTML = '<div class="loading"><div class="spinner"></div><span>Loading...</span></div>';
+      
+      const { data, ok } = await apiCall('/admin/dashboard');
+      
+      showStatus('dashboard', ok);
+      document.getElementById('dashboardJson').textContent = JSON.stringify(data, null, 2);
+      
+      if (ok && data.success && data.data) {
+        const stats = data.data.stats;
+        document.getElementById('dashboardStats').innerHTML = `
+          <div class="stats-grid">
+            <div class="stat-card"><div class="number">${stats.totalProducts || 0}</div><div class="label">Total Products</div></div>
+            <div class="stat-card"><div class="number">${stats.totalOrders || 0}</div><div class="label">Total Orders</div></div>
+            <div class="stat-card"><div class="number">${stats.pendingOrders || 0}</div><div class="label">Pending Orders</div></div>
+            <div class="stat-card"><div class="number">${formatCurrency(stats.totalRevenue || 0)}</div><div class="label">Total Revenue</div></div>
+          </div>`;
+      } else {
+        document.getElementById('dashboardStats').innerHTML = '';
+      }
+    }
+
+    // --- PRODUCTS ---
+    async function getAdminProducts() {
+      showLoading('products');
+      const { data, ok } = await apiCall('/admin/products');
+      showStatus('products', ok);
+      document.getElementById('productsJson').textContent = JSON.stringify(data, null, 2);
+      if (ok && data.success) renderProductsTable(data.data);
+    }
+
+    function renderProductsTable(products) {
+      if (!products || products.length === 0) return document.getElementById('productsDisplay').innerHTML = '<p>No products</p>';
+      
+      const html = `<table class="data-table"><thead><tr><th>Img</th><th>Name</th><th>Price</th><th>Stock</th><th>Action</th></tr></thead><tbody>
+        ${products.map(p => `<tr>
+          <td>${p.image ? `<img src="${API_BASE_URL.replace('/api','')}${p.image}" onerror="this.src='https://via.placeholder.com/50'">` : '📦'}</td>
+          <td>${p.name}</td><td>${formatCurrency(p.price)}</td><td>${p.stock}</td>
+          <td><button onclick="document.getElementById('deleteProductId').value='${p.id}';" class="btn btn-small btn-danger">🗑️</button></td>
+        </tr>`).join('')}</tbody></table>`;
+      document.getElementById('productsDisplay').innerHTML = html;
+    }
+
+    async function createProduct() {
+      const formData = new FormData();
+      formData.append('name', document.getElementById('prodName').value);
+      formData.append('description', document.getElementById('prodDesc').value);
+      formData.append('price', document.getElementById('prodPrice').value);
+      formData.append('stock', document.getElementById('prodStock').value);
+      formData.append('productType', document.getElementById('prodType').value);
+      
+      const cat = document.getElementById('prodCategory').value;
+      if(cat) formData.append('categoryId', cat);
+      
+      const img = document.getElementById('prodImage').files[0];
+      if(img) formData.append('image', img);
+
+      showLoading('products');
+      const { data, ok } = await apiCall('/admin/products', 'POST', formData, true); // true = isFormData
+      
+      showStatus('products', ok);
+      document.getElementById('productsJson').textContent = JSON.stringify(data, null, 2);
+      if(ok) {
+        showAlert('products', 'Product Created', 'success');
+        getAdminProducts();
+      } else {
+        showAlert('products', data.message || 'Failed', 'error');
+      }
+    }
+
+    async function deleteProduct() {
+      const id = document.getElementById('deleteProductId').value;
+      if(!id) return showAlert('products', 'ID Required', 'error');
+      
+      if(!confirm('Delete?')) return;
+      showLoading('products');
+      const { data, ok } = await apiCall(`/admin/products/${id}`, 'DELETE');
+      showStatus('products', ok);
+      if(ok) {
+        showAlert('products', 'Deleted', 'success');
+        getAdminProducts();
+      } else {
+        showAlert('products', data.message, 'error');
+      }
+    }
+
+    async function loadCategories() {
+      const { data, ok } = await apiCall('/products/categories');
+      if(ok && data.data) {
+        const sel = document.getElementById('prodCategory');
+        sel.innerHTML = '<option value="">-- Select Category --</option>';
+        data.data.forEach(c => sel.innerHTML += `<option value="${c.id}">${c.name}</option>`);
+      }
+    }
+
+    // --- ORDERS ---
+    async function getAdminOrders() {
+      showLoading('orders');
+      const status = document.getElementById('orderStatusFilter').value;
+      const endpoint = status ? `/admin/orders?status=${status}` : '/admin/orders';
+      
+      const { data, ok } = await apiCall(endpoint);
+      showStatus('orders', ok);
+      document.getElementById('ordersJson').textContent = JSON.stringify(data, null, 2);
+      
+      if(ok && data.data) {
+        const html = `<div class="orders-list">${data.data.map(o => `
+          <div class="order-card">
+            <h4>Order #${o.id.substring(0,8)}</h4>
+            <p>User: ${o.user?.name} (${o.user?.email})</p>
+            <p>Total: ${formatCurrency(o.totalAmount)} | Status: <span class="order-status ${o.status}">${o.status}</span></p>
+            <div class="order-actions">
+              ${o.status === 'payment_review' || o.status === 'waiting_payment' ? `
+                <button onclick="document.getElementById('acceptOrderId').value='${o.id}'; acceptOrder()" style="background:var(--success);color:white">Accept</button>
+                <button onclick="document.getElementById('rejectOrderId').value='${o.id}'" style="background:var(--error);color:white">Reject</button>
+              ` : ''}
+              ${o.paymentProof ? `<button onclick="window.open('${API_BASE_URL.replace('/api','')}${o.paymentProof}')" style="background:var(--purple);color:white">Proof</button>` : ''}
+            </div>
+          </div>`).join('')}</div>`;
+        document.getElementById('ordersDisplay').innerHTML = html;
+      }
+    }
+
+    async function acceptOrder() {
+       const id = document.getElementById('acceptOrderId').value;
+       const { data, ok } = await apiCall(`/admin/orders/${id}/accept`, 'POST');
+       if(ok) { showAlert('orders', 'Accepted', 'success'); getAdminOrders(); }
+       else showAlert('orders', data.message, 'error');
+    }
+
+    async function rejectOrder() {
+       const id = document.getElementById('rejectOrderId').value;
+       const reason = document.getElementById('rejectReason').value;
+       const { data, ok } = await apiCall(`/admin/orders/${id}/reject`, 'POST', { reason });
+       if(ok) { showAlert('orders', 'Rejected', 'success'); getAdminOrders(); }
+       else showAlert('orders', data.message, 'error');
+    }
+
+    async function completeOrder() {
+       const id = document.getElementById('completeOrderId').value;
+       const { data, ok } = await apiCall(`/admin/orders/${id}/complete`, 'POST');
+       if(ok) { showAlert('orders', 'Completed', 'success'); getAdminOrders(); }
+       else showAlert('orders', data.message, 'error');
+    }
+
+    document.getElementById('prodImage').addEventListener('change', function() {
+      document.getElementById('prodFileName').textContent = this.files[0]?.name || '';
+    });
+
+    // Init
+    checkAuth();
+    loadCategories();
+  </script>
+</body>
+</html>
