@@ -174,3 +174,14 @@
 .animate-scale-in {
   animation: scale-in 0.3s ease-out;
 }
+
+@font-face {
+  font-family: 'Treamd';
+  src: url('assets/fonts/Treamd.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@theme {
+  --font-treamd: 'Treamd', sans-serif;
+}

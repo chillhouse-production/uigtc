@@ -11,7 +11,7 @@ const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
   const [showMobileSidebar, setShowMobileSidebar] = useState<boolean>(false);
   const [showMobileProfileDropdown, setShowMobileProfileDropdown] = useState<boolean>(false);
-  const [isLoggedIn] = useState<boolean>(true);
+  const [isLoggedIn] = useState<boolean>(false);
 
   const menuItemsLoggedOut = [
     { id: 'home', icon: iconHome, path: '/', label: 'Home' },
@@ -75,7 +75,7 @@ const Navbar = () => {
                   )}
                 </div>
               ) : (
-                <a href="/" className="bg-[#5196AA] hover:bg-[#5196AA] text-white font-semibold py-2 px-6 rounded-lg transition-all duration-200">
+                <a href="/auth" className="bg-[#5196AA] hover:bg-[#5196AA] text-white font-semibold py-2 px-6 rounded-lg transition-all duration-200">
                   Login
                 </a>
               )}
@@ -179,7 +179,7 @@ const Navbar = () => {
             ) : (
               <div className="px-6 py-4">
                 <a 
-                  href="/" 
+                  href="/auth" 
                   className="block w-full text-center bg-[#5196AA] text-white py-2 px-4 rounded-lg hover:bg-[#5196AA] transition-colors font-medium"
                 >
                   Login

@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react"
 import Navbar from "./navBar"
 import Footer from "./footer"
+import { useNavigate } from 'react-router-dom';
 
 import judulImg from '../assets/UIGTC-judul.png'
 import hartaTengah from '../assets/Hartakarun-Tengah.png'
@@ -27,6 +28,7 @@ export default function MainPage() {
     const [showPopup1, setShowPopup1] = useState(false);
     const [showPopup2, setShowPopup2] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
+    const navigate = useNavigate();
 
 
 
@@ -89,7 +91,7 @@ export default function MainPage() {
                         />
 
                         <div className="text-[#0B2E34] max-w-[260px]">
-                            <h3 className="text-xl text-center font-extrabold leading-tight mb-2">
+                            <h3 className="text-xl font-treamd text-center font-extrabold leading-tight mb-2">
                                 WHAT’S UI GOES TO CELEBES?
                             </h3>
 
@@ -106,14 +108,14 @@ export default function MainPage() {
                     <img src={lautDalam} alt="" className="w-full h-[600px] object-cover" />
                     <div className="absolute inset-0 flex flex-col items-center justify-center text-white px-4">
 
-                        <h3 className="text-3xl font-serif tracking-widest mb-20 drop-shadow-md">
+                        <h3 className="text-3xl font-treamd tracking-widest mb-20 drop-shadow-md">
                             TIMELINE
                         </h3>
 
                         <div className="relative w-full max-w-5xl flex justify-between items-center">
                             <img src={bayang} alt="bayang1" className="absolute top-1/2 -translate-x-8 -translate-y-35 w-[45%]" />
                             <div className="flex flex-col items-center gap-2 w-1/3 transform -translate-x-5 -translate-y-12">
-                                <h4 className="font-serif text-[15px] uppercase italic">Pre-Event</h4>
+                                <h4 className="font-treamd text-[15px] uppercase italic">Pre-Event</h4>
                                 <p className="font-serif text-[10px] opacity-90 mb-2">Tarima Kareba Madeceng</p>
                                 <img
                                     src={botolKiri}
@@ -130,7 +132,7 @@ export default function MainPage() {
                             <img src={garisKiri} alt="" className="absolute left-[15%] top-1/2 -translate-y-12 w-[25%]" />
                             <img src={bayang} alt="bayang2" className="absolute top-1/2 translate-x-30 -translate-y-30 w-[45%]" />
                             <div className="flex flex-col items-center gap-2 w-1/3 transform -translate-y-7">
-                                <h4 className="font-serif text-[15px] uppercase italic">RoadShow</h4>
+                                <h4 className="font-treamd text-[15px] uppercase italic">RoadShow</h4>
                                 <p className="font-serif text-[10px] opacity-90 mb-2">Pangolli Lao Sompe</p>
                                 <img
                                     src={kapalTengah}
@@ -147,7 +149,7 @@ export default function MainPage() {
                             <img src={garisKanan} alt="" className="absolute right-[15%] top-4/12 -translate-y-1/2 w-[25%]" />
                             <img src={bayang} alt="bayang2" className="absolute top-1/2 translate-x-70 -translate-y-40 w-[45%]" />
                             <div className="flex flex-col items-center translate-x-7 w-1/3 transform -translate-y-15">
-                                <h4 className="font-serif text-[15px] uppercase italic">Main Event</h4>
+                                <h4 className="font-treamd text-[15px] uppercase italic">Main Event</h4>
                                 <p className="font-serif text-[10px] opacity-90 mb-2">Lao Sompe</p>
                                 <img
                                     src={petiKanan}
@@ -183,7 +185,7 @@ export default function MainPage() {
                                 </svg>
                             </button>
                             <div className="flex flex-col items-center text-[#0B2E34]">
-                                <h2 className="text-2xl font-serif font-bold mb-2 text-center uppercase">
+                                <h2 className="text-2xl font-treamd font-bold mb-2 text-center uppercase">
                                     Pre-Event
                                 </h2>
                                 <p className="text-sm font-serif mb-4 text-center italic">
@@ -245,7 +247,7 @@ export default function MainPage() {
                                 </svg>
                             </button>
                             <div className="flex flex-col items-center text-[#0B2E34]">
-                                <h2 className="text-2xl font-serif font-bold mb-2 text-center uppercase">
+                                <h2 className="text-2xl font-treamd font-bold mb-2 text-center uppercase">
                                     RoadShow
                                 </h2>
                                 <p className="text-sm font-serif mb-4 text-center italic">
@@ -305,7 +307,7 @@ export default function MainPage() {
                                 </svg>
                             </button>
                             <div className="flex flex-col items-center text-[#0B2E34]">
-                                <h2 className="text-2xl font-serif font-bold mb-2 text-center uppercase">
+                                <h2 className="text-2xl font-treamd font-bold mb-2 text-center uppercase">
                                     Main Event
                                 </h2>
                                 <p className="text-sm font-serif mb-4 text-center italic">
@@ -349,7 +351,7 @@ export default function MainPage() {
                 )}
                 <div className="flex flex-col items-center justify-center -mt-60">
                     <div className="mb-10 items-center justify-center flex flex-col">
-                        <h2 className="text-4xl text-center italic font-[Lora] text-white
+                        <h2 className="text-4xl text-center italic font-treamd text-white
                [text-shadow:1px_1px_2px_rgba(0,0,0,0.7),0_4px_8px_rgba(0,0,0,0.6)]">
                             UIGTC 2025'S ARCHIVE
                         </h2>
@@ -370,7 +372,7 @@ export default function MainPage() {
                         <img src={bgBiruMuda} alt="bgBirumuda" className="absolute inset-0 w-full h-full object-cover" />
                         <div className="relative z-10 flex h-full px-6 py-10">
                             <div className="flex flex-col justify-center w-2/3 text-[#0B2E34]">
-                                <h2 className="text-3xl font-serif font-bold leading-tight mb-4">
+                                <h2 className="text-3xl font-treamd font-bold leading-tight mb-4">
                                     LET’S TAKE A LOOK <br /> AT OUR MERCH
                                 </h2>
                                 <p className="text-sm leading-relaxed mb-6 text-justify">
@@ -451,7 +453,7 @@ export default function MainPage() {
                                             />
                                         </div>
                                         <div className="flex-1 text-[#0B2E34] flex flex-col justify-center">
-                                            <h3 className="font-black leading-[1.05] mb-3 sm:mb-4 md:mb-5 lg:mb-6 text-left uppercase font-[Lora] text-[clamp(1.2rem,3.5vw,5.5rem)]">
+                                            <h3 className="font-treamd leading-[1.05] mb-3 sm:mb-4 md:mb-5 lg:mb-6 text-left uppercase text-[clamp(1.2rem,3.5vw,5.5rem)]">
                                                 What's <br /> UI Goes to <br /> Celebes?
                                             </h3>
 
@@ -471,7 +473,7 @@ export default function MainPage() {
                         <img src={lautDalam} alt="lautDalam" className="w-full object-cover" />
 
                         <div className="absolute inset-0 flex flex-col items-center justify-center text-white px-4">
-                            <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl -mt-[10%] font-serif tracking-widest mb-12 sm:mb-16 md:mb-20 lg:mb-24 xl:mb-28 drop-shadow-md">
+                            <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl -mt-[10%] font-treamd tracking-widest mb-12 sm:mb-16 md:mb-20 lg:mb-24 xl:mb-28 drop-shadow-md">
                                 TIMELINE
                             </h3>
                             <div className="relative w-full max-w-[90%] sm:max-w-[85%] md:max-w-[80%] lg:max-w-[75%] xl:max-w-[70%] 2xl:max-w-[1400px]" style={{ aspectRatio: '16 / 6' }}>
@@ -501,7 +503,7 @@ export default function MainPage() {
                                     className="absolute right-[24%] sm:right-[22%] md:right-[20%] lg:right-[18%] xl:right-[16%] 2xl:right-[14%] top-[52%] sm:top-[53%] md:top-[54%] lg:top-[55%] xl:top-[56%] -translate-y-1/2 w-[20%] sm:w-[22%] md:w-[24%] lg:w-[26%] xl:w-[28%] 2xl:w-[30%] h-auto"
                                 />
                                 <div className="absolute left-[5%] sm:left-[3%] md:left-[1%] lg:left-[-2%] xl:left-[-4%] 2xl:left-[-6%] top-0 flex flex-col items-center w-[35%] sm:w-[32%] md:w-[30%] lg:w-[28%] xl:w-[26%] 2xl:w-[24%]">
-                                    <h4 className="font-serif text-[clamp(0.75rem,2.2vw,2rem)] uppercase italic text-center leading-tight mb-1 sm:mb-2">
+                                    <h4 className="font-treamd text-[clamp(0.75rem,2.2vw,2rem)] uppercase italic text-center leading-tight mb-1 sm:mb-2">
                                         Pre-Event
                                     </h4>
                                     <p className="font-serif text-[clamp(0.55rem,1.3vw,1rem)] opacity-90 text-center mb-2 sm:mb-3 md:mb-4">
@@ -579,7 +581,7 @@ export default function MainPage() {
 
                                             {/* CONTENT */}
                                             <div className="flex flex-col items-center text-[#0B2E34]">
-                                                <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-center uppercase pt-4 sm:pt-6">
+                                                <h2 className="text-2xl sm:text-3xl md:text-4xl font-treamd font-bold text-center uppercase pt-4 sm:pt-6">
                                                     Pre-Event
                                                 </h2>
 
@@ -643,7 +645,7 @@ export default function MainPage() {
                                 )}
 
                                 <div className="absolute left-1/2 top-[18%] sm:top-[20%] md:top-[22%] -translate-x-1/2 flex flex-col items-center w-[30%] sm:w-[28%] md:w-[26%]">
-                                    <h4 className="font-serif text-[clamp(0.7rem,2vw,1.8rem)] uppercase italic text-center leading-tight mb-1 sm:mb-2">
+                                    <h4 className="font-treamd text-[clamp(0.7rem,2vw,1.8rem)] uppercase italic text-center leading-tight mb-1 sm:mb-2">
                                         RoadShow
                                     </h4>
                                     <p className="font-serif text-[clamp(0.5rem,1.2vw,0.9rem)] opacity-90 text-center mb-2 sm:mb-3 md:mb-4">
@@ -722,7 +724,7 @@ export default function MainPage() {
 
                                             {/* CONTENT */}
                                             <div className="flex flex-col items-center text-[#0B2E34]">
-                                                <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-center uppercase pt-4 sm:pt-6">
+                                                <h2 className="text-2xl sm:text-3xl md:text-4xl font-treamd font-bold text-center uppercase pt-4 sm:pt-6">
                                                     RoadShow
                                                 </h2>
 
@@ -789,7 +791,7 @@ export default function MainPage() {
                                     </div>
                                 )}
                                 <div className="absolute right-0 top-0 flex flex-col items-center w-[30%] sm:w-[28%] md:w-[26%]">
-                                    <h4 className="font-serif text-[clamp(0.7rem,2vw,1.8rem)] uppercase italic text-center leading-tight mb-1 sm:mb-2">
+                                    <h4 className="font-treamd text-[clamp(0.7rem,2vw,1.8rem)] uppercase italic text-center leading-tight mb-1 sm:mb-2">
                                         Main Event
                                     </h4>
                                     <p className="font-serif text-[clamp(0.5rem,1.2vw,0.9rem)] opacity-90 text-center mb-2 sm:mb-3 md:mb-4">
@@ -867,7 +869,7 @@ export default function MainPage() {
 
                                             {/* CONTENT */}
                                             <div className="flex flex-col items-center text-[#0B2E34]">
-                                                <h2 className="text-2xl sm:text-3xl md:text-4xl font-serif font-bold text-center uppercase pt-4 sm:pt-6">
+                                                <h2 className="text-2xl sm:text-3xl md:text-4xl font-treamd font-bold text-center uppercase pt-4 sm:pt-6">
                                                     Main Event
                                                 </h2>
 
@@ -939,7 +941,7 @@ export default function MainPage() {
                     </div>
                     <div className="flex flex-col items-center justify-center mt-[8%] sm:mt-[9%] md:mt-[10%] z-20 relative w-full">
                         <div className="mb-8 sm:mb-10 md:mb-14 lg:mb-20 xl:mb-24 2xl:mb-28 text-center px-4">
-                            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl italic font-[Lora] text-white [text-shadow:2px_2px_4px_rgba(0,0,0,0.8),0_6px_12px_rgba(0,0,0,0.7)] tracking-wide">
+                            <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl italic font-treamd text-white [text-shadow:2px_2px_4px_rgba(0,0,0,0.8),0_6px_12px_rgba(0,0,0,0.7)] tracking-wide">
                                 UIGTC 2025'S ARCHIVE
                             </h2>
                         </div>
@@ -963,7 +965,7 @@ export default function MainPage() {
                             <img src={bgBiruMuda} alt="bgBirumuda" className="absolute inset-0 w-full h-full object-cover" />
                             <div className="relative z-10 container mx-auto h-full px-4 sm:px-6 md:px-10 lg:px-16 xl:px-20 py-6 sm:py-8 md:py-10 flex items-center">
                                 <div className="flex flex-col justify-center w-full md:w-[55%] lg:w-1/2 text-[#0B2E34] bg-white/10 md:bg-transparent backdrop-blur-sm md:backdrop-blur-none p-4 sm:p-5 md:p-0 rounded-xl">
-                                    <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-serif font-bold leading-tight mb-3 sm:mb-4 md:mb-5 lg:mb-6 xl:mb-8 drop-shadow-sm">
+                                    <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-treamd font-bold leading-tight mb-3 sm:mb-4 md:mb-5 lg:mb-6 xl:mb-8 drop-shadow-sm">
                                         LET'S TAKE A LOOK <br /> AT OUR MERCH
                                     </h2>
                                     <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl leading-relaxed mb-4 sm:mb-5 md:mb-6 lg:mb-8 xl:mb-10 text-justify md:text-left font-medium opacity-90 max-w-xl">
@@ -971,9 +973,12 @@ export default function MainPage() {
                                         tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
                                         quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
                                     </p>
-                                    <button className="w-fit bg-[#E39A3B] text-[#1F2D2F] px-5 py-2 sm:px-6 sm:py-2.5 md:px-8 md:py-3 lg:px-9 lg:py-3.5 xl:px-10 xl:py-4 rounded-lg font-bold text-sm sm:text-base md:text-lg shadow-lg hover:bg-[#d68b2a] hover:scale-105 transition-all duration-300">
-                                        Buy Now
-                                    </button>
+<button 
+    onClick={() => navigate('/merchlist')}
+    className="w-fit bg-[#E39A3B] text-[#1F2D2F] px-5 py-2 sm:px-6 sm:py-2.5 md:px-8 md:py-3 lg:px-9 lg:py-3.5 xl:px-10 xl:py-4 rounded-lg font-bold text-sm sm:text-base md:text-lg shadow-lg hover:bg-[#e89c3f] hover:scale-105 transition-all duration-300"
+>
+    Buy Now
+</button>
                                 </div>
                             </div>
                         </section>
