@@ -38,7 +38,7 @@ export default function MainPage() {
 
     return (
 
-        <div>
+        <div className="bg-gradient-to-b from-[#EAB775] to-[#F3CC91]">
             <div className="block flex flex-col h-max-screen  sm:hidden z-0 pt-20 bg-gradient-to-b from-[#EAB775] to-[#F3CC91] overflow-hidden">
                 <Navbar />
                 <div className="flex flex-col w-screen items-center justify-center">
