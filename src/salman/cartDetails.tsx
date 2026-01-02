@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import listBg from '../assets/CartBackground.jpeg'
 
 export default function CartPage() {
     const [cartItems, setCartItems] = useState([
@@ -50,7 +51,12 @@ export default function CartPage() {
     };
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-blue-300 via-blue-200 to-pink-200 p-8">
+        <div className="min-h-screen" style={{
+                        backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)), url(${listBg})`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        backgroundRepeat: 'no-repeat'
+                    }}>
             <div className="max-w-7xl mx-auto">
                 {/* Header */}
                 <h1 className="text-5xl font-bold text-center mb-12 text-white" style={{

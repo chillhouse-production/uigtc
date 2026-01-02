@@ -138,7 +138,7 @@ const MerchList = () => {
     return (
         <>
             {/* DESKTOP VERSION */}
-            <section className="hidden lg:flex absolute overflow-hidden min-h-screen w-full bg-gradient-to-b from-[#EAB775] to-[#F3CC91] overflow-x-hidden justify-center" >
+            <section className="hidden lg:flex absolute min-h-screen w-full bg-gradient-to-b from-[#EAB775] to-[#F3CC91] overflow-x-hidden justify-center" >
                 <div
                     className="relative w-full max-w-[2000px] overflow-hidden border-l border-r border-[#3d2314]/30 flex flex-col items-center pt-24 bg-gradient-to-b from-[#EAB775] to-[#F3CC91]"
                     style={{
