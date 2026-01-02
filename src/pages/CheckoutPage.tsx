@@ -1,5 +1,8 @@
 import { useNavigate } from 'react-router-dom';
 import { useState, useRef } from 'react';
+import cartBackGround from '../assets/CartBackground.jpeg'
+import Navbar from '../salman/navBar';
+import Footer from '../salman/footer';
 
 export default function CheckoutPage() {
     const navigate = useNavigate();
@@ -38,10 +41,16 @@ export default function CheckoutPage() {
     };
 
     return (
-        <div className="min-h-screen overflow-auto" style={{ background: 'linear-gradient(135deg, #61B2DE 23%, #7AABB6 100%)' }}>
+        <div className="min-h-screen overflow-auto" style={{
+            backgroundImage: `url(${cartBackGround})`,
+            backgroundSize: 'cover',
+            backgroundPosition: 'center',
+            backgroundRepeat: 'no-repeat'
+        }}>
             <div className="p-8 md:p-12 max-w-[1600px] mx-auto">
                 {/* Header */}
-                <div className="flex items-center gap-2 mb-8 text-[#1a3c40]">
+                <Navbar />
+                <div className="flex items-center gap-2 mt-10 mb-8 text-[#1a3c40]">
                     <button onClick={() => navigate(-1)} className="hover:opacity-75 transition-opacity">
                         <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                             <circle cx="12" cy="12" r="10" />
@@ -190,6 +199,7 @@ export default function CheckoutPage() {
 
                 </div>
             </div>
+            <Footer/>
         </div>
     );
 }
