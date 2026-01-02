@@ -11,7 +11,7 @@ const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
   const [showMobileSidebar, setShowMobileSidebar] = useState<boolean>(false);
   const [showMobileProfileDropdown, setShowMobileProfileDropdown] = useState<boolean>(false);
-  const [isLoggedIn] = useState<boolean>(true);
+  const [isLoggedIn] = useState<boolean>(false);
 
   const menuItemsLoggedOut = [
     { id: 'home', icon: iconHome, path: '/', label: 'Home' },
