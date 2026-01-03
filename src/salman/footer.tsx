@@ -2,7 +2,7 @@ import LogoBulat from '../assets/LogoUIGTCKotak.svg';
 
 const Footer = () => {
   return (
-    <footer className="bg-[#092D39] text-white py-8 w-full clear-both">
+    <footer className="bg-[#092D39] z-100 text-white py-8 w-full clear-both">
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="hidden md:flex items-center justify-between">
           <div className="flex items-center gap-4">

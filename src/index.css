@@ -147,6 +147,41 @@
   }
 }
 
+/* Custom Scrollbar */
+.scrollbar-thin::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background: rgba(19, 93, 102, 0.4);
+  border-radius: 10px;
+  transition: all 0.3s ease;
+}
+
+.scrollbar-thin:hover::-webkit-scrollbar-thumb {
+  background: rgba(19, 93, 102, 0.6);
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb:hover {
+  background: rgba(19, 93, 102, 0.8);
+}
+
 .animate-scale-in {
   animation: scale-in 0.3s ease-out;
+}
+
+@font-face {
+  font-family: 'Treamd';
+  src: url('assets/fonts/Treamd.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+}
+
+@theme {
+  --font-treamd: 'Treamd', sans-serif;
 }

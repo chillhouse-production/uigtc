@@ -1,5 +1,6 @@
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route, Navigate } from "react-router-dom"
 import { useState } from 'react';
+import { useAuth } from './context/AuthContext';
 import MainPage from "./salman/mainPage"
 import ProductsPage from "./pages/ProductsPage"
 import ProfilePage from "./pages/ProfilePage"
@@ -10,9 +11,23 @@ import SignIn from './SignIn';
 import SignUp from './SignUp';
 import './App.css';
 import MerchList from "./salman/merchList";
+import MerchDetails from "./salman/merchDetails";
+import CartPage from "./salman/cartDetails";
+
+const ProtectedRoute = ({ children }) => {
+  const { user } = useAuth();
+  if (!user) return <Navigate to="/auth" replace />;
+  return children;
+};
+
+const PublicRoute = ({ children }) => {
+  const { user } = useAuth();
+  if (user) return <Navigate to="/" replace />;
+  return children;
+};
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<'signin' | 'signup'>('signin');
+  const [currentPage, setCurrentPage] = useState('signin');
 
   return (
     <Routes>
@@ -23,6 +38,9 @@ export default function App() {
       <Route path="/transactionsuccess" element={<TransactionSuccessPage />} />
       <Route path="/history" element={<HistoryPage />} />
       <Route path="/merchlist" element={<MerchList/>}/>
+      <Route path="/cart" element={<CartPage/>}/>
+
+      <Route path="/product/:id" element={<MerchDetails/>}/>
       <Route path="/auth" element={
         <>
           {currentPage === 'signin' && (
