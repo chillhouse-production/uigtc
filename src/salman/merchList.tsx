@@ -3,133 +3,119 @@ import { useNavigate } from 'react-router-dom';
 import listBg from "../assets/merchListBg.png";
 import Navbar from './navBar';
 
-const DUMMY_MERCH_DATA = [
-    {
-        id: 1,
-        name: "Baju Bagus Wow",
-        price: "Rp1.000.000.000",
-        image: "/placeholder-merch.jpg",
-        category: "Baju",
-        stock: 10
-    },
-    {
-        id: 2,
-        name: "Baju Bagus Wow",
-        price: "Rp1.000.000.000",
-        image: "/placeholder-merch.jpg",
-        category: "Kaos",
-        stock: 5
-    },
-    {
-        id: 3,
-        name: "Baju Bagus Wow",
-        price: "Rp1.000.000.000",
-        image: "/placeholder-merch.jpg",
-        category: "Keychain",
-        stock: 20
-    },
-    {
-        id: 4,
-        name: "Baju Bagus Wow",
-        price: "Rp1.000.000.000",
-        image: "/placeholder-merch.jpg",
-        category: "Jaket",
-        stock: 8
-    },
-    {
-        id: 5,
-        name: "Baju Bagus Wow",
-        price: "Rp1.000.000.000",
-        image: "/placeholder-merch.jpg",
-        category: "Botol",
-        stock: 15
-    },
-    {
-        id: 6,
-        name: "Baju Bagus Wow",
-        price: "Rp1.000.000.000",
-        image: "/placeholder-merch.jpg",
-        category: "Gantungan Kunci",
-        stock: 30
-    },
-    {
-        id: 7,
-        name: "Baju Bagus Wow",
-        price: "Rp1.000.000.000",
-        image: "/placeholder-merch.jpg",
-        category: "Totebag",
-        stock: 12
-    },
-    {
-        id: 8,
-        name: "Baju Bagus Wow",
-        price: "Rp1.000.000.000",
-        image: "/placeholder-merch.jpg",
-        category: "Kaos",
-        stock: 7
-    },
-    {
-        id: 9,
-        name: "Baju Bagus Wow",
-        price: "Rp1.000.000.000",
-        image: "/placeholder-merch.jpg",
-        category: "Baju",
-        stock: 18
-    },
-];
+// --- Tipe Data Sesuai API ---
+interface Category {
+    id: number;
+    name: string;
+    slug: string;
+}
 
-const CATEGORIES: string[] = [
-    "Ticket",
-    "Keychain",
-    "Memopad",
-    "Sticker",
-    "Photocard",
-    "Sticker Set",
-    "Totebag"
-];
+interface Product {
+    id: number;
+    name: string;
+    price: number;
+    stock: number;
+    image: string | null;
+    category: Category;
+    description?: string;
+}
+
+const API_BASE_URL = 'https://uigtc.id/api';
+const IMAGE_BASE_URL = 'https://uigtc.id'; // Base URL untuk gambar
 
 const MerchList = () => {
     const navigate = useNavigate();
-    // Desktop: Multiple selection with checkboxes
+
+    // --- State Data API ---
+    const [allProducts, setAllProducts] = useState<Product[]>([]);
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+
+    // --- State Filtering ---
+    // Desktop: Multiple selection with checkboxes (menyimpan nama kategori)
     const [selectedCategoriesDesktop, setSelectedCategoriesDesktop] = useState<string[]>([]);
-    const [filteredDataDesktop, setFilteredDataDesktop] = useState(DUMMY_MERCH_DATA);
+    const [filteredDataDesktop, setFilteredDataDesktop] = useState<Product[]>([]);
     
     // Mobile: Single selection
     const [selectedCategoryMobile, setSelectedCategoryMobile] = useState("Semua");
-    const [filteredDataMobile, setFilteredDataMobile] = useState(DUMMY_MERCH_DATA);
+    const [filteredDataMobile, setFilteredDataMobile] = useState<Product[]>([]);
 
-    // Desktop filtering
+    // --- Format Currency Helper ---
+    const formatCurrency = (price: number) => {
+        return new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0
+        }).format(price);
+    };
+
+    // --- Fetch Data API ---
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                setIsLoading(true);
+
+                // 1. Fetch Categories
+                const catResponse = await fetch(`${API_BASE_URL}/products/categories/merchandise`);
+                const catResult = await catResponse.json();
+                
+                if (catResult.success) {
+                    setCategories(catResult.data);
+                }
+
+                // 2. Fetch All Merchandise Products
+                const prodResponse = await fetch(`${API_BASE_URL}/products/merchandise`);
+                const prodResult = await prodResponse.json();
+
+                if (prodResult.success) {
+                    setAllProducts(prodResult.data);
+                    // Set initial filtered data
+                    setFilteredDataDesktop(prodResult.data);
+                    setFilteredDataMobile(prodResult.data);
+                }
+
+            } catch (error) {
+                console.error("Failed to fetch data:", error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+    // --- Desktop Filtering Logic ---
     useEffect(() => {
         if (selectedCategoriesDesktop.length === 0) {
-            setFilteredDataDesktop(DUMMY_MERCH_DATA);
+            setFilteredDataDesktop(allProducts);
         } else {
-            const filtered = DUMMY_MERCH_DATA.filter(item => 
-                selectedCategoriesDesktop.some(category => 
-                    item.category.toLowerCase() === category.toLowerCase()
+            const filtered = allProducts.filter(item => 
+                selectedCategoriesDesktop.some(categoryName => 
+                    item.category?.name.toLowerCase() === categoryName.toLowerCase()
                 )
             );
             setFilteredDataDesktop(filtered);
         }
-    }, [selectedCategoriesDesktop]);
+    }, [selectedCategoriesDesktop, allProducts]);
 
-    // Mobile filtering
+    // --- Mobile Filtering Logic ---
     useEffect(() => {
         if (selectedCategoryMobile === "Semua") {
-            setFilteredDataMobile(DUMMY_MERCH_DATA);
+            setFilteredDataMobile(allProducts);
         } else {
-            const filtered = DUMMY_MERCH_DATA.filter(
-                item => item.category.toLowerCase() === selectedCategoryMobile.toLowerCase()
+            const filtered = allProducts.filter(
+                item => item.category?.name.toLowerCase() === selectedCategoryMobile.toLowerCase()
             );
             setFilteredDataMobile(filtered);
         }
-    }, [selectedCategoryMobile]);
+    }, [selectedCategoryMobile, allProducts]);
 
-    const handleCheckboxChange = (category: string) => {
+    const handleCheckboxChange = (categoryName: string) => {
         setSelectedCategoriesDesktop(prev => {
-            if (prev.includes(category)) {
-                return prev.filter(c => c !== category);
+            if (prev.includes(categoryName)) {
+                return prev.filter(c => c !== categoryName);
             } else {
-                return [...prev, category];
+                return [...prev, categoryName];
             }
         });
     };
@@ -167,16 +153,7 @@ const MerchList = () => {
                         <div className="w-full flex gap-6 pb-16">
                             {/* Filter Sidebar with Checkboxes */}
                             <div className="w-64 flex-shrink-0">
-<div className="
-  bg-gradient-to-b from-[#FFFFFF] to-[#D1F4FC]
-  rounded-3xl
-  shadow-2xl
-  p-6
-  backdrop-blur-md
-  border border-white/30
-  sticky top-24
-">
-
+                                <div className="bg-gradient-to-b from-[#FFFFFF] to-[#D1F4FC] rounded-3xl shadow-2xl p-6 backdrop-blur-md border border-white/30 sticky top-24">
                                     <div className="flex items-center gap-2 mb-6">
                                         <svg className="w-5 h-5 text-[#3d2314]" fill="currentColor" viewBox="0 0 20 20">
                                             <path fillRule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z" clipRule="evenodd" />
@@ -185,41 +162,41 @@ const MerchList = () => {
                                     </div>
                                     
                                     <div className="space-y-3">
-                                        {CATEGORIES.map((category) => (
-                                            <label
-                                                key={category}
-                                                className="flex items-center gap-3 cursor-pointer group"
-                                            >
-                                                <div className="relative">
-                                                    <input
-                                                        type="checkbox"
-                                                        checked={selectedCategoriesDesktop.includes(category)}
-                                                        onChange={() => handleCheckboxChange(category)}
-                                                        className="w-5 h-5 rounded border-2 border-gray-300 text-[#5B9BD5] focus:ring-2 focus:ring-[#5B9BD5] cursor-pointer"
-                                                    />
-                                                </div>
-                                                <span className="text-sm font-medium text-[#3d2314] group-hover:text-[#5B9BD5] transition-colors">
-                                                    {category}
-                                                </span>
-                                            </label>
-                                        ))}
+                                        {isLoading ? (
+                                            <p className="text-sm text-gray-500">Loading categories...</p>
+                                        ) : (
+                                            categories.map((category) => (
+                                                <label
+                                                    key={category.id}
+                                                    className="flex items-center gap-3 cursor-pointer group"
+                                                >
+                                                    <div className="relative">
+                                                        <input
+                                                            type="checkbox"
+                                                            checked={selectedCategoriesDesktop.includes(category.name)}
+                                                            onChange={() => handleCheckboxChange(category.name)}
+                                                            className="w-5 h-5 rounded border-2 border-gray-300 text-[#5B9BD5] focus:ring-2 focus:ring-[#5B9BD5] cursor-pointer"
+                                                        />
+                                                    </div>
+                                                    <span className="text-sm font-medium text-[#3d2314] group-hover:text-[#5B9BD5] transition-colors">
+                                                        {category.name}
+                                                    </span>
+                                                </label>
+                                            ))
+                                        )}
                                     </div>
                                 </div>
                             </div>
 
                             {/* Products Grid */}
                             <div className="flex-1">
-<div className="
-  bg-gradient-to-b from-[#FFFFFF] to-[#D1F4FC]
-  rounded-3xl
-  shadow-2xl
-  p-6
-  backdrop-blur-md
-  border border-white/30
-  sticky top-24
-">
-
-                                    {filteredDataDesktop.length === 0 ? (
+                                <div className="bg-gradient-to-b from-[#FFFFFF] to-[#D1F4FC] rounded-3xl shadow-2xl p-6 backdrop-blur-md border border-white/30 sticky top-24">
+                                    {isLoading ? (
+                                        <div className="text-center py-20">
+                                            <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#135D66] mx-auto mb-4"></div>
+                                            <p className="text-gray-600">Loading products...</p>
+                                        </div>
+                                    ) : filteredDataDesktop.length === 0 ? (
                                         <div className="text-center py-20">
                                             <p className="text-gray-600 text-lg">No items found in selected categories</p>
                                         </div>
@@ -233,7 +210,19 @@ const MerchList = () => {
                                                 >
                                                     {/* Image Container */}
                                                     <div className="aspect-[4/3] bg-gradient-to-br from-[#89CFF0] to-[#5FB8D9] relative overflow-hidden rounded-2xl mb-4">
-                                                        <div className="w-full h-full flex items-center justify-center">
+                                                        {item.image ? (
+                                                            <img 
+                                                                src={`${IMAGE_BASE_URL}${item.image}`} 
+                                                                alt={item.name}
+                                                                className="w-full h-full object-cover"
+                                                                onError={(e) => {
+                                                                    (e.target as HTMLImageElement).style.display = 'none';
+                                                                    (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden');
+                                                                }}
+                                                            />
+                                                        ) : null}
+                                                        
+                                                        <div className={`w-full h-full flex items-center justify-center absolute inset-0 ${item.image ? 'hidden' : ''}`}>
                                                             <svg className="w-20 h-20 text-white/50" fill="currentColor" viewBox="0 0 20 20">
                                                                 <path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" />
                                                             </svg>
@@ -242,11 +231,11 @@ const MerchList = () => {
 
                                                     {/* Info Container */}
                                                     <div className="px-2">
-                                                        <h3 className="font-bold text-[#3d2314] text-lg mb-3 line-clamp-2">
+                                                        <h3 className="font-bold text-[#3d2314] text-lg mb-3 line-clamp-2 min-h-[3.5rem]">
                                                             {item.name}
                                                         </h3>
                                                         <p className="text-[#8B4513] font-bold text-xl mb-2">
-                                                            {item.price}
+                                                            {formatCurrency(item.price)}
                                                         </p>
                                                         <p className="text-gray-500 text-sm font-medium">
                                                             Stocks Available: {item.stock}
@@ -318,12 +307,13 @@ const MerchList = () => {
                                     >
                                         Semua
                                     </button>
-                                    {CATEGORIES.map((category) => (
+                                    
+                                    {categories.map((category) => (
                                         <button
-                                            key={category}
-                                            onClick={() => setSelectedCategoryMobile(category)}
+                                            key={category.id}
+                                            onClick={() => setSelectedCategoryMobile(category.name)}
                                             className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap flex-shrink-0 ${
-                                                selectedCategoryMobile === category
+                                                selectedCategoryMobile === category.name
                                                     ? 'bg-[#5B9BD5] text-white shadow-lg'
                                                     : 'bg-gray-100 text-[#3d2314]'
                                             }`}
@@ -338,7 +328,12 @@ const MerchList = () => {
                         {/* Products Grid */}
                         <div className="px-4 pb-8">
                             <div className="bg-white/95 rounded-2xl shadow-xl p-4 backdrop-blur-md border border-white/30">
-                                {filteredDataMobile.length === 0 ? (
+                                {isLoading ? (
+                                    <div className="text-center py-10">
+                                        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-[#135D66] mx-auto mb-2"></div>
+                                        <p className="text-xs text-gray-500">Loading...</p>
+                                    </div>
+                                ) : filteredDataMobile.length === 0 ? (
                                     <div className="text-center py-16">
                                         <p className="text-gray-600 text-sm">No items found in this category</p>
                                     </div>
@@ -350,22 +345,34 @@ const MerchList = () => {
                                                 onClick={() => navigate(`/product/${item.id}`)}
                                                 className="bg-white rounded-3xl shadow-lg active:scale-95 transition-transform p-3"
                                             >
-                                                <div className="aspect-[4/3] bg-gradient-to-br from-[#89CFF0] to-[#5FB8D9] relative rounded-2xl mb-3">
-                                                    <div className="w-full h-full flex items-center justify-center">
+                                                <div className="aspect-[4/3] bg-gradient-to-br from-[#89CFF0] to-[#5FB8D9] relative rounded-2xl mb-3 overflow-hidden">
+                                                    {item.image ? (
+                                                        <img 
+                                                            src={`${IMAGE_BASE_URL}${item.image}`} 
+                                                            alt={item.name}
+                                                            className="w-full h-full object-cover"
+                                                            onError={(e) => {
+                                                                (e.target as HTMLImageElement).style.display = 'none';
+                                                                (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden');
+                                                            }}
+                                                        />
+                                                    ) : null}
+
+                                                    <div className={`w-full h-full flex items-center justify-center absolute inset-0 ${item.image ? 'hidden' : ''}`}>
                                                         <svg className="w-12 h-12 text-white/50" fill="currentColor" viewBox="0 0 20 20">
                                                             <path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" />
                                                         </svg>
                                                     </div>
                                                 </div>
                                                 <div className="px-1">
-                                                    <h3 className="font-bold text-[#3d2314] text-base mb-2 line-clamp-2">
+                                                    <h3 className="font-bold text-[#3d2314] text-base mb-2 line-clamp-2 min-h-[2.5rem]">
                                                         {item.name}
                                                     </h3>
                                                     <p className="text-[#8B4513] font-bold text-base mb-1">
-                                                        {item.price}
+                                                        {formatCurrency(item.price)}
                                                     </p>
                                                     <p className="text-gray-500 text-xs font-medium">
-                                                        Stocks Available: {item.stock}
+                                                        Stocks: {item.stock}
                                                     </p>
                                                 </div>
                                             </div>
