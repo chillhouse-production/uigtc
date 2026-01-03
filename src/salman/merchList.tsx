@@ -23,16 +23,6 @@ interface Product {
 const API_BASE_URL = 'https://uigtc.id/api';
 const IMAGE_BASE_URL = 'https://uigtc.id'; // Base URL untuk gambar
 
-const getImageUrl = (imagePath: string | null) => {
-    if (!imagePath) return 'https://via.placeholder.com/300?text=No+Image';
-    
-    // Jika path sudah ada http (misal dari google), biarkan
-    if (imagePath.startsWith('http')) return imagePath;
-    
-    // Gabungkan Domain + Path
-    return `${IMAGE_BASE_URL}${imagePath}`;
-};
-
 const MerchList = () => {
     const navigate = useNavigate();
 

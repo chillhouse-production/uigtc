@@ -25,7 +25,6 @@ import bgBiruMuda from '../assets/BackGroundBiruMuda.png'
 
 
 export default function MainPage() {
-    const { user, logout } = useAuth()
     const [mounted, setMounted] = useState(false)
     const [showPopup1, setShowPopup1] = useState(false);
     const [showPopup2, setShowPopup2] = useState(false);
