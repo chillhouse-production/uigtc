@@ -6,6 +6,7 @@ import iconProfilePutih from '../assets/IconProfilePutih.svg';
 import iconHome from '../assets/IconRumah.svg';
 import iconToko from '../assets/IconToko.svg';
 import iconKeranjang from '../assets/IconKeranjang.svg';
+import iconHistory from '../assets/IconHistory.svg'
 import LogoBulat from '../assets/LogoUIGTCKotak.svg';
 
 const Navbar = () => {
@@ -21,19 +22,22 @@ const Navbar = () => {
 
   const menuItemsLoggedOut = [
     { id: 'home', icon: iconHome, path: '/', label: 'Home' },
+    { id: 'toko', icon: iconToko, path: '/merchlist', label: 'Merchandise' },
+    { id: 'keranjang', icon: iconKeranjang, path: '/cart', label: 'Cart' },
+    { id: 'history', icon: iconHistory, path: '/history', label: 'History'}
   ];
 
   const menuItemsLoggedIn = [
     { id: 'home', icon: iconHome, path: '/', label: 'Home' },
     { id: 'toko', icon: iconToko, path: '/merchlist', label: 'Merchandise' },
-    { id: 'keranjang', icon: iconKeranjang, path: '/', label: 'Cart' },
+    { id: 'keranjang', icon: iconKeranjang, path: '/cart', label: 'Cart' },
+    { id: 'history', icon: iconHistory, path: '/history', label: 'History'},
   ];
 
   const menuItems = isLoggedIn ? menuItemsLoggedIn : menuItemsLoggedOut;
 
   return (
     <>
-      {/* Desktop Navbar */}
       <nav className="fixed top-0 left-0 right-0 hidden md:block z-[100]">
         <div className="max-w-[2000px] mx-auto px-4 sm:px-6 lg:px-8 border-l border-r border-[#3d2314]/30 bg-white shadow-md">
           <div className="flex items-center justify-between h-16">

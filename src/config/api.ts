@@ -230,6 +230,40 @@ export const ordersApi = {
 };
 
 // ===========================================
+// Cart API
+// ===========================================
+export type CartItem = {
+  id: string;
+  quantity: number;
+  product: Product;
+};
+
+export type Cart = {
+  id: string;
+  userId: string;
+  items: CartItem[];
+  totalAmount: number;
+  createdAt: string;
+  updatedAt: string;
+};
+
+export const cartApi = {
+  // Get cart
+  get: () => apiGet<Cart>('/cart'),
+
+  // Add item to cart
+  addItem: (data: { productId: string; quantity: number }) => 
+    apiPost<Cart>('/cart', data),
+
+  // Remove item from cart
+  removeItem: (itemId: string) => apiDelete<Cart>(`/cart/${itemId}`),
+
+  // Update item quantity (if available)
+  updateItem: (itemId: string, quantity: number) => 
+    apiPut<Cart>(`/cart/${itemId}`, { quantity }),
+};
+
+// ===========================================
 // File Upload Helper
 // ===========================================
 export async function apiUpload<T>(

@@ -12,6 +12,7 @@ import SignUp from './SignUp';
 import './App.css';
 import MerchList from "./salman/merchList";
 import MerchDetails from "./salman/merchDetails";
+import CartPage from "./salman/cartDetails";
 
 const ProtectedRoute = ({ children }) => {
   const { user } = useAuth();
@@ -37,6 +38,8 @@ export default function App() {
       <Route path="/transactionsuccess" element={<TransactionSuccessPage />} />
       <Route path="/history" element={<HistoryPage />} />
       <Route path="/merchlist" element={<MerchList/>}/>
+      <Route path="/cart" element={<CartPage/>}/>
+
       <Route path="/product/:id" element={<MerchDetails/>}/>
       <Route path="/auth" element={
         <>

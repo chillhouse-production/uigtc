@@ -243,13 +243,13 @@ export default function ProfilePage() {
                             onClick={() => navigate('/history')}
                             className="px-6 py-2 rounded-lg bg-[#3d8c6d] text-white font-bold hover:bg-[#2d7c5d] transition-colors shadow-lg"
                         >
-                            📦 Order History
+                            Order History
                         </button>
                         <button
                             onClick={handleLogout}
                             className="px-6 py-2 rounded-lg bg-red-500 text-white font-bold hover:bg-red-600 transition-colors shadow-lg"
                         >
-                            🚪 Logout
+                            Logout
                         </button>
                     </div>
                 </div>
