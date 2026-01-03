@@ -3,8 +3,6 @@ import { useEffect, useState } from "react"
 import Navbar from "./navBar"
 import Footer from "./footer"
 import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-
 import judulImg from '../assets/UIGTC-judul.png'
 import hartaTengah from '../assets/Hartakarun-Tengah.png'
 import batuKanan from '../assets/Batu-Kanan.png'

@@ -1,6 +1,5 @@
-import { Routes, Route, Navigate } from "react-router-dom"
+import { Routes, Route, } from "react-router-dom"
 import { useState } from 'react';
-import { useAuth } from './context/AuthContext';
 import MainPage from "./salman/mainPage"
 import ProductsPage from "./pages/ProductsPage"
 import ProfilePage from "./pages/ProfilePage"
