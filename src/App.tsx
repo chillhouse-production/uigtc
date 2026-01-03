@@ -14,18 +14,6 @@ import MerchList from "./salman/merchList";
 import MerchDetails from "./salman/merchDetails";
 import CartPage from "./salman/cartDetails";
 
-const ProtectedRoute = ({ children }) => {
-  const { user } = useAuth();
-  if (!user) return <Navigate to="/auth" replace />;
-  return children;
-};
-
-const PublicRoute = ({ children }) => {
-  const { user } = useAuth();
-  if (user) return <Navigate to="/" replace />;
-  return children;
-};
-
 export default function App() {
   const [currentPage, setCurrentPage] = useState('signin');
 
