@@ -554,7 +554,7 @@
       const category = document.getElementById('categoryFilter').value;
       const endpoint = category 
         ? `/products/merchandise?category=${category}`
-        : '/products/merchandise';
+        : '/products/tickets';
       
       const { data, ok } = await apiCall(endpoint);
       if (ok && data.success && data.data) {
