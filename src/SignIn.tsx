@@ -1,7 +1,8 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from './context/AuthContext';
 import './SignIn.css';
 
-// Import assets
 import cloudLeft from './assets/images/cloud-left.svg';
 import cloudRight from './assets/images/cloud-right.svg';
 import wavesBottle from './assets/images/waves-bottle.svg';
@@ -21,24 +22,52 @@ import birdMobile1 from './assets/images/birds-mobile/Vector 72.svg';
 import birdMobile2 from './assets/images/birds-mobile/Vector 73.svg';
 import birdMobile3 from './assets/images/birds-mobile/Vector 74.svg';
 
-
 interface SignInProps {
     onSwitchToSignUp: () => void;
 }
 
 const SignIn = ({ onSwitchToSignUp }: SignInProps) => {
+    const navigate = useNavigate();
+    const { login } = useAuth();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
+    
+    const [isLoading, setIsLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
 
     const togglePasswordVisibility = () => {
         setShowPassword(!showPassword);
     };
 
-    const handleSignIn = (e: React.FormEvent) => {
+    const handleSignIn = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log('Sign In Attempt:', { email, password });
-        // Add auth logic here
+        setIsLoading(true);
+
+        try {
+            const response = await fetch('https://uigtc.id/api/auth/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ email, password }),
+            });
+
+            const data = await response.json();
+
+            if (response.ok && data.success) {
+                login(data.data.token, data.data.user);
+                console.log('Login Berhasil:', data.data.user);
+                navigate('/');
+            } else {
+                setErrorMessage(data.message || 'Login gagal. Periksa kembali email dan password Anda.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            setErrorMessage('Terjadi kesalahan koneksi. Silakan coba lagi.');
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -69,6 +98,21 @@ const SignIn = ({ onSwitchToSignUp }: SignInProps) => {
             <div className="signin-card">
                 <h1 className="signin-title">SIGN IN</h1>
 
+                {errorMessage && (
+                    <div style={{ 
+                        backgroundColor: 'rgba(220, 38, 38, 0.2)', 
+                        color: '#ffdddd', 
+                        padding: '10px', 
+                        borderRadius: '8px', 
+                        marginBottom: '15px',
+                        fontSize: '0.9rem',
+                        textAlign: 'center',
+                        border: '1px solid rgba(220, 38, 38, 0.5)'
+                    }}>
+                        {errorMessage}
+                    </div>
+                )}
+
                 <form className="signin-form" onSubmit={handleSignIn}>
                     <div className="input-group">
                         <label htmlFor="email">Email</label>
@@ -81,6 +125,7 @@ const SignIn = ({ onSwitchToSignUp }: SignInProps) => {
                                 onChange={(e) => setEmail(e.target.value)}
                                 className="form-input"
                                 required
+                                disabled={isLoading} // Disable saat loading
                             />
                         </div>
                     </div>
@@ -96,16 +141,15 @@ const SignIn = ({ onSwitchToSignUp }: SignInProps) => {
                                 onChange={(e) => setPassword(e.target.value)}
                                 className="form-input"
                                 required
+                                disabled={isLoading}
                             />
-                            <span className="eye-icon" onClick={togglePasswordVisibility}>
+                            <span className="eye-icon" onClick={togglePasswordVisibility} style={{ cursor: 'pointer' }}>
                                 {showPassword ? (
-                                    // Simple Eye Open Icon SVG
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                         <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
                                         <circle cx="12" cy="12" r="3"></circle>
                                     </svg>
                                 ) : (
-                                    // Simple Eye Closed/Slash Icon SVG
                                     <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                         <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path>
                                         <line x1="1" y1="1" x2="23" y2="23"></line>
@@ -115,13 +159,18 @@ const SignIn = ({ onSwitchToSignUp }: SignInProps) => {
                         </div>
                     </div>
 
-                    <button type="submit" className="signin-button">
-                        Sign In
+                    <button 
+                        type="submit" 
+                        className="signin-button" 
+                        disabled={isLoading}
+                        style={{ opacity: isLoading ? 0.7 : 1, cursor: isLoading ? 'not-allowed' : 'pointer' }}
+                    >
+                        {isLoading ? 'Loading...' : 'Sign In'}
                     </button>
                 </form>
 
                 <p className="signup-link-text">
-                    Don't Have An Account? <span className="signup-link" onClick={onSwitchToSignUp}>Sign Up</span>
+                    Don't Have An Account? <span className="signup-link" onClick={onSwitchToSignUp} style={{cursor: 'pointer'}}>Sign Up</span>
                 </p>
             </div>
         </div>

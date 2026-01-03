@@ -600,14 +600,14 @@
             ...(token ? { 'Authorization': `Bearer ${token}` } : {})
           }
         };
-        
+
         if (body) {
           options.body = JSON.stringify(body);
         }
-        
+
         const response = await fetch(`${API_BASE_URL}${endpoint}`, options);
         const data = await response.json();
-        
+
         showResponse(data, response.ok);
         return { data, ok: response.ok };
       } catch (error) {
@@ -615,7 +615,7 @@
         return { data: null, ok: false };
       }
     }
-    
+
     async function register() {
       const name = document.getElementById('regName').value.trim();
       const email = document.getElementById('regEmail').value.trim();

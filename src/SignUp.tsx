@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { authApi } from './config/api';
 import './SignIn.css';
 
 // Import assets
@@ -37,14 +38,63 @@ const SignUp = ({ onSwitchToSignIn }: SignUpProps) => {
 
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
+    const [errorMessage, setErrorMessage] = useState('');
+    const [successMessage, setSuccessMessage] = useState('');
 
     const togglePasswordVisibility = () => setShowPassword(!showPassword);
     const toggleConfirmPasswordVisibility = () => setShowConfirmPassword(!showConfirmPassword);
 
-    const handleSignUp = (e: React.FormEvent) => {
+    const handleSignUp = async (e: React.FormEvent) => {
         e.preventDefault();
-        console.log('Sign Up Attempt:', { fullName, phoneNumber, school, email, password, confirmPassword });
-        // Add auth logic here
+        setErrorMessage('');
+        setSuccessMessage('');
+
+        // Validasi
+        if (password !== confirmPassword) {
+            setErrorMessage('Password dan Konfirmasi Password tidak sama!');
+            return;
+        }
+
+        if (password.length < 6) {
+            setErrorMessage('Password minimal 6 karakter!');
+            return;
+        }
+
+        setIsLoading(true);
+
+        try {
+            const response = await authApi.register({
+                name: fullName,
+                email,
+                password,
+                phoneNumber,
+                schoolOrigin: school
+            });
+
+            if (response.success) {
+                setSuccessMessage('Registrasi berhasil! Silakan cek email untuk verifikasi, lalu login.');
+                // Reset form
+                setFullName('');
+                setPhoneNumber('');
+                setSchool('');
+                setEmail('');
+                setPassword('');
+                setConfirmPassword('');
+                
+                // Redirect ke login setelah 2 detik
+                setTimeout(() => {
+                    onSwitchToSignIn();
+                }, 2000);
+            } else {
+                setErrorMessage(response.message || 'Registrasi gagal. Silakan coba lagi.');
+            }
+        } catch (error) {
+            console.error('Error:', error);
+            setErrorMessage(error instanceof Error ? error.message : 'Terjadi kesalahan. Silakan coba lagi.');
+        } finally {
+            setIsLoading(false);
+        }
     };
 
     return (
@@ -74,6 +124,36 @@ const SignUp = ({ onSwitchToSignIn }: SignUpProps) => {
             {/* Glassmorphism Card */}
             <div className="signin-card signup-mode">
                 <h1 className="signin-title">SIGN UP</h1>
+
+                {errorMessage && (
+                    <div style={{ 
+                        backgroundColor: 'rgba(220, 38, 38, 0.2)', 
+                        color: '#ffdddd', 
+                        padding: '10px', 
+                        borderRadius: '8px', 
+                        marginBottom: '15px',
+                        fontSize: '0.9rem',
+                        textAlign: 'center',
+                        border: '1px solid rgba(220, 38, 38, 0.5)'
+                    }}>
+                        {errorMessage}
+                    </div>
+                )}
+
+                {successMessage && (
+                    <div style={{ 
+                        backgroundColor: 'rgba(34, 197, 94, 0.2)', 
+                        color: '#bbffbb', 
+                        padding: '10px', 
+                        borderRadius: '8px', 
+                        marginBottom: '15px',
+                        fontSize: '0.9rem',
+                        textAlign: 'center',
+                        border: '1px solid rgba(34, 197, 94, 0.5)'
+                    }}>
+                        {successMessage}
+                    </div>
+                )}
 
                 <form className="signin-form" onSubmit={handleSignUp}>
 
@@ -181,8 +261,13 @@ const SignUp = ({ onSwitchToSignIn }: SignUpProps) => {
                         </div>
                     </div>
 
-                    <button type="submit" className="signin-button">
-                        Sign Up
+                    <button 
+                        type="submit" 
+                        className="signin-button"
+                        disabled={isLoading}
+                        style={{ opacity: isLoading ? 0.7 : 1, cursor: isLoading ? 'not-allowed' : 'pointer' }}
+                    >
+                        {isLoading ? 'Loading...' : 'Sign Up'}
                     </button>
                 </form>
 

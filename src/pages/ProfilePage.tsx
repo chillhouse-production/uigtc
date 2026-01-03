@@ -1,4 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
+import { authApi, type User } from '../config/api';
+import Navbar from "../salman/navBar";
 import LeftCloud from '../assets/Left Cloud_Profile.svg';
 import RightCloud from '../assets/Right Cloud_Profile.svg';
 import Bird1 from '../assets/burung-profile_1.svg';
@@ -7,11 +11,90 @@ import Laut from '../assets/laut-profile.svg';
 import Kapal from '../assets/kapal-profile.svg';
 
 export default function ProfilePage() {
+    const navigate = useNavigate();
+    const { user: authUser, logout } = useAuth();
     const [isEditing, setIsEditing] = useState(false);
+    const [user, setUser] = useState<User | null>(null);
+    const [loading, setLoading] = useState(true);
+    
+    // Form states
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        school: '',
+        phone: '',
+    });
+
+    useEffect(() => {
+        async function fetchUser() {
+            try {
+                const response = await authApi.me();
+                if (response.success && response.data) {
+                    setUser(response.data);
+                    setFormData({
+                        name: response.data.name || '',
+                        email: response.data.email || '',
+                        school: response.data.schoolOrigin || '',
+                        phone: response.data.phoneNumber || '',
+                    });
+                }
+            } catch (error) {
+                console.error('Failed to fetch user:', error);
+            } finally {
+                setLoading(false);
+            }
+        }
+        
+        if (authUser) {
+            fetchUser();
+        } else {
+            setLoading(false);
+        }
+    }, [authUser]);
+
+    const handleLogout = async () => {
+        try {
+            await authApi.logout();
+            logout();
+            navigate('/auth');
+        } catch (error) {
+            console.error('Logout error:', error);
+            logout();
+            navigate('/auth');
+        }
+    };
+
+    if (loading) {
+        return (
+            <div className="min-h-screen flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #7AABB6 19%, #98AE9C 51%, #B6B282 72%, #FEDE89 96%)' }}>
+                <div className="text-center">
+                    <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#1a3c40] mx-auto"></div>
+                    <p className="mt-4 text-[#1a3c40]">Loading...</p>
+                </div>
+            </div>
+        );
+    }
+
+    if (!authUser && !user) {
+        return (
+            <div className="min-h-screen flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #7AABB6 19%, #98AE9C 51%, #B6B282 72%, #FEDE89 96%)' }}>
+                <div className="text-center bg-white p-8 rounded-2xl shadow-xl">
+                    <h2 className="text-2xl font-bold text-[#1a3c40] mb-4">Anda belum login</h2>
+                    <button 
+                        onClick={() => navigate('/auth')}
+                        className="px-8 py-2 rounded-lg bg-[#1a5c6d] text-white font-bold hover:bg-[#154a57] transition-colors"
+                    >
+                        Login
+                    </button>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="relative flex h-screen items-center justify-center overflow-hidden" style={{ background: 'linear-gradient(135deg, #7AABB6 19%, #98AE9C 51%, #B6B282 72%, #FEDE89 96%)' }}>
             {/* Cloud Assets */}
+            <Navbar />
             <img
                 src={LeftCloud}
                 alt="Cloud Left"
@@ -79,7 +162,8 @@ export default function ProfilePage() {
                         <label className="block text-[#1a3c40] font-semibold mb-1 ml-1">Full Name</label>
                         <input
                             type="text"
-                            value="John Doe"
+                            value={formData.name}
+                            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                             disabled={!isEditing}
                             className={`w-full px-4 py-3 rounded-full border-2 ${isEditing ? 'bg-white/50 border-[#1a3c40]/50' : 'bg-white/30 border-[#1a3c40]/30'} text-[#1a3c40] font-medium outline-none focus:border-[#1a3c40] transition-colors`}
                         />
@@ -90,8 +174,10 @@ export default function ProfilePage() {
                         <label className="block text-[#1a3c40] font-semibold mb-1 ml-1">School</label>
                         <input
                             type="text"
-                            value="SMAN 1 Makassar"
+                            value={formData.school}
+                            onChange={(e) => setFormData({ ...formData, school: e.target.value })}
                             disabled={!isEditing}
+                            placeholder="Masukkan sekolah Anda"
                             className={`w-full px-4 py-3 rounded-full border-2 ${isEditing ? 'bg-white/50 border-[#1a3c40]/50' : 'bg-white/30 border-[#1a3c40]/30'} text-[#1a3c40] font-medium outline-none focus:border-[#1a3c40] transition-colors`}
                         />
                     </div>
@@ -101,8 +187,10 @@ export default function ProfilePage() {
                         <label className="block text-[#1a3c40] font-semibold mb-1 ml-1">Phone Number</label>
                         <input
                             type="text"
-                            value="081234567890"
+                            value={formData.phone}
+                            onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                             disabled={!isEditing}
+                            placeholder="Masukkan nomor telepon"
                             className={`w-full px-4 py-3 rounded-full border-2 ${isEditing ? 'bg-white/50 border-[#1a3c40]/50' : 'bg-white/30 border-[#1a3c40]/30'} text-[#1a3c40] font-medium outline-none focus:border-[#1a3c40] transition-colors`}
                         />
                     </div>
@@ -112,49 +200,58 @@ export default function ProfilePage() {
                         <label className="block text-[#1a3c40] font-semibold mb-1 ml-1">Email</label>
                         <input
                             type="email"
-                            value="Kkkkkkk@gmail.com"
-                            disabled={!isEditing}
-                            className={`w-full px-4 py-3 rounded-full border-2 ${isEditing ? 'bg-white/50 border-[#1a3c40]/50' : 'bg-white/30 border-[#1a3c40]/30'} text-[#1a3c40] font-medium outline-none focus:border-[#1a3c40] transition-colors`}
+                            value={formData.email}
+                            disabled={true}
+                            className="w-full px-4 py-3 rounded-full border-2 bg-white/30 border-[#1a3c40]/30 text-[#1a3c40] font-medium outline-none"
                         />
                     </div>
 
-                    {/* Password */}
-                    <div>
-                        <label className="block text-[#1a3c40] font-semibold mb-1 ml-1">Password</label>
-                        <input
-                            type="password"
-                            value="********"
-                            disabled={!isEditing}
-                            className={`w-full px-4 py-3 rounded-full border-2 ${isEditing ? 'bg-white/50 border-[#1a3c40]/50' : 'bg-white/30 border-[#1a3c40]/30'} text-[#1a3c40] font-medium outline-none focus:border-[#1a3c40] transition-colors`}
-                        />
-                    </div>
+                    {/* Email Verification Status */}
+
                 </div>
 
                 {/* Buttons */}
-                <div className="mt-8 flex justify-center gap-4">
-                    {isEditing ? (
-                        <>
+                <div className="mt-8 flex flex-col gap-4">
+                    <div className="flex justify-center gap-4">
+                        {isEditing ? (
+                            <>
+                                <button
+                                    onClick={() => setIsEditing(false)}
+                                    className="px-8 py-2 rounded-lg bg-[#e89c3f] text-[#1a3c40] font-bold text-lg hover:bg-[#d68b2e] transition-colors shadow-lg"
+                                >
+                                    Cancel
+                                </button>
+                                <button
+                                    onClick={() => setIsEditing(false)}
+                                    className="px-10 py-2 rounded-lg bg-[#1a5c6d] text-white font-bold text-lg hover:bg-[#154a57] transition-colors shadow-lg"
+                                >
+                                    Save
+                                </button>
+                            </>
+                        ) : (
                             <button
-                                onClick={() => setIsEditing(false)}
-                                className="px-8 py-2 rounded-lg bg-[#e89c3f] text-[#1a3c40] font-bold text-lg hover:bg-[#d68b2e] transition-colors shadow-lg"
+                                onClick={() => setIsEditing(true)}
+                                className="px-8 py-2 rounded-lg bg-[#1a5c6d] text-white font-bold text-lg hover:bg-[#154a57] transition-colors shadow-lg"
                             >
-                                Cancel
+                                Edit Profile
                             </button>
-                            <button
-                                onClick={() => setIsEditing(false)}
-                                className="px-10 py-2 rounded-lg bg-[#1a5c6d] text-white font-bold text-lg hover:bg-[#154a57] transition-colors shadow-lg"
-                            >
-                                Save
-                            </button>
-                        </>
-                    ) : (
+                        )}
+                    </div>
+                    
+                    <div className="flex justify-center gap-4">
                         <button
-                            onClick={() => setIsEditing(true)}
-                            className="px-8 py-2 rounded-lg bg-[#1a5c6d] text-white font-bold text-lg hover:bg-[#154a57] transition-colors shadow-lg"
+                            onClick={() => navigate('/history')}
+                            className="px-6 py-2 rounded-lg bg-[#3d8c6d] text-white font-bold hover:bg-[#2d7c5d] transition-colors shadow-lg"
                         >
-                            Edit Profile
+                            📦 Order History
                         </button>
-                    )}
+                        <button
+                            onClick={handleLogout}
+                            className="px-6 py-2 rounded-lg bg-red-500 text-white font-bold hover:bg-red-600 transition-colors shadow-lg"
+                        >
+                            🚪 Logout
+                        </button>
+                    </div>
                 </div>
             </div>
 
