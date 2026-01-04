@@ -366,7 +366,7 @@ const MerchList = () => {
                                                     </div>
                                                 </div>
                                                 <div className="px-1">
-                                                    <h3 className="font- text-[#3d2314] text-base mb-2 line-clamp-2 min-h-[2.5rem]">
+                                                    <h3 className="font-bree text-[#3d2314] text-base mb-2 line-clamp-2 min-h-[2.5rem]">
                                                         {item.name}
                                                     </h3>
                                                     <p className="text-[#8B4513] font-bree text-base mb-1">
