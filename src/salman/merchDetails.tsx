@@ -144,242 +144,270 @@ const MerchDetails = () => {
 
     return (
         <>
-        <section className="relative overflow-hidden min-h-screen w-full bg-gradient-to-b from-[#EAB775] to-[#F3CC91] overflow-x-hidden flex justify-center">
-            {/* --- CUSTOM SUCCESS MODAL --- */}
-            {showSuccessModal && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
-                    <div className="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-6 relative overflow-hidden border-4 border-[#CD853F] animate-scale-up">
-                        <div className="absolute top-0 left-0 w-full h-2 bg-[#CD853F]"></div>
+            <section className="relative overflow-hidden min-h-screen w-full bg-gradient-to-b from-[#EAB775] to-[#F3CC91] overflow-x-hidden flex justify-center">
+                {/* --- CUSTOM SUCCESS MODAL --- */}
+                {showSuccessModal && (
+                    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
+                        <div className="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-6 relative overflow-hidden border-4 border-[#CD853F] animate-scale-up">
+                            <div className="absolute top-0 left-0 w-full h-2 bg-[#CD853F]"></div>
 
-                        <div className="text-center mt-2">
-                            <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 border border-green-200">
-                                <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path>
+                            <div className="text-center mt-2">
+                                <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 border border-green-200">
+                                    <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path>
+                                    </svg>
+                                </div>
+
+                                <h3 className="text-2xl font-bold text-[#3d2314] mb-2 font-serif">Berhasil Masuk Keranjang!</h3>
+                                <p className="text-gray-600 mb-6 text-sm">
+                                    <span className="font-bold text-[#CD853F]">{quantity}x {product.name}</span> telah ditambahkan.
+                                </p>
+
+                                <div className="flex flex-col gap-3">
+                                    <button
+                                        onClick={() => navigate('/cart')}
+                                        className="w-full py-3 bg-[#CD853F] hover:bg-[#B8732F] text-white font-bold rounded-xl shadow-lg transition-transform active:scale-95 flex items-center justify-center gap-2"
+                                    >
+                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                                        Lihat Keranjang
+                                    </button>
+
+                                    <button
+                                        onClick={() => setShowSuccessModal(false)}
+                                        className="w-full py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-xl transition-colors"
+                                    >
+                                        Lanjut Belanja
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                )}
+
+                {/* Main Container with Border - MATCHING FIRST CODE STRUCTURE */}
+                <div
+                    className="relative w-full max-w-[2000px] overflow-hidden border-l border-r border-[#3d2314]/30 flex flex-col items-center pt-24 bg-gradient-to-b from-[#EAB775] to-[#F3CC91]"
+                    style={{
+                        backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)), url(${listBg})`,
+                        backgroundSize: 'cover',
+                        backgroundPosition: 'center',
+                        backgroundRepeat: 'no-repeat'
+                    }}
+                >
+                    <Navbar />
+                    <div className="absolute inset-0 bg-gradient-to-b from-amber-200/30 to-amber-300/30"></div>
+
+                    {/* Content Container */}
+                    <div className="relative z-10 w-full max-w-[1600px] flex flex-col items-center px-8">
+
+                        {/* Back Button */}
+                        <div className="w-full mb-6">
+                            <button
+                                onClick={() => navigate('/merchlist')}
+                                className="flex items-center gap-2 text-black hover:text-black/50 transition-colors group bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full w-fit"
+                            >
+                                <svg className="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
                                 </svg>
-                            </div>
-
-                            <h3 className="text-2xl font-bold text-[#3d2314] mb-2 font-serif">Berhasil Masuk Keranjang!</h3>
-                            <p className="text-gray-600 mb-6 text-sm">
-                                <span className="font-bold text-[#CD853F]">{quantity}x {product.name}</span> telah ditambahkan.
-                            </p>
-
-                            <div className="flex flex-col gap-3">
-                                <button
-                                    onClick={() => navigate('/cart')}
-                                    className="w-full py-3 bg-[#CD853F] hover:bg-[#B8732F] text-white font-bold rounded-xl shadow-lg transition-transform active:scale-95 flex items-center justify-center gap-2"
-                                >
-                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                                    Lihat Keranjang
-                                </button>
-
-                                <button
-                                    onClick={() => setShowSuccessModal(false)}
-                                    className="w-full py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-xl transition-colors"
-                                >
-                                    Lanjut Belanja
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            )}
-
-            {/* Main Container with Border - MATCHING FIRST CODE STRUCTURE */}
-            <div
-                className="relative w-full max-w-[2000px] overflow-hidden border-l border-r border-[#3d2314]/30 flex flex-col items-center pt-24 bg-gradient-to-b from-[#EAB775] to-[#F3CC91]"
-                style={{
-                    backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)), url(${listBg})`,
-                    backgroundSize: 'cover',
-                    backgroundPosition: 'center',
-                    backgroundRepeat: 'no-repeat'
-                }}
-            >
-                <Navbar />
-                <div className="absolute inset-0 bg-gradient-to-b from-amber-200/30 to-amber-300/30"></div>
-
-                {/* Content Container */}
-                <div className="relative z-10 w-full max-w-[1600px] flex flex-col items-center px-8">
-                    
-                    {/* Back Button */}
-                    <div className="w-full mb-6">
-                        <button
-                            onClick={() => navigate('/merchlist')}
-                            className="flex items-center gap-2 text-black hover:text-black/50 transition-colors group bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full w-fit"
-                        >
-                            <svg className="w-5 h-5 group-hover:-translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-                            </svg>
-                            <span className="font-semibold">Kembali ke Daftar</span>
-                        </button>
-                    </div>
-
-                    {/* Product Details Container */}
-                    <div className="w-full pb-16">
-                        <div className="bg-gradient-to-b from-[#FFFFFF] to-[#D1F4FC] rounded-3xl shadow-2xl p-6 backdrop-blur-md border border-white/30 mb-8">
-                            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-
-                                {/* Left Side - Image Gallery */}
-                                <div className="space-y-4">
-                                    <div className="bg-white rounded-2xl p-4 shadow-md border border-gray-200">
-                                        <div className="aspect-[4/3] bg-gray-200 relative overflow-hidden rounded-2xl">
-                                            {product.image ? (
-                                                <img
-                                                    src={`${API_BASE_URL.replace('/api', '')}${product.image}`}
-                                                    alt={product.name}
-                                                    className="w-full h-full object-contain transition-transform duration-700 hover:scale-105"
-                                                    onError={(e) => {
-                                                        (e.target as HTMLImageElement).style.display = 'none';
-                                                        (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden');
-                                                    }}
-                                                />
-                                            ) : null}
-                                            
-                                            <div className={`w-full h-full flex items-center justify-center absolute inset-0 ${product.image ? 'hidden' : ''}`}>
-                                                <svg className="w-32 h-32 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                                                    <path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" />
-                                                </svg>
-                                            </div>
-
-                                            {product.stock <= 0 && (
-                                                <div className="absolute inset-0 bg-black/50 flex items-center justify-center backdrop-blur-sm">
-                                                    <span className="bg-red-500 text-white px-6 py-3 rounded-full font-bold text-xl shadow-lg rotate-[-10deg]">
-                                                        STOK HABIS
-                                                    </span>
-                                                </div>
-                                            )}
-                                        </div>
-                                    </div>
-
-                                    {/* Category Badge */}
-                                    {product.category && (
-                                        <div className="flex justify-center">
-                                            <span className="px-4 py-2 bg-[#E3FEF7] text-[#135D66] rounded-full font-semibold shadow-sm border border-[#135D66]/20">
-                                                {product.category.name}
-                                            </span>
-                                        </div>
-                                    )}
-                                </div>
-
-                                {/* Right Side - Product Info */}
-                                <div className="flex flex-col h-full">
-                                    <h1 className="text-3xl lg:text-4xl font-bold text-[#3d2314] mb-2 font-serif leading-tight">
-                                        {product.name}
-                                    </h1>
-
-                                    <div className="flex items-center gap-4 mb-6">
-                                        <p className="text-[#CD853F] font-bold text-3xl">
-                                            {formatCurrency(product.price)}
-                                        </p>
-                                        <div className="h-6 w-px bg-gray-300"></div>
-                                        <p className={`text-sm font-semibold ${product.stock > 0 ? 'text-green-600' : 'text-red-500'}`}>
-                                            {product.stock > 0 ? `Tersedia: ${product.stock} Unit` : 'Stok Habis'}
-                                        </p>
-                                    </div>
-
-                                    <div className="bg-white/50 rounded-xl p-4 mb-8 border border-white/50 flex-1">
-                                        <h3 className="font-bold text-[#3d2314] mb-2 text-sm uppercase tracking-wide opacity-70">Deskripsi Produk</h3>
-                                        <p className="text-gray-700 text-base leading-relaxed whitespace-pre-line">
-                                            {product.description || 'Tidak ada deskripsi untuk produk ini.'}
-                                        </p>
-                                    </div>
-
-                                    <div className="bg-white p-4 rounded-2xl shadow-lg border border-gray-100 mt-auto">
-                                        <div className="flex flex-col sm:flex-row gap-4 items-center">
-                                            <div className="flex items-center border-2 border-gray-200 rounded-xl overflow-hidden w-full sm:w-auto h-12 bg-gray-50">
-                                                <button
-                                                    onClick={() => handleQuantityChange('decrease')}
-                                                    disabled={product.stock <= 0 || isAddingToCart || quantity <= 1}
-                                                    className="w-12 h-full hover:bg-gray-200 text-[#3d2314] font-bold text-xl flex items-center justify-center transition-colors disabled:opacity-30"
-                                                >
-                                                    −
-                                                </button>
-                                                <div className="w-14 h-full flex items-center justify-center font-bold text-[#3d2314] bg-white border-x-2 border-gray-200">
-                                                    {quantity}
-                                                </div>
-                                                <button
-                                                    onClick={() => handleQuantityChange('increase')}
-                                                    disabled={product.stock <= 0 || isAddingToCart || quantity >= product.stock}
-                                                    className="w-12 h-full hover:bg-gray-200 text-[#3d2314] font-bold text-xl flex items-center justify-center transition-colors disabled:opacity-30"
-                                                >
-                                                    +
-                                                </button>
-                                            </div>
-
-                                            <button
-                                                onClick={handleAddToCart}
-                                                disabled={product.stock <= 0 || isAddingToCart}
-                                                className={`flex-1 w-full h-12 rounded-xl font-bold text-lg transition-all shadow-lg flex items-center justify-center gap-2 ${product.stock > 0 && !isAddingToCart
-                                                        ? 'bg-gradient-to-r from-[#CD853F] to-[#B8732F] text-white hover:shadow-orange-200/50 hover:scale-[1.02] active:scale-[0.98]'
-                                                        : 'bg-gray-300 text-gray-500 cursor-not-allowed'
-                                                    }`}
-                                            >
-                                                {isAddingToCart ? (
-                                                    <>
-                                                        <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
-                                                        Memproses...
-                                                    </>
-                                                ) : product.stock > 0 ? (
-                                                    <>
-                                                        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                                                        Add to Cart
-                                                    </>
-                                                ) : (
-                                                    'Stok Habis'
-                                                )}
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                                <span className="font-semibold">Kembali ke Daftar</span>
+                            </button>
                         </div>
 
-                        {/* Related Items Section */}
-                        {relatedItems.length > 0 && (
-                            <div className="bg-gradient-to-b from-[#FFFFFF] to-[#D1F4FC] rounded-3xl shadow-2xl p-6 backdrop-blur-md border border-white/30">
-                                <div className="flex items-center gap-3 mb-6">
-                                    <div className="w-1.5 h-8 bg-[#CD853F] rounded-full"></div>
-                                    <h2 className="text-2xl font-bold text-[#3d2314] font-serif">Mungkin Anda Suka</h2>
-                                </div>
+                        {/* Product Details Container */}
+                        <div className="w-full pb-16">
+                            <div className="bg-gradient-to-b from-[#FFFFFF] to-[#D1F4FC] rounded-3xl shadow-2xl p-6 backdrop-blur-md border border-white/30 mb-8">
+                                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
 
-                                <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-                                    {relatedItems.map((item) => (
-                                        <div
-                                            key={item.id}
-                                            onClick={() => navigate(`/product/${item.id}`)}
-                                            className="group cursor-pointer bg-white rounded-xl p-3 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100"
-                                        >
-                                            <div className="aspect-square bg-gray-100 rounded-lg mb-3 overflow-hidden relative">
-                                                {item.image ? (
+                                    {/* Left Side - Image Gallery */}
+                                    <div className="space-y-4">
+                                        <div className="bg-white rounded-2xl p-4 shadow-md border border-gray-200">
+                                            <div className="aspect-[4/3] bg-gray-200 relative overflow-hidden rounded-2xl">
+                                                {product.image ? (
                                                     <img
-                                                        src={`${API_BASE_URL.replace('/api', '')}${item.image}`}
-                                                        alt={item.name}
-                                                        className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                                        src={`${API_BASE_URL.replace('/api', '')}${product.image}`}
+                                                        alt={product.name}
+                                                        className="w-full h-full object-contain transition-transform duration-700 hover:scale-105"
                                                         onError={(e) => {
                                                             (e.target as HTMLImageElement).style.display = 'none';
                                                             (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden');
                                                         }}
                                                     />
                                                 ) : null}
-                                                <div className={`w-full h-full flex items-center justify-center absolute inset-0 bg-gray-200 ${item.image ? 'hidden' : ''}`}>
-                                                    <span className="text-2xl opacity-30">📦</span>
+
+                                                <div className={`w-full h-full flex items-center justify-center absolute inset-0 ${product.image ? 'hidden' : ''}`}>
+                                                    <svg className="w-32 h-32 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
+                                                        <path d="M4 3a2 2 0 00-2 2v10a2 2 0 002 2h12a2 2 0 002-2V5a2 2 0 00-2-2H4zm12 12H4l4-8 3 6 2-4 3 6z" />
+                                                    </svg>
                                                 </div>
+
+                                                {product.stock <= 0 && (
+                                                    <div className="absolute inset-0 bg-black/50 flex items-center justify-center backdrop-blur-sm">
+                                                        <span className="bg-red-500 text-white px-6 py-3 rounded-full font-bold text-xl shadow-lg rotate-[-10deg]">
+                                                            STOK HABIS
+                                                        </span>
+                                                    </div>
+                                                )}
                                             </div>
-                                            <h3 className="font-bold text-[#3d2314] text-sm mb-1 line-clamp-2 h-10 group-hover:text-[#CD853F] transition-colors">
-                                                {item.name}
-                                            </h3>
-                                            <p className="text-[#CD853F] font-bold text-sm">
-                                                {formatCurrency(item.price)}
+                                        </div>
+
+                                        {/* Category Badge */}
+                                        {product.category && (
+                                            <div className="flex justify-center">
+                                                <span className="px-4 py-2 bg-[#E3FEF7] text-[#135D66] rounded-full font-semibold shadow-sm border border-[#135D66]/20">
+                                                    {product.category.name}
+                                                </span>
+                                            </div>
+                                        )}
+                                    </div>
+
+                                    {/* Right Side - Product Info */}
+                                    <div className="flex flex-col h-full">
+                                        <h1 className="text-3xl lg:text-4xl font-bold text-[#3d2314] mb-2 font-serif leading-tight">
+                                            {product.name}
+                                        </h1>
+
+                                        <div className="flex items-center gap-4 mb-6">
+                                            <p className="text-[#CD853F] font-bold text-3xl">
+                                                {formatCurrency(product.price)}
+                                            </p>
+                                            <div className="h-6 w-px bg-gray-300"></div>
+                                            <p className={`text-sm font-semibold ${product.stock > 0 ? 'text-green-600' : 'text-red-500'}`}>
+                                                {product.stock > 0 ? `Tersedia: ${product.stock} Unit` : 'Stok Habis'}
                                             </p>
                                         </div>
-                                    ))}
+
+                                        <div className="bg-white/50 rounded-xl p-4 mb-8 border border-white/50 flex-1">
+                                            <h3 className="font-bold text-[#3d2314] mb-2 text-sm uppercase tracking-wide opacity-70">Deskripsi Produk</h3>
+                                            <p className="text-gray-700 text-base leading-relaxed whitespace-pre-line">
+                                                {product.description || 'Tidak ada deskripsi untuk produk ini.'}
+                                            </p>
+                                        </div>
+
+                                        <div className="bg-white p-4 rounded-2xl shadow-lg border border-gray-100 mt-auto">
+                                            <div className="flex flex-col sm:flex-row gap-4 items-center">
+                                                <div className="flex items-center gap-2 sm:gap-3 w-full sm:w-auto">
+                                                    <button
+                                                        onClick={() => handleQuantityChange('decrease')}
+                                                        disabled={product.stock <= 0 || isAddingToCart || quantity <= 1}
+                                                        className="
+            w-12 h-12 
+            rounded-xl 
+            border-2 border-gray-200 
+            bg-gray-50 hover:bg-gray-200 
+            text-[#3d2314] font-bold text-xl 
+            flex items-center justify-center 
+            transition-colors 
+            disabled:opacity-30
+        "
+                                                    >
+                                                        −
+                                                    </button>
+
+                                                    <div className="
+        flex-1 sm:flex-none sm:w-14 
+        h-12 
+        rounded-xl 
+        border-2 border-gray-200 
+        bg-white 
+        flex items-center justify-center 
+        font-bold text-[#3d2314]
+    ">
+                                                        {quantity}
+                                                    </div>
+
+                                                    <button
+                                                        onClick={() => handleQuantityChange('increase')}
+                                                        disabled={product.stock <= 0 || isAddingToCart || quantity >= product.stock}
+                                                        className="
+            w-12 h-12 
+            rounded-xl 
+            border-2 border-gray-200 
+            bg-gray-50 hover:bg-gray-200 
+            text-[#3d2314] font-bold text-xl 
+            flex items-center justify-center 
+            transition-colors 
+            disabled:opacity-30
+        "
+                                                    >
+                                                        +
+                                                    </button>
+                                                </div>
+
+                                                <button
+                                                    onClick={handleAddToCart}
+                                                    disabled={product.stock <= 0 || isAddingToCart}
+                                                    className={`flex-1 w-full h-12 rounded-xl font-bold text-lg transition-all shadow-lg flex items-center justify-center gap-2 ${product.stock > 0 && !isAddingToCart
+                                                        ? 'bg-gradient-to-r from-[#CD853F] to-[#B8732F] text-white hover:shadow-orange-200/50 hover:scale-[1.02] active:scale-[0.98]'
+                                                        : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+                                                        }`}
+                                                >
+                                                    {isAddingToCart ? (
+                                                        <>
+                                                            <span className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></span>
+                                                            Memproses...
+                                                        </>
+                                                    ) : product.stock > 0 ? (
+                                                        <>
+                                                            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                                                            Add to Cart
+                                                        </>
+                                                    ) : (
+                                                        'Stok Habis'
+                                                    )}
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
-                        )}
+
+                            {/* Related Items Section */}
+                            {relatedItems.length > 0 && (
+                                <div className="bg-gradient-to-b from-[#FFFFFF] to-[#D1F4FC] rounded-3xl shadow-2xl p-6 backdrop-blur-md border border-white/30">
+                                    <div className="flex items-center gap-3 mb-6">
+                                        <div className="w-1.5 h-8 bg-[#CD853F] rounded-full"></div>
+                                        <h2 className="text-2xl font-bold text-[#3d2314] font-serif">Mungkin Anda Suka</h2>
+                                    </div>
+
+                                    <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+                                        {relatedItems.map((item) => (
+                                            <div
+                                                key={item.id}
+                                                onClick={() => navigate(`/product/${item.id}`)}
+                                                className="group cursor-pointer bg-white rounded-xl p-3 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 border border-gray-100"
+                                            >
+                                                <div className="aspect-square bg-gray-100 rounded-lg mb-3 overflow-hidden relative">
+                                                    {item.image ? (
+                                                        <img
+                                                            src={`${API_BASE_URL.replace('/api', '')}${item.image}`}
+                                                            alt={item.name}
+                                                            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                                                            onError={(e) => {
+                                                                (e.target as HTMLImageElement).style.display = 'none';
+                                                                (e.target as HTMLImageElement).nextElementSibling?.classList.remove('hidden');
+                                                            }}
+                                                        />
+                                                    ) : null}
+                                                    <div className={`w-full h-full flex items-center justify-center absolute inset-0 bg-gray-200 ${item.image ? 'hidden' : ''}`}>
+                                                        <span className="text-2xl opacity-30">📦</span>
+                                                    </div>
+                                                </div>
+                                                <h3 className="font-bold text-[#3d2314] text-sm mb-1 line-clamp-2 h-10 group-hover:text-[#CD853F] transition-colors">
+                                                    {item.name}
+                                                </h3>
+                                                <p className="text-[#CD853F] font-bold text-sm">
+                                                    {formatCurrency(item.price)}
+                                                </p>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </div>
+                            )}
+                        </div>
                     </div>
+                    <Footer />
                 </div>
-                <Footer/>
-            </div>
-        </section>
+            </section>
         </>
     );
 };

@@ -220,7 +220,7 @@ export default function HistoryPage() {
                                     {order.items.map((item, i) => (
                                         <div key={i} className="flex gap-4 items-center">
                                             {/* Image with Fallback */}
-                                            <div className="w-20 h-14 rounded-md shadow-sm bg-gradient-to-br from-teal-400 to-teal-600 overflow-hidden flex-shrink-0">
+                                            <div className="w-20 h-14 rounded-md shadow-sm bg-gray-200 overflow-hidden flex-shrink-0">
                                                 {item.product?.image && (
                                                     <img 
                                                         src={`https://uigtc.id${item.product.image}`}

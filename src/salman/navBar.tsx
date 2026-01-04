@@ -78,10 +78,6 @@ const Navbar = () => {
                         </svg>
                         Riwayat Pesanan
                       </a>
-                      <a href="/cart" className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors">
-                        <img src={iconKeranjang} alt="Cart" className="h-5 w-5 mr-3" />
-                        Cart
-                      </a>
                       <button 
                         onClick={() => {
                           logout();
