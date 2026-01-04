@@ -3,7 +3,6 @@ import { useParams, useNavigate } from 'react-router-dom';
 import listBg from "../assets/merchListBg.png";
 import Navbar from './navBar';
 
-// Import dummy data (you can also fetch this from API or context)
 const DUMMY_MERCH_DATA = [
     {
         id: 1,
@@ -90,7 +89,6 @@ const MerchDetails = () => {
         }
     };
 
-    // Related items (excluding current product)
     const relatedItems = DUMMY_MERCH_DATA.filter(item => item.id !== product.id).slice(0, 4);
 
     return (
@@ -108,7 +106,6 @@ const MerchDetails = () => {
                 <div className="absolute inset-0 bg-gradient-to-b from-amber-200/30 to-amber-300/30"></div>
 
                 <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
-                    {/* Back Button */}
                     <button 
                         onClick={() => navigate('/merchlist')}
                         className="mb-6 flex items-center gap-2 text-white hover:text-white/80 transition-colors group bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full"
@@ -118,13 +115,10 @@ const MerchDetails = () => {
                         </svg>
                         <span className="font-semibold">Ini Adalah Baju</span>
                     </button>
-
-                    {/* Main Product Card */}
                     <div className="bg-gradient-to-b from-[#FFFFFF]/95 to-[#D1F4FC]/95 rounded-3xl shadow-2xl p-6 lg:p-8 backdrop-blur-md border border-white/30 mb-8">
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-                            {/* Left Side - Image Gallery */}
                             <div className="space-y-4">
-                                {/* Main Image */}
+
                                 <div className="bg-white rounded-2xl p-4 shadow-md">
                                     <div className="aspect-[4/3] bg-gradient-to-br from-[#1E3A5F] to-[#2A4A6F] relative overflow-hidden rounded-xl">
                                         <div className="w-full h-full flex items-center justify-center">
@@ -134,8 +128,6 @@ const MerchDetails = () => {
                                         </div>
                                     </div>
                                 </div>
-
-                                {/* Thumbnail Gallery */}
                                 <div className="grid grid-cols-4 gap-3">
                                     {product.thumbnails.map((thumb, index) => (
                                         <button
@@ -163,15 +155,10 @@ const MerchDetails = () => {
                                     ))}
                                 </div>
                             </div>
-
-                            {/* Right Side - Product Info */}
                             <div className="flex flex-col">
-                                {/* Product Title */}
                                 <h1 className="text-2xl lg:text-3xl font-bold text-[#3d2314] mb-3">
                                     {product.name}
                                 </h1>
-
-                                {/* Stock and Price */}
                                 <div className="mb-4">
                                     <p className="text-gray-600 text-sm mb-2">
                                         Stocks Available: {product.stock}
@@ -180,13 +167,9 @@ const MerchDetails = () => {
                                         {product.price}
                                     </p>
                                 </div>
-
-                                {/* Description */}
                                 <p className="text-gray-700 text-sm leading-relaxed mb-6">
                                     {product.description}
                                 </p>
-
-                                {/* Color Selection */}
                                 <div className="mb-6">
                                     <label className="block text-[#3d2314] font-bold mb-3">Colours:</label>
                                     <div className="flex gap-3">
@@ -204,8 +187,6 @@ const MerchDetails = () => {
                                         ))}
                                     </div>
                                 </div>
-
-                                {/* Size Selection */}
                                 <div className="mb-6">
                                     <label className="block text-[#3d2314] font-bold mb-3">Size:</label>
                                     <div className="flex gap-2">
@@ -224,10 +205,7 @@ const MerchDetails = () => {
                                         ))}
                                     </div>
                                 </div>
-
-                                {/* Quantity and Add to Cart */}
                                 <div className="flex gap-3">
-                                    {/* Quantity Selector */}
                                     <div className="flex items-center border-2 border-gray-300 rounded-lg overflow-hidden">
                                         <button
                                             onClick={() => handleQuantityChange('decrease')}
@@ -248,8 +226,6 @@ const MerchDetails = () => {
                                             +
                                         </button>
                                     </div>
-
-                                    {/* Add to Cart Button */}
                                     <button className="flex-1 bg-[#CD853F] hover:bg-[#B8732F] text-white px-6 py-3 rounded-lg font-bold transition-colors shadow-lg hover:shadow-xl">
                                         Add To Cart
                                     </button>
@@ -257,8 +233,6 @@ const MerchDetails = () => {
                             </div>
                         </div>
                     </div>
-
-                    {/* Related Items Section */}
                     <div className="bg-gradient-to-b from-[#FFFFFF]/95 to-[#D1F4FC]/95 rounded-3xl shadow-2xl p-6 lg:p-8 backdrop-blur-md border border-white/30">
                         <div className="flex items-center gap-3 mb-6">
                             <div className="w-1 h-8 bg-[#CD853F] rounded-full"></div>

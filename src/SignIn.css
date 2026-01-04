@@ -4,17 +4,14 @@
   position: relative;
   width: 100%;
   min-height: 100vh;
-  /* Darker, more muted gradient */
   background: linear-gradient(180deg, #6baed6 0%, #4292c6 40%, #2171b5 100%);
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
   font-family: 'Roboto', sans-serif;
-  /* padding: 2rem 0; Removed padding to fit screen exact */
 }
 
-/* Background Elements */
 .cloud {
   position: absolute;
   pointer-events: none;
