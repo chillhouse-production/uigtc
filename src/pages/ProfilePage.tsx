@@ -53,18 +53,6 @@ export default function ProfilePage() {
         }
     }, [authUser]);
 
-    const handleLogout = async () => {
-        try {
-            await authApi.logout();
-            logout();
-            navigate('/auth');
-        } catch (error) {
-            console.error('Logout error:', error);
-            logout();
-            navigate('/auth');
-        }
-    };
-
     if (loading) {
         return (
             <div className="min-h-screen flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #7AABB6 19%, #98AE9C 51%, #B6B282 72%, #FEDE89 96%)' }}>

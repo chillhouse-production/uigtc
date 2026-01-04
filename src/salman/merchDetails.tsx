@@ -64,17 +64,6 @@ const MerchDetails = () => {
         }).format(price);
     };
 
-    // --- LOGIC STOCK VISIBILITY ---
-    const shouldShowStock = (item: Product) => {
-        // Asumsi: 'category' object memiliki properti 'type' (seperti di MerchList)
-        // Jika type 'ticket' dan stock >= 10, sembunyikan angka
-        if (item.category?.type === 'ticket') {
-            return item.stock < 10; 
-        }
-        // Selain tiket (merch), selalu tampilkan
-        return true;
-    };
-
     const handleQuantityChange = (type: 'increase' | 'decrease') => {
         if (!product) return;
         if (type === 'increase' && quantity < product.stock) {
