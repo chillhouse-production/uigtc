@@ -120,7 +120,6 @@ const MerchList = () => {
             }
         });
     };
-
     return (
         <>
             {/* DESKTOP VERSION */}
