@@ -6,7 +6,6 @@ import iconProfilePutih from '../assets/IconProfilePutih.svg';
 import iconHome from '../assets/IconRumah.svg';
 import iconToko from '../assets/IconToko.svg';
 import iconKeranjang from '../assets/IconKeranjang.svg';
-import iconHistory from '../assets/IconHistory.svg'
 import LogoBulat from '../assets/LogoUIGTCKotak.svg';
 
 const Navbar = () => {
@@ -23,7 +22,6 @@ const Navbar = () => {
     { id: 'home', icon: iconHome, path: '/', label: 'Home' },
     { id: 'toko', icon: iconToko, path: '/merchlist', label: 'Merchandise' },
     { id: 'keranjang', icon: iconKeranjang, path: '/cart', label: 'Cart' },
-    { id: 'history', icon: iconHistory, path: '/history', label: 'History'}
   ];
 
   // Menu untuk user yang sudah login - HANYA Home dan Toko
@@ -198,13 +196,6 @@ const Navbar = () => {
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
                       </svg>
                       Riwayat Pesanan
-                    </a>
-                    <a 
-                      href="/cart" 
-                      className="flex items-center px-6 py-3 text-gray-800 hover:bg-white/50 transition-colors pl-12"
-                    >
-                      <img src={iconKeranjang} alt="Cart" className="h-5 w-5 mr-3" />
-                      Cart
                     </a>
                     <button 
                       onClick={() => {

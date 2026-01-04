@@ -139,7 +139,7 @@ const MerchList = () => {
                     
                     <div className="relative z-10 w-full max-w-[1600px] flex flex-col items-center px-8">
                         {/* Banner Title */}
-                        <div className="w-full mb-8">
+                        <div className="w-full mt-8 mb-10">
                             <div className="text-center">
                                 <h1 className="text-5xl text-white font-bold tracking-wider"
                                     style={{
@@ -255,7 +255,6 @@ const MerchList = () => {
                             </div>
                         </div>
                     </div>
-                     <Footer/>
                 </div>
             </section>
 
@@ -385,7 +384,6 @@ const MerchList = () => {
                         </div>
                     </div>
                 </div>
-                <Footer/>
             </section>
             <style>{`
                 .scrollbar-hide::-webkit-scrollbar {
@@ -396,6 +394,7 @@ const MerchList = () => {
                     scrollbar-width: none;
                 }
             `}</style>
+            <Footer/>
         </>
     );
 };

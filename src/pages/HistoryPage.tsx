@@ -132,7 +132,7 @@ export default function HistoryPage() {
                 {/* Header Title */}
                 <div className="flex items-center justify-center w-full mb-10 relative">
                       <div className="text-center">
-                                <h1 className="text-5xl text-white font-bold tracking-wider"
+                                <h1 className="text-5xl mt-8 mb-4 text-white font-bold tracking-wider"
                                     style={{
                                         fontFamily: 'treamd',
                                         textShadow: '3px 3px 0px #3d2314, 5px 5px 0px rgba(61, 35, 20, 0.5)'

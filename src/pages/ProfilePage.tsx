@@ -92,138 +92,211 @@ export default function ProfilePage() {
     }
 
     return (
-        <div className="relative flex h-screen items-center justify-center overflow-hidden" style={{ background: 'linear-gradient(135deg, #7AABB6 19%, #98AE9C 51%, #B6B282 72%, #FEDE89 96%)' }}>
-            {/* Cloud Assets */}
+        <div 
+            className="
+                relative flex min-h-screen items-center justify-center 
+                overflow-x-hidden overflow-y-auto
+                px-4 py-20
+            " 
+            style={{ background: 'linear-gradient(135deg, #7AABB6 19%, #98AE9C 51%, #B6B282 72%, #FEDE89 96%)' }}
+        >
             <Navbar />
+            
+            {/* Cloud Assets */}
             <img
                 src={LeftCloud}
                 alt="Cloud Left"
-                className={`absolute opacity-100
-                    /* HP (Mobile) */
-                    -left-30 top-40 w-[500px]
-                    /* iPad (Tablet) */
+                className="
+                    absolute opacity-100
+                    -left-20 top-40 w-[400px]
+                    sm:-left-32 sm:top-32 sm:w-[500px]
                     md:-left-48 md:top-[12.5%] md:w-[550px]
-                `}
+                "
             />
             <img
                 src={RightCloud}
                 alt="Cloud Right"
-                className={`absolute opacity-100 translate-x-1/4 -translate-y-1/4
-                    /* HP (Mobile) */
-                    -right-12 top-10 w-[500px]
-                    /* iPad (Tablet) */
+                className="
+                    absolute opacity-100
+                    -right-8 top-10 w-[400px]
+                    sm:-right-12 sm:top-12 sm:w-[500px]
                     md:-right-20 md:top-16 md:w-[700px]
-                `}
+                "
             />
 
             <img
                 src={Bird1}
                 alt="Bird 1"
-                className={`absolute opacity-100
-                    /* HP (Mobile) */
-                    right-10 top-4 w-[50px]
-                    /* iPad (Tablet) */
+                className="
+                    absolute opacity-100
+                    right-10 top-4 w-[40px]
+                    sm:right-16 sm:top-6 sm:w-[50px]
                     md:right-75 md:top-0 md:w-[70px]
-                `}
+                "
             />
             <img
                 src={Bird2}
                 alt="Bird 2"
-                className={`absolute opacity-100
-                
-                    /* HP (Mobile) */
-                    -right-2 top-8 w-[60px]
-
-                    /* iPad (Tablet) */
+                className="
+                    absolute opacity-100
+                    -right-2 top-8 w-[50px]
+                    sm:right-2 sm:top-12 sm:w-[60px]
                     md:right-0 md:top-15 md:w-[90px]
-                `}
+                "
             />
 
-            {/* Content Container */}
+            {/* Responsive Content Container - Similar to Popup */}
             <div
-                className={`relative z-30 bg-white shadow-xl
-                    /* HP (Mobile) */
-                    w-full max-w-sm p-8 rounded-3xl
-
-                    /* iPad (Tablet) */
-                    md:max-w-lg
-
-                    /* Laptop (Desktop) */
-                    lg:max-w-4xl lg:p-10 lg:rounded-[2rem]
-                `}
+                className="
+                    relative z-30
+                    w-[min(90vw,640px)]
+                    max-h-[calc(100vh-160px)]
+                    overflow-y-auto
+                    rounded-2xl
+                    bg-white
+                    shadow-2xl
+                    p-6 sm:p-8 md:p-10
+                    animate-scale-in
+                    scrollbar-thin scrollbar-thumb-[#1a3c40]/40 scrollbar-track-transparent
+                    hover:scrollbar-thumb-[#1a3c40]/60
+                "
+                style={{
+                    minWidth: '320px',
+                    scrollBehavior: 'smooth',
+                }}
             >
-                <h1 className="text-5xl font-['Pirata_One'] font-bold text-center text-[#1a3c40] mb-8 tracking-wide drop-shadow-sm">
-                    {isEditing ? 'EDIT PROFILE' : 'PROFILE'}
+                <h1 className="
+                    text-3xl sm:text-4xl md:text-5xl 
+                    font-['Pirata_One'] font-bold 
+                    text-center text-[#1a3c40] 
+                    mb-6 sm:mb-8 
+                    tracking-wide drop-shadow-sm
+                    uppercase
+                ">
+                    {isEditing ? 'Edit Profile' : 'Profile'}
                 </h1>
 
                 <div className="space-y-4">
                     {/* Full Name */}
                     <div>
-                        <label className="block text-[#1a3c40] font-semibold mb-1 ml-1">Full Name</label>
+                        <label className="block text-[#1a3c40] font-semibold mb-1 ml-1 text-sm sm:text-base">
+                            Full Name
+                        </label>
                         <input
                             type="text"
                             value={formData.name}
                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                             disabled={!isEditing}
-                            className={`w-full px-4 py-3 rounded-full border-2 ${isEditing ? 'bg-white/50 border-[#1a3c40]/50' : 'bg-white/30 border-[#1a3c40]/30'} text-[#1a3c40] font-medium outline-none focus:border-[#1a3c40] transition-colors`}
+                            className={`
+                                w-full px-4 py-2.5 sm:py-3 rounded-full 
+                                border-2 
+                                ${isEditing ? 'bg-white/50 border-[#1a3c40]/50' : 'bg-white/30 border-[#1a3c40]/30'} 
+                                text-[#1a3c40] font-medium 
+                                outline-none focus:border-[#1a3c40] 
+                                transition-colors
+                                text-sm sm:text-base
+                            `}
                         />
                     </div>
 
                     {/* School */}
                     <div>
-                        <label className="block text-[#1a3c40] font-semibold mb-1 ml-1">School</label>
+                        <label className="block text-[#1a3c40] font-semibold mb-1 ml-1 text-sm sm:text-base">
+                            School
+                        </label>
                         <input
                             type="text"
                             value={formData.school}
                             onChange={(e) => setFormData({ ...formData, school: e.target.value })}
                             disabled={!isEditing}
                             placeholder="Masukkan sekolah Anda"
-                            className={`w-full px-4 py-3 rounded-full border-2 ${isEditing ? 'bg-white/50 border-[#1a3c40]/50' : 'bg-white/30 border-[#1a3c40]/30'} text-[#1a3c40] font-medium outline-none focus:border-[#1a3c40] transition-colors`}
+                            className={`
+                                w-full px-4 py-2.5 sm:py-3 rounded-full 
+                                border-2 
+                                ${isEditing ? 'bg-white/50 border-[#1a3c40]/50' : 'bg-white/30 border-[#1a3c40]/30'} 
+                                text-[#1a3c40] font-medium 
+                                outline-none focus:border-[#1a3c40] 
+                                transition-colors
+                                text-sm sm:text-base
+                            `}
                         />
                     </div>
 
                     {/* Phone Number */}
                     <div>
-                        <label className="block text-[#1a3c40] font-semibold mb-1 ml-1">Phone Number</label>
+                        <label className="block text-[#1a3c40] font-semibold mb-1 ml-1 text-sm sm:text-base">
+                            Phone Number
+                        </label>
                         <input
                             type="text"
                             value={formData.phone}
                             onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                             disabled={!isEditing}
                             placeholder="Masukkan nomor telepon"
-                            className={`w-full px-4 py-3 rounded-full border-2 ${isEditing ? 'bg-white/50 border-[#1a3c40]/50' : 'bg-white/30 border-[#1a3c40]/30'} text-[#1a3c40] font-medium outline-none focus:border-[#1a3c40] transition-colors`}
+                            className={`
+                                w-full px-4 py-2.5 sm:py-3 rounded-full 
+                                border-2 
+                                ${isEditing ? 'bg-white/50 border-[#1a3c40]/50' : 'bg-white/30 border-[#1a3c40]/30'} 
+                                text-[#1a3c40] font-medium 
+                                outline-none focus:border-[#1a3c40] 
+                                transition-colors
+                                text-sm sm:text-base
+                            `}
                         />
                     </div>
 
                     {/* Email */}
                     <div>
-                        <label className="block text-[#1a3c40] font-semibold mb-1 ml-1">Email</label>
+                        <label className="block text-[#1a3c40] font-semibold mb-1 ml-1 text-sm sm:text-base">
+                            Email
+                        </label>
                         <input
                             type="email"
                             value={formData.email}
                             disabled={true}
-                            className="w-full px-4 py-3 rounded-full border-2 bg-white/30 border-[#1a3c40]/30 text-[#1a3c40] font-medium outline-none"
+                            className="
+                                w-full px-4 py-2.5 sm:py-3 rounded-full 
+                                border-2 bg-white/30 border-[#1a3c40]/30 
+                                text-[#1a3c40] font-medium 
+                                outline-none
+                                text-sm sm:text-base
+                            "
                         />
                     </div>
-
-                    {/* Email Verification Status */}
-
                 </div>
 
                 {/* Buttons */}
-                <div className="mt-8 flex flex-col gap-4">
-                    <div className="flex justify-center gap-4">
+                <div className="mt-6 sm:mt-8 flex flex-col gap-3 sm:gap-4">
+                    <div className="flex justify-center gap-3 sm:gap-4 flex-wrap">
                         {isEditing ? (
                             <>
                                 <button
                                     onClick={() => setIsEditing(false)}
-                                    className="px-8 py-2 rounded-lg bg-[#e89c3f] text-[#1a3c40] font-bold text-lg hover:bg-[#d68b2e] transition-colors shadow-lg"
+                                    className="
+                                        px-6 sm:px-8 py-2 sm:py-2.5 
+                                        rounded-lg 
+                                        bg-[#e89c3f] text-[#1a3c40] 
+                                        font-bold text-base sm:text-lg 
+                                        hover:bg-[#d68b2e] 
+                                        transition-all
+                                        hover:scale-105 active:scale-95
+                                        shadow-lg
+                                    "
                                 >
                                     Cancel
                                 </button>
                                 <button
                                     onClick={() => setIsEditing(false)}
-                                    className="px-10 py-2 rounded-lg bg-[#1a5c6d] text-white font-bold text-lg hover:bg-[#154a57] transition-colors shadow-lg"
+                                    className="
+                                        px-8 sm:px-10 py-2 sm:py-2.5 
+                                        rounded-lg 
+                                        bg-[#1a5c6d] text-white 
+                                        font-bold text-base sm:text-lg 
+                                        hover:bg-[#154a57] 
+                                        transition-all
+                                        hover:scale-105 active:scale-95
+                                        shadow-lg
+                                    "
                                 >
                                     Save
                                 </button>
@@ -231,51 +304,43 @@ export default function ProfilePage() {
                         ) : (
                             <button
                                 onClick={() => setIsEditing(true)}
-                                className="px-8 py-2 rounded-lg bg-[#1a5c6d] text-white font-bold text-lg hover:bg-[#154a57] transition-colors shadow-lg"
+                                className="
+                                    px-6 sm:px-8 py-2 sm:py-2.5 
+                                    rounded-lg 
+                                    bg-[#1a5c6d] text-white 
+                                    font-bold text-base sm:text-lg 
+                                    hover:bg-[#154a57] 
+                                    transition-all
+                                    hover:scale-105 active:scale-95
+                                    shadow-lg
+                                "
                             >
                                 Edit Profile
                             </button>
                         )}
                     </div>
-                    
-                    <div className="flex justify-center gap-4">
-                        <button
-                            onClick={() => navigate('/history')}
-                            className="px-6 py-2 rounded-lg bg-[#3d8c6d] text-white font-bold hover:bg-[#2d7c5d] transition-colors shadow-lg"
-                        >
-                            Order History
-                        </button>
-                        <button
-                            onClick={handleLogout}
-                            className="px-6 py-2 rounded-lg bg-red-500 text-white font-bold hover:bg-red-600 transition-colors shadow-lg"
-                        >
-                            Logout
-                        </button>
-                    </div>
                 </div>
             </div>
 
+            {/* Bottom Assets */}
             <img
                 src={Laut}
                 alt="Laut"
-                className={`absolute z-10 left-0 object-cover
-                    /* HP (Mobile) */
-                    bottom-0 w-[200px] h-27
-
-                    /* iPad (Tablet) */
-                    md:bottom-0 md:h-auto md: w-[2000px]
-                `}
+                className="
+                    absolute z-10 left-0 
+                    bottom-0 w-full h-auto object-cover
+                    max-h-[150px] sm:max-h-[200px] md:max-h-none
+                "
             />
             <img
                 src={Kapal}
                 alt="Kapal"
-                className={`absolute -bottom-3
-                    /* HP (Mobile) */
-                    left-8 w-[1000px] bottom-17
-
-                    /* iPad (Tablet) */
-                    md:left-30 md:w-[700px] md:bottom-3
-                `}
+                className="
+                    absolute z-20
+                    left-4 bottom-12 w-[200px]
+                    sm:left-8 sm:bottom-16 sm:w-[300px]
+                    md:left-30 md:bottom-3 md:w-[700px]
+                "
             />
         </div>
     );

@@ -72,14 +72,22 @@ export default function MainPage() {
                         Explore
                     </button>
                 </div>
-                <div className="relative z-30 -translate-y-[120px] w-full h-[550px]">
+                <div className="relative z-30 mb-20 -translate-y-[120px] w-full h-[550px]">
                     <img
                         src={ombakDesc}
                         alt=""
-                        className="absolute inset-0 w-full h-full object-cover animate-float-slow"
+                        className="
+    absolute
+    top-0 left-0
+    w-full
+    h-[140%]
+    object-cover
+    animate-float-slow
+  "
                     />
 
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
+
+                    <div className="absolute top-2/3 left-1/2 -translate-x-1/2 -translate-y-1/2
                 w-[92%] flex flex-col items-center gap-5">
 
                         <img
@@ -101,7 +109,7 @@ export default function MainPage() {
 
                 </div>
 
-                <div className="relative z-40 -translate-y-[260px] w-full">
+                <div className="relative pt-10 z-40 -translate-y-[220px] w-full">
                     <img src={lautDalam} alt="" className="w-full h-[600px] object-cover" />
                     <div className="absolute inset-0 flex flex-col items-center justify-center text-white px-4">
 
