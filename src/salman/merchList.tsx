@@ -302,7 +302,7 @@ const MerchList = () => {
                                         onClick={() => setSelectedCategoryMobile("Semua")}
                                         className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap flex-shrink-0 ${
                                             selectedCategoryMobile === "Semua"
-                                                ? 'bg-[#5B9BD5] text-white shadow-lg'
+                                                ? 'bg-gray-200 text-white shadow-lg'
                                                 : 'bg-gray-100 text-[#3d2314]'
                                         }`}
                                     >
@@ -315,7 +315,7 @@ const MerchList = () => {
                                             onClick={() => setSelectedCategoryMobile(category.name)}
                                             className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 whitespace-nowrap flex-shrink-0 ${
                                                 selectedCategoryMobile === category.name
-                                                    ? 'bg-[#5B9BD5] text-white shadow-lg'
+                                                    ? 'bg-gray-200 text-white shadow-lg'
                                                     : 'bg-gray-100 text-[#3d2314]'
                                             }`}
                                         >
@@ -346,7 +346,7 @@ const MerchList = () => {
                                                 onClick={() => navigate(`/product/${item.id}`)}
                                                 className="bg-white rounded-3xl shadow-lg active:scale-95 transition-transform p-3"
                                             >
-                                                <div className="aspect-[4/3] bg-gradient-to-br from-[#89CFF0] to-[#5FB8D9] relative rounded-2xl mb-3 overflow-hidden">
+                                                <div className="aspect-[4/3] bg-gray-200 relative rounded-2xl mb-3 overflow-hidden">
                                                     {item.image ? (
                                                         <img 
                                                             src={`${IMAGE_BASE_URL}${item.image}`} 

@@ -97,7 +97,7 @@ export default function ProfilePage() {
             <Navbar />
             
             {/* Main Content Area */}
-            <div className="flex-1 relative flex items-center justify-center overflow-x-hidden px-4 py-20">
+            <div className="flex-1 relative flex items-center justify-center overflow-x-hidden px-4 py-24 sm:py-28 md:py-32">
                 {/* Cloud Assets */}
                 <img
                     src={LeftCloud}
@@ -146,21 +146,47 @@ export default function ProfilePage() {
                     className="
                         relative z-30
                         w-[min(90vw,640px)]
-                        max-h-[calc(100vh-200px)]
+                        max-h-[calc(100vh-240px)]
                         overflow-y-auto
                         rounded-2xl
                         bg-white
                         shadow-2xl
                         p-6 sm:p-8 md:p-10
                         animate-scale-in
-                        scrollbar-thin scrollbar-thumb-[#1a3c40]/40 scrollbar-track-transparent
-                        hover:scrollbar-thumb-[#1a3c40]/60
                     "
                     style={{
                         minWidth: '320px',
                         scrollBehavior: 'smooth',
                     }}
                 >
+                    {/* Custom Scrollbar Styles */}
+                    <style>{`
+                        /* Custom scrollbar for profile card */
+                        .relative.z-30::-webkit-scrollbar {
+                            width: 8px;
+                        }
+                        
+                        .relative.z-30::-webkit-scrollbar-track {
+                            background: transparent;
+                            border-radius: 0 16px 16px 0;
+                        }
+                        
+                        .relative.z-30::-webkit-scrollbar-thumb {
+                            background: rgba(26, 60, 64, 0.3);
+                            border-radius: 4px;
+                        }
+                        
+                        .relative.z-30::-webkit-scrollbar-thumb:hover {
+                            background: rgba(26, 60, 64, 0.5);
+                        }
+
+                        /* For Firefox */
+                        .relative.z-30 {
+                            scrollbar-width: thin;
+                            scrollbar-color: rgba(26, 60, 64, 0.3) transparent;
+                        }
+                    `}</style>
+
                     <h1 className="
                         text-3xl sm:text-4xl md:text-5xl 
                         font-treamd font-bold 
@@ -168,6 +194,7 @@ export default function ProfilePage() {
                         mb-6 sm:mb-8 
                         tracking-wide drop-shadow-sm
                         uppercase
+                        pt-2 sm:pt-4
                     ">
                         {isEditing ? 'Edit Profile' : 'Profile'}
                     </h1>
@@ -262,7 +289,7 @@ export default function ProfilePage() {
                     </div>
 
                     {/* Buttons */}
-                    <div className="mt-6 sm:mt-8 flex flex-col gap-3 sm:gap-4">
+                    <div className="mt-6 sm:mt-8 flex flex-col gap-3 sm:gap-4 pb-2">
                         <div className="flex justify-center gap-3 sm:gap-4 flex-wrap">
                             {isEditing ? (
                                 <>
