@@ -131,7 +131,7 @@ export default function TransactionSuccessPage() {
                 </h1>
 
                 <div className="bg-[#CFE3E8] rounded-lg px-8 py-4 flex items-center gap-4 text-[#1a3c40] mb-2 w-full max-w-sm border border-[#5DAECC]/30">
-                    <span className="font-bold text-lg font-serif">Order ID:</span>
+                    <span className="font-bree text-lg font-serif">Order ID:</span>
                     
                     <span className="font-serif text-lg tracking-wider flex-1 text-left truncate">
                         {loading ? (
@@ -165,13 +165,13 @@ export default function TransactionSuccessPage() {
             <div className="relative z-10 flex flex-col md:flex-row gap-4 items-center">
                 <button
                     onClick={() => navigate('/')}
-                    className="px-10 py-3 bg-[#E89F3C] hover:bg-[#d68f2a] text-white font-serif font-bold text-lg rounded-lg shadow-lg transition-colors min-w-[180px]"
+                    className="px-10 py-3 bg-[#E89F3C] hover:bg-[#d68f2a] text-white font-serif font-bree text-lg rounded-lg shadow-lg transition-colors min-w-[180px]"
                 >
                     Back To Home
                 </button>
                 <button
                     onClick={() => navigate('/history')}
-                    className="px-10 py-3 bg-[#133033] hover:bg-[#0b1c1e] text-white font-serif font-bold text-lg rounded-lg shadow-lg transition-colors min-w-[180px]"
+                    className="px-10 py-3 bg-[#133033] hover:bg-[#0b1c1e] text-white font-serif font-bree text-lg rounded-lg shadow-lg transition-colors min-w-[180px]"
                 >
                     Order History
                 </button>

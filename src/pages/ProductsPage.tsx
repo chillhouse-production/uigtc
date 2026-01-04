@@ -71,7 +71,7 @@ export default function ProductsPage() {
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-red-50 to-orange-100">
         <div className="text-center p-8 bg-white rounded-lg shadow-lg max-w-md">
           <div className="text-red-500 text-5xl mb-4">⚠️</div>
-          <h2 className="text-xl font-bold text-red-700 mb-2">Gagal Memuat Data</h2>
+          <h2 className="text-xl font-bree text-red-700 mb-2">Gagal Memuat Data</h2>
           <p className="text-gray-600 mb-4">{error}</p>
           <button
             onClick={() => window.location.reload()}
@@ -89,7 +89,7 @@ export default function ProductsPage() {
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-amber-900 mb-2">🛍️ Merchandise UIGTC</h1>
+          <h1 className="text-4xl font-bree text-amber-900 mb-2">🛍️ Merchandise UIGTC</h1>
           <p className="text-amber-700">Koleksi merchandise resmi UI Goes to Celebes</p>
         </div>
 
@@ -147,7 +147,7 @@ export default function ProductsPage() {
                   )}
                   {product.stock <= 0 && (
                     <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                      <span className="bg-red-500 text-white px-4 py-2 rounded-full font-bold">
+                      <span className="bg-red-500 text-white px-4 py-2 rounded-full font-bree">
                         Habis
                       </span>
                     </div>
@@ -161,11 +161,11 @@ export default function ProductsPage() {
                       {product.category.name}
                     </span>
                   )}
-                  <h3 className="font-bold text-gray-900 mt-1 line-clamp-2">{product.name}</h3>
+                  <h3 className="font-bree text-gray-900 mt-1 line-clamp-2">{product.name}</h3>
                   <p className="text-gray-500 text-sm mt-1 line-clamp-2">{product.description}</p>
                   
                   <div className="flex items-center justify-between mt-4">
-                    <span className="text-lg font-bold text-amber-700">
+                    <span className="text-lg font-bree text-amber-700">
                       {formatPrice(product.price)}
                     </span>
                     <span className="text-sm text-gray-500">Stok: {product.stock}</span>

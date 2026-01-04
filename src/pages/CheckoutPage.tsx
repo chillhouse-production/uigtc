@@ -6,6 +6,7 @@ import qrisUIGTC from '../assets/qris/qris.png';
 import Navbar from '../salman/navBar'; 
 import Footer from '../salman/footer';
 import listBg from '../assets/CartBackground.jpeg';
+
 // --- DEFINISI TIPE DATA ---
 interface Product {
     id: string;
@@ -159,8 +160,8 @@ export default function CheckoutPage() {
     const displayPhone = userProfile?.phoneNumber || '-';
 
     // --- LOADING & ERROR STATES ---
-    if (loading) return <div className="min-h-screen flex items-center justify-center bg-[#61B2DE] text-white font-bold">Loading Order Data...</div>;
-    if (!orderId || !order) return <div className="min-h-screen flex items-center justify-center bg-[#61B2DE] text-white font-bold">{error || 'Order Not Found'}</div>;
+    if (loading) return <div className="min-h-screen flex items-center justify-center bg-[#61B2DE] text-white font-bree">Loading Order Data...</div>;
+    if (!orderId || !order) return <div className="min-h-screen flex items-center justify-center bg-[#61B2DE] text-white font-bree">{error || 'Order Not Found'}</div>;
 
     return (
         <div className="min-h-screen flex flex-col overflow-auto" style={{
@@ -188,7 +189,7 @@ export default function CheckoutPage() {
                     </button>
                     <div>
                         <h1 className="text-2xl font-serif font-normal tracking-wide">Order Detail</h1>
-                        <p className="text-xs font-bold opacity-60">ID: {order.id}</p>
+                        <p className="text-xs font-bree opacity-60">ID: {order.id}</p>
                     </div>
                 </div>
 
@@ -197,22 +198,22 @@ export default function CheckoutPage() {
 
                     {/* Column 1: Orderer Detail */}
                     <div className="lg:col-span-3 bg-white rounded-lg p-6 shadow-lg min-h-[250px]">
-                        <h2 className="text-2xl font-bold text-[#1a3c40] mb-6 font-serif">Orderer Detail</h2>
+                        <h2 className="text-2xl font-bree text-[#1a3c40] mb-6 font-serif">Orderer Detail</h2>
                         <div className="space-y-4 text-[#1a3c40] font-serif">
                             <div className="grid grid-cols-[100px_1fr] items-start gap-2">
-                                <span className="font-bold text-base">Full Name</span>
+                                <span className="font-bree text-base">Full Name</span>
                                 <span className="text-base text-right md:text-left">{displayName}</span>
                             </div>
                             <div className="grid grid-cols-[100px_1fr] items-start gap-2">
-                                <span className="font-bold text-base">School</span>
+                                <span className="font-bree text-base">School</span>
                                 <span className="text-base text-right md:text-left">{displaySchool}</span>
                             </div>
                             <div className="grid grid-cols-[100px_1fr] items-start gap-2">
-                                <span className="font-bold text-base">Phone</span>
+                                <span className="font-bree text-base">Phone</span>
                                 <span className="text-base text-right md:text-left">{displayPhone}</span>
                             </div>
                             <div className="grid grid-cols-[100px_1fr] items-start gap-2">
-                                <span className="font-bold text-base">Email</span>
+                                <span className="font-bree text-base">Email</span>
                                 <span className="text-base break-all text-right md:text-left">{displayEmail}</span>
                             </div>
                         </div>
@@ -220,7 +221,7 @@ export default function CheckoutPage() {
 
                     {/* Column 2: Items */}
                     <div className="lg:col-span-5 bg-white rounded-lg p-6 shadow-lg">
-                        <h2 className="text-xl font-bold text-[#1a3c40] mb-6 font-serif">Items</h2>
+                        <h2 className="text-xl font-bree text-[#1a3c40] mb-6 font-serif">Items</h2>
                         <div className="space-y-6 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
                             {order.items.map((item, index) => (
                                 <div key={item.id} className={`flex gap-4 pb-6 ${index !== order.items.length - 1 ? 'border-b border-gray-200' : ''}`}>
@@ -241,10 +242,10 @@ export default function CheckoutPage() {
 
                                     <div className="flex-1 flex justify-between items-start">
                                         <div>
-                                            <h3 className="font-bold text-[#1a3c40] text-sm mb-1 line-clamp-2">{item.product.name}</h3>
-                                            <p className="text-xs font-bold text-[#564e3e]">Rp {formatCurrency(item.price)}</p>
+                                            <h3 className="font-bree text-[#1a3c40] text-sm mb-1 line-clamp-2">{item.product.name}</h3>
+                                            <p className="text-xs font-bree text-[#564e3e]">Rp {formatCurrency(item.price)}</p>
                                         </div>
-                                        <div className="px-2 py-1 rounded border border-gray-300 text-xs font-bold text-gray-500 whitespace-nowrap ml-2">
+                                        <div className="px-2 py-1 rounded border border-gray-300 text-xs font-bree text-gray-500 whitespace-nowrap ml-2">
                                             {item.quantity} x
                                         </div>
                                     </div>
@@ -253,19 +254,19 @@ export default function CheckoutPage() {
                         </div>
 
                         <div className="mt-4 pt-4 border-t-2 border-gray-200 flex justify-between items-center text-[#1a3c40]">
-                            <span className="font-bold text-lg font-serif">Total Harga:</span>
-                            <span className="font-bold text-xl text-gray-600">Rp {formatCurrency(order.totalAmount)}</span>
+                            <span className="font-bree text-lg font-serif">Total Harga:</span>
+                            <span className="font-bree text-xl text-gray-600">Rp {formatCurrency(order.totalAmount)}</span>
                         </div>
                     </div>
 
                     {/* Column 3: Payment Methods */}
                     <div className="lg:col-span-4 bg-white rounded-lg p-6 shadow-lg min-h-[500px] flex flex-col">
-                        <h2 className="text-xl font-bold text-[#1a3c40] mb-6 font-serif">Payment Methods</h2>
+                        <h2 className="text-xl font-bree text-[#1a3c40] mb-6 font-serif">Payment Methods</h2>
 
                         <div className="flex-1 space-y-6">
                             {/* Option 1: QRIS */}
                             <div>
-                                <p className="text-xs font-bold text-[#1a3c40] mb-2">Option 1: QR Code</p>
+                                <p className="text-xs font-bree text-[#1a3c40] mb-2">Option 1: QR Code</p>
                                 <div className="w-full flex justify-center bg-gray-50 border border-gray-200 rounded-lg p-4">
                                      <img 
                                         src={qrisUIGTC}
@@ -278,16 +279,16 @@ export default function CheckoutPage() {
 
                             {/* Option 2: Bank Transfer */}
                             <div className="pt-4 border-t border-gray-300">
-                                <p className="text-xs font-bold text-[#1a3c40] mb-2">Option 2: Bank Transfer</p>
+                                <p className="text-xs font-bree text-[#1a3c40] mb-2">Option 2: Bank Transfer</p>
                                 <div className="flex justify-between items-start bg-gray-50 p-3 rounded-lg border border-gray-200">
                                     <div>
-                                        <p className="font-bold text-[#1a3c40] text-sm">Bank Jago</p>
+                                        <p className="font-bree text-[#1a3c40] text-sm">Bank Jago</p>
                                         <p className="text-[10px] text-gray-500 mb-1">a.n. M Naufal Zhafran</p>
                                         <p className="text-lg font-mono text-[#1a3c40] tracking-wide">1290328292</p>
                                     </div>
                                     <button onClick={handleCopy} className="text-gray-500 hover:text-[#1a3c40] transition-colors relative p-2" title="Copy Account Number">
                                         {copied ? (
-                                            <span className="text-green-600 text-xs font-bold">Copied!</span>
+                                            <span className="text-green-600 text-xs font-bree">Copied!</span>
                                         ) : (
                                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                                 <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
@@ -319,7 +320,7 @@ export default function CheckoutPage() {
                                 <button
                                     onClick={handleUploadClick}
                                     disabled={uploading}
-                                    className="w-full py-3 bg-[#e89c3f] hover:bg-[#d68b2e] text-[#1a3c40] font-bold text-sm rounded-lg shadow-md flex items-center justify-center gap-2 transition-colors cursor-pointer"
+                                    className="w-full py-3 bg-[#e89c3f] hover:bg-[#d68b2e] text-[#1a3c40] font-bree text-sm rounded-lg shadow-md flex items-center justify-center gap-2 transition-colors cursor-pointer"
                                 >
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
                                         <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
@@ -342,7 +343,7 @@ export default function CheckoutPage() {
                                     </div>
                                     <button 
                                         onClick={() => {setUploadedFile(null); setUploadedFileName(null);}} 
-                                        className="text-red-500 hover:text-red-700 font-bold text-lg px-2"
+                                        className="text-red-500 hover:text-red-700 font-bree text-lg px-2"
                                     >
                                         ×
                                     </button>
@@ -352,7 +353,7 @@ export default function CheckoutPage() {
                             <button
                                 onClick={handleConfirm}
                                 disabled={!uploadedFile || uploading}
-                                className={`w-full py-3 font-bold text-sm rounded-lg transition-all border-none flex justify-center items-center ${
+                                className={`w-full py-3 font-bree text-sm rounded-lg transition-all border-none flex justify-center items-center ${
                                     uploadedFile && !uploading
                                     ? 'bg-[#1a3c40] text-white hover:bg-[#122b2e] cursor-pointer shadow-lg'
                                     : 'bg-[#f5f5f5] text-gray-400 cursor-not-allowed'

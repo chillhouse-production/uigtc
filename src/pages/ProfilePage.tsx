@@ -80,10 +80,10 @@ export default function ProfilePage() {
         return (
             <div className="min-h-screen flex items-center justify-center" style={{ background: 'linear-gradient(135deg, #7AABB6 19%, #98AE9C 51%, #B6B282 72%, #FEDE89 96%)' }}>
                 <div className="text-center bg-white p-8 rounded-2xl shadow-xl">
-                    <h2 className="text-2xl font-bold text-[#1a3c40] mb-4">Anda belum login</h2>
+                    <h2 className="text-2xl font-bree text-[#1a3c40] mb-4">Anda belum login</h2>
                     <button 
                         onClick={() => navigate('/auth')}
-                        className="px-8 py-2 rounded-lg bg-[#1a5c6d] text-white font-bold hover:bg-[#154a57] transition-colors"
+                        className="px-8 py-2 rounded-lg bg-[#1a5c6d] text-white font-bree hover:bg-[#154a57] transition-colors"
                     >
                         Login
                     </button>
@@ -189,7 +189,7 @@ export default function ProfilePage() {
 
                     <h1 className="
                         text-3xl sm:text-4xl md:text-5xl 
-                        font-treamd font-bold 
+                        font-treamd font-bree 
                         text-center text-[#1a3c40] 
                         mb-6 sm:mb-8 
                         tracking-wide drop-shadow-sm
