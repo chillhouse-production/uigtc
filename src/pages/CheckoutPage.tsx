@@ -133,7 +133,7 @@ export default function CheckoutPage() {
             const result = await response.json();
             
             if (response.ok && result.success) {
-                navigate('/transactionsuccess'); 
+                navigate('/transactionsuccess');
             } else {
                 setError(result.message || 'Gagal upload bukti');
             }

@@ -58,7 +58,7 @@ const Navbar = () => {
               ))}
               {isLoggedIn ? (
                 <div className="relative">
-                  <button 
+                  <button
                     className={`flex items-center space-x-1 p-3 rounded-lg transition-all duration-200 ${showDropdown ? 'bg-[#5196AA] shadow-md' : 'hover:bg-gray-100'}`} 
                     onClick={() => setShowDropdown(!showDropdown)} 
                     onMouseEnter={() => setActiveMenu('profile')} 
