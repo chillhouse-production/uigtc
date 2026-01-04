@@ -189,7 +189,7 @@ export default function ProfilePage() {
 
                     <h1 className="
                         text-3xl sm:text-4xl md:text-5xl 
-                        font-treamd font-bree 
+                        font-treamd
                         text-center text-[#1a3c40] 
                         mb-6 sm:mb-8 
                         tracking-wide drop-shadow-sm
