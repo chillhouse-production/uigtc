@@ -48,25 +48,47 @@ const MerchList = () => {
     };
 
     // --- Fetch Data API ---
+    // --- Fetch Data API ---
     useEffect(() => {
         const fetchData = async () => {
             try {
                 setIsLoading(true);
 
+                // --- 1. Fetch & Sort Categories ---
                 const catResponse = await fetch(`${API_BASE_URL}/products/categories`);
                 const catResult = await catResponse.json();
                 
                 if (catResult.success) {
-                    setCategories(catResult.data);
+                    const sortedCategories = catResult.data.sort((a: Category, b: Category) => {
+                        // Tiket di atas (return -1), Merch di bawah (return 1)
+                        if (a.type === 'ticket' && b.type !== 'ticket') return -1;
+                        if (a.type !== 'ticket' && b.type === 'ticket') return 1;
+                        // Jika tipe sama, urutkan berdasarkan nama (opsional)
+                        return a.name.localeCompare(b.name);
+                    });
+                    setCategories(sortedCategories);
                 }
 
+                // --- 2. Fetch & Sort Products ---
                 const prodResponse = await fetch(`${API_BASE_URL}/products`);
                 const prodResult = await prodResponse.json();
 
                 if (prodResult.success) {
-                    setAllProducts(prodResult.data);
-                    setFilteredDataDesktop(prodResult.data);
-                    setFilteredDataMobile(prodResult.data);
+                    const sortedProducts = prodResult.data.sort((a: Product, b: Product) => {
+                        // Tiket di atas
+                        const isATicket = a.category?.type === 'ticket' || a.category?.slug.includes('tiket');
+                        const isBTicket = b.category?.type === 'ticket' || b.category?.slug.includes('tiket');
+
+                        if (isATicket && !isBTicket) return -1;
+                        if (!isATicket && isBTicket) return 1;
+                        
+                        // Jika tipe sama, urutkan by nama
+                        return a.name.localeCompare(b.name);
+                    });
+
+                    setAllProducts(sortedProducts);
+                    setFilteredDataDesktop(sortedProducts);
+                    setFilteredDataMobile(sortedProducts);
                 }
 
             } catch (error) {
