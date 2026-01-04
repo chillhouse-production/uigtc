@@ -76,7 +76,7 @@ const SignIn = ({ onSwitchToSignUp }: SignInProps) => {
                             <input
                                 type="email"
                                 id="email"
-                                placeholder="blabla@gmail.com"
+                                placeholder="example@gmail.com"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 className="form-input"

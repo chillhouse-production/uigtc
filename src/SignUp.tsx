@@ -83,7 +83,7 @@ const SignUp = ({ onSwitchToSignIn }: SignUpProps) => {
                             <input
                                 type="text"
                                 id="fullName"
-                                placeholder="blabla"
+                                placeholder="Full Name"
                                 value={fullName}
                                 onChange={(e) => setFullName(e.target.value)}
                                 className="form-input"
@@ -98,7 +98,7 @@ const SignUp = ({ onSwitchToSignIn }: SignUpProps) => {
                             <input
                                 type="tel"
                                 id="phoneNumber"
-                                placeholder="blabla"
+                                placeholder="08xxxxxxxxxx"
                                 value={phoneNumber}
                                 onChange={(e) => setPhoneNumber(e.target.value)}
                                 className="form-input"
@@ -113,7 +113,7 @@ const SignUp = ({ onSwitchToSignIn }: SignUpProps) => {
                             <input
                                 type="text"
                                 id="school"
-                                placeholder="blabla"
+                                placeholder="School"
                                 value={school}
                                 onChange={(e) => setSchool(e.target.value)}
                                 className="form-input"
@@ -128,7 +128,7 @@ const SignUp = ({ onSwitchToSignIn }: SignUpProps) => {
                             <input
                                 type="email"
                                 id="email"
-                                placeholder="blabla@gmail.com"
+                                placeholder="example@gmail.com"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 className="form-input"
@@ -165,7 +165,7 @@ const SignUp = ({ onSwitchToSignIn }: SignUpProps) => {
                             <input
                                 type={showConfirmPassword ? "text" : "password"}
                                 id="confirmPassword"
-                                placeholder="Placeholder"
+                                placeholder="*****"
                                 value={confirmPassword}
                                 onChange={(e) => setConfirmPassword(e.target.value)}
                                 className="form-input"
