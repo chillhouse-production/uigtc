@@ -419,7 +419,7 @@ export default function MainPage() {
                                 </div>
 
                                 <p className="text-xs sm:text-sm leading-relaxed mb-4 sm:mb-5 text-justify px-4 text-[#0B2E34]">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                    UI Goes to Celebes menghadirkan tiket event resmi dan merchandise eksklusif yang dirancang khusus untuk momen ini—mulai dari tiket dengan akses ke rangkaian acara, hingga berbagai merchandise seperti stiker, totebag, notebook, dan produk eksklusif lainnya. Setiap item bukan sekadar pelengkap, tetapi bagian dari cerita dan identitas UI Goes to Celebes yang bisa kamu bawa pulang. Jumlah terbatas dan hanya tersedia selama periode event, jadi pastikan kamu mengamankan tiket dan merchandisenya sebelum kehabisan.
                                 </p>
 
                                 <button
@@ -1022,7 +1022,7 @@ export default function MainPage() {
                                             </div>
                                         </h2>
                                         <p className="text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed text-justify max-w-lg pr-0 md:pr-4">
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                            UI Goes to Celebes menghadirkan tiket event resmi dan merchandise eksklusif yang dirancang khusus untuk momen ini—mulai dari tiket dengan akses ke rangkaian acara, hingga berbagai merchandise seperti stiker, totebag, notebook, dan produk eksklusif lainnya. Setiap item bukan sekadar pelengkap, tetapi bagian dari cerita dan identitas UI Goes to Celebes yang bisa kamu bawa pulang. Jumlah terbatas dan hanya tersedia selama periode event, jadi pastikan kamu mengamankan tiket dan merchandisenya sebelum kehabisan.
                                         </p>
 
                                         <button
