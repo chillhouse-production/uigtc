@@ -5,7 +5,7 @@ import { authApi, type User } from '../config/api';
 import qrisUIGTC from '../assets/qris/qris.png';
 import Navbar from '../salman/navBar'; 
 import Footer from '../salman/footer';
-
+import listBg from '../assets/CartBackground.jpeg';
 // --- DEFINISI TIPE DATA ---
 interface Product {
     id: string;
@@ -163,7 +163,14 @@ export default function CheckoutPage() {
     if (!orderId || !order) return <div className="min-h-screen flex items-center justify-center bg-[#61B2DE] text-white font-bold">{error || 'Order Not Found'}</div>;
 
     return (
-        <div className="min-h-screen flex flex-col overflow-auto" style={{ background: 'linear-gradient(135deg, #61B2DE 23%, #7AABB6 100%)' }}>
+        <div className="min-h-screen flex flex-col overflow-auto" style={{
+                    backgroundImage: `linear-gradient(rgba(255, 255, 255, 0.3), rgba(255, 255, 255, 0.3)), url(${listBg})`,
+                    backgroundPosition: 'center',
+                    backgroundRepeat: 'no-repeat',
+                    backgroundSize: 'cover',
+                    backgroundAttachment: 'fixed'
+                }}
+            >
             
 
             <div className="flex-1 p-8 md:p-12 max-w-[1600px] mx-auto w-full">

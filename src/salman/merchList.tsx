@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import listBg from "../assets/merchListBg.png";
 import Navbar from './navBar';
+import Footer from './footer';
 
 // --- Tipe Data Sesuai API ---
 interface Category {
@@ -142,7 +143,7 @@ const MerchList = () => {
                             <div className="text-center">
                                 <h1 className="text-5xl text-white font-bold tracking-wider"
                                     style={{
-                                        fontFamily: 'serif',
+                                        fontFamily: 'treamd',
                                         textShadow: '3px 3px 0px #3d2314, 5px 5px 0px rgba(61, 35, 20, 0.5)'
                                     }}>
                                     MERCHANDISE AND TICKET
@@ -209,7 +210,7 @@ const MerchList = () => {
                                                     className="group bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105 cursor-pointer p-4"
                                                 >
                                                     {/* Image Container */}
-                                                    <div className="aspect-[4/3] bg-gradient-to-br from-[#89CFF0] to-[#5FB8D9] relative overflow-hidden rounded-2xl mb-4">
+                                                    <div className="aspect-[4/3] bg-gray-200 relative overflow-hidden rounded-2xl mb-4">
                                                         {item.image ? (
                                                             <img 
                                                                 src={`${IMAGE_BASE_URL}${item.image}`} 
@@ -254,6 +255,7 @@ const MerchList = () => {
                             </div>
                         </div>
                     </div>
+                     <Footer/>
                 </div>
             </section>
 
@@ -278,7 +280,7 @@ const MerchList = () => {
                             <div className="text-center">
                                 <h1 className="text-2xl text-white font-bold"
                                     style={{
-                                        fontFamily: 'serif',
+                                        fontFamily: 'treamd',
                                         textShadow: '2px 2px 0px #3d2314, 4px 4px 0px rgba(61, 35, 20, 0.6)'
                                     }}>
                                     MERCHANDISE AND TICKET
@@ -383,8 +385,8 @@ const MerchList = () => {
                         </div>
                     </div>
                 </div>
+                <Footer/>
             </section>
-
             <style>{`
                 .scrollbar-hide::-webkit-scrollbar {
                     display: none;

@@ -219,7 +219,7 @@ export default function CartPage() {
                                 </svg>
                             </div>
                             
-                            <h3 className="text-2xl font-bold text-[#3d2314] mb-2 font-serif">Konfirmasi Pesanan</h3>
+                            <h3 className="text-2xl font-bold text-[#3d2314] mb-2 font-[Lora]">Konfirmasi Pesanan</h3>
                             <p className="text-gray-600 mb-6 text-sm">
                                 Anda akan memproses pesanan dengan total:
                                 <br/>
@@ -268,13 +268,13 @@ export default function CartPage() {
             >
                 <Navbar />
                 <main className="flex-1 w-full max-w-7xl mx-auto p-4 md:p-8 pb-16 pt-24 md:pt-32">
-                    <h1 className="text-4xl md:text-5xl font-bold text-center mb-8 md:mb-12 text-white" style={{
-                        textShadow: '3px 3px 0px rgba(0,0,0,0.3), -1px -1px 0px rgba(0,0,0,0.1)',
-                        fontFamily: 'treamd, sans-serif',
-                        letterSpacing: '2px'
-                    }}>
-                        My Cart
-                    </h1>
+                                <h1 className="text-5xl text-center mb-8 md:mb-12 text-white font-bold tracking-wider"
+                                    style={{
+                                        fontFamily: 'treamd',
+                                        textShadow: '3px 3px 0px #3d2314, 5px 5px 0px rgba(61, 35, 20, 0.5)'
+                                    }}>
+                                    MY CART
+                                </h1>
 
                     {isLoading ? (
                         <div className="text-center">
@@ -299,7 +299,7 @@ export default function CartPage() {
                                             type="checkbox"
                                             checked={selectAll}
                                             onChange={handleSelectAll}
-                                            className="w-5 h-5 cursor-pointer accent-orange-500"
+                                            className="w-5 h-5 cursor-pointer accent-[#E19738]"
                                         />
                                         <label className="font-bold text-gray-800 cursor-pointer select-none" onClick={handleSelectAll}>
                                             Semua Produk ({cartItems.length})
@@ -314,7 +314,7 @@ export default function CartPage() {
                                                         type="checkbox"
                                                         checked={item.selected}
                                                         onChange={() => handleSelectItem(item.id)}
-                                                        className="w-5 h-5 cursor-pointer accent-orange-500 flex-shrink-0"
+                                                        className="w-5 h-5 cursor-pointer accent-[#E19738] flex-shrink-0"
                                                     />
                                                     <div className="w-20 h-20 sm:w-24 sm:h-24 bg-gray-200 rounded-lg shadow-md flex-shrink-0 overflow-hidden">
                                                         <img 
@@ -350,7 +350,7 @@ export default function CartPage() {
                                         {cartItems.length === 0 && (
                                             <div className="text-center py-10 text-gray-500">
                                                 <p className="text-xl mb-4">Keranjang belanja Anda kosong</p>
-                                                <button onClick={() => navigate('/merchList')} className="text-orange-600 underline hover:text-orange-800">Mulai Belanja</button>
+                                                <button onClick={() => navigate('/merchList')} className="text-[#E19738] underline hover:text-[#E19738]">Mulai Belanja</button>
                                             </div>
                                         )}
                                     </div>
@@ -361,7 +361,7 @@ export default function CartPage() {
                             <div className="lg:col-span-1">
                                 <div className="bg-white/90 backdrop-blur-sm rounded-2xl p-6 shadow-xl sticky top-24">
                                     <h2 className="text-xl font-bold text-gray-800 mb-6 pb-3 border-b-2 border-gray-200">
-                                        Ringkasan Belanja
+                                        Cart Total
                                     </h2>
 
                                     <div className="space-y-3 mb-6 max-h-[300px] overflow-y-auto pr-2">
@@ -384,7 +384,7 @@ export default function CartPage() {
                                     <div className="pt-4 mb-6 border-t-2 border-gray-200">
                                         <div className="flex justify-between items-center">
                                             <span className="text-lg font-bold text-gray-800">Total:</span>
-                                            <span className="text-xl font-bold text-orange-600">
+                                            <span className="text-xl font-bold text-[#E19738]">
                                                 Rp{calculateTotal().toLocaleString('id-ID')}
                                             </span>
                                         </div>
@@ -396,9 +396,9 @@ export default function CartPage() {
                                     <button
                                         onClick={onCheckoutClick} // Mengarahkan ke fungsi Modal
                                         disabled={calculateTotal() === 0}
-                                        className={`w-full py-3 rounded-xl font-bold text-white shadow-lg transition-all transform hover:scale-[1.02] active:scale-[0.98] flex justify-center items-center gap-2 ${
+                                        className={`w-full py-3 rounded-xl font-bold text-black shadow-lg transition-all transform hover:scale-[1.02] active:scale-[0.98] flex justify-center items-center gap-2 ${
                                             calculateTotal() > 0
-                                                ? 'bg-gradient-to-r from-orange-400 to-orange-500 hover:from-orange-500 hover:to-orange-600 cursor-pointer'
+                                                ? 'bg-[#E19738]'
                                                 : 'bg-gray-300 cursor-not-allowed'
                                         }`}
                                     >

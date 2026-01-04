@@ -132,14 +132,13 @@ export default function HistoryPage() {
                 {/* Header Title */}
                 <div className="flex items-center justify-center w-full mb-10 relative">
                       <div className="text-center">
-                        <h1
-                            className="text-6xl md:text-7xl font-['Pirata_One'] text-white drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] tracking-wider"
-                            style={{
-                                textShadow: '-1px -1px 0 #1a3c40, 1px -1px 0 #1a3c40, -1px 1px 0 #1a3c40, 1px 1px 0 #1a3c40'
-                            }}
-                        >
-                            ORDER HISTORY
-                        </h1>
+                                <h1 className="text-5xl text-white font-bold tracking-wider"
+                                    style={{
+                                        fontFamily: 'treamd',
+                                        textShadow: '3px 3px 0px #3d2314, 5px 5px 0px rgba(61, 35, 20, 0.5)'
+                                    }}>
+                                    ORDER HISTORY
+                                </h1>
                     </div>
                 </div>
 

@@ -16,22 +16,21 @@ const Navbar = () => {
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
   const [showMobileSidebar, setShowMobileSidebar] = useState<boolean>(false);
   const [showMobileProfileDropdown, setShowMobileProfileDropdown] = useState<boolean>(false);
-  
-  // Check if user is logged in based on AuthContext
   const isLoggedIn = !!user;
 
-  const menuItemsLoggedOut = [
+  // Menu untuk user yang belum login - tampilkan semua
+  const menuItemsLoggedIn = [
     { id: 'home', icon: iconHome, path: '/', label: 'Home' },
     { id: 'toko', icon: iconToko, path: '/merchlist', label: 'Merchandise' },
     { id: 'keranjang', icon: iconKeranjang, path: '/cart', label: 'Cart' },
     { id: 'history', icon: iconHistory, path: '/history', label: 'History'}
   ];
 
-  const menuItemsLoggedIn = [
+  // Menu untuk user yang sudah login - HANYA Home dan Toko
+  // Cart dan History dipindah ke dropdown profile
+  const menuItemsLoggedOut = [
     { id: 'home', icon: iconHome, path: '/', label: 'Home' },
     { id: 'toko', icon: iconToko, path: '/merchlist', label: 'Merchandise' },
-    { id: 'keranjang', icon: iconKeranjang, path: '/cart', label: 'Cart' },
-    { id: 'history', icon: iconHistory, path: '/history', label: 'History'},
   ];
 
   const menuItems = isLoggedIn ? menuItemsLoggedIn : menuItemsLoggedOut;
@@ -81,6 +80,10 @@ const Navbar = () => {
                         </svg>
                         Riwayat Pesanan
                       </a>
+                      <a href="/cart" className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors">
+                        <img src={iconKeranjang} alt="Cart" className="h-5 w-5 mr-3" />
+                        Cart
+                      </a>
                       <button 
                         onClick={() => {
                           logout();
@@ -98,8 +101,8 @@ const Navbar = () => {
                   )}
                 </div>
               ) : (
-                <a href="/auth" className="bg-[#5196AA] hover:bg-[#5196AA] text-white font-semibold py-2 px-6 rounded-lg transition-all duration-200">
-                  Login
+                <a href="/auth" className="bg-[#5196AA] hover:bg-[#4585a0] text-white font-semibold py-2 px-6 rounded-lg transition-all duration-200">
+                  Sign In
                 </a>
               )}
             </div>
@@ -196,6 +199,13 @@ const Navbar = () => {
                       </svg>
                       Riwayat Pesanan
                     </a>
+                    <a 
+                      href="/cart" 
+                      className="flex items-center px-6 py-3 text-gray-800 hover:bg-white/50 transition-colors pl-12"
+                    >
+                      <img src={iconKeranjang} alt="Cart" className="h-5 w-5 mr-3" />
+                      Cart
+                    </a>
                     <button 
                       onClick={() => {
                         logout();
@@ -216,9 +226,9 @@ const Navbar = () => {
               <div className="px-6 py-4">
                 <a 
                   href="/auth" 
-                  className="block w-full text-center bg-[#5196AA] text-white py-2 px-4 rounded-lg hover:bg-[#5196AA] transition-colors font-medium"
+                  className="block w-full text-center bg-[#5196AA] text-white py-2 px-4 rounded-lg hover:bg-[#4585a0] transition-colors font-medium"
                 >
-                  Login
+                  Sign In
                 </a>
               </div>
             )}
