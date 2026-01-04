@@ -19,6 +19,7 @@ import petiKanan from '../assets/PetiKanan.svg'
 import bayang from '../assets/Bayang.svg'
 import fotoMuter from '../assets/RollingPhotos.png'
 import bgBiruMuda from '../assets/BackGroundBiruMuda.png'
+import gambarMerch from '../assets/gambarMerch.png'
 
 
 
@@ -71,14 +72,22 @@ export default function MainPage() {
                         Explore
                     </button>
                 </div>
-                <div className="relative z-30 -translate-y-[120px] w-full h-[550px]">
+                <div className="relative z-30 mb-20 -translate-y-[120px] w-full h-[550px]">
                     <img
                         src={ombakDesc}
                         alt=""
-                        className="absolute inset-0 w-full h-full object-cover animate-float-slow"
+                        className="
+    absolute
+    top-0 left-0
+    w-full
+    h-[140%]
+    object-cover
+    animate-float-slow
+  "
                     />
 
-                    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2
+
+                    <div className="absolute top-2/3 left-1/2 -translate-x-1/2 -translate-y-1/2
                 w-[92%] flex flex-col items-center gap-5">
 
                         <img
@@ -93,14 +102,14 @@ export default function MainPage() {
                             </h3>
 
                             <p className="text-sm leading-relaxed text-justify hyphens-auto">
-                            Universitas Indonesia Goes To Celebes (UIGTC) adalah program tahunan Ikatan Mahasiswa Sulawesi Selatan (IMSS) UI yang bertujuan untuk memperkenalkan Universitas Indonesia kepada siswa-siswi SMA di Sulawesi Selatan. Kegiatan UIGTC terbagi menjadi roadshow ke berbagai sekolah di Sulawesi Selatan dan main event yang meliputi try out SNBT, talkshow inspiratif, dan kegiatan seru lainnya.
+                                Universitas Indonesia Goes To Celebes (UIGTC) adalah program tahunan Ikatan Mahasiswa Sulawesi Selatan (IMSS) UI yang bertujuan untuk memperkenalkan Universitas Indonesia kepada siswa-siswi SMA di Sulawesi Selatan. Kegiatan UIGTC terbagi menjadi roadshow ke berbagai sekolah di Sulawesi Selatan dan main event yang meliputi try out SNBT, talkshow inspiratif, dan kegiatan seru lainnya.
                             </p>
                         </div>
                     </div>
 
                 </div>
 
-                <div className="relative z-40 -translate-y-[260px] w-full">
+                <div className="relative pt-10 z-40 -translate-y-[220px] w-full">
                     <img src={lautDalam} alt="" className="w-full h-[600px] object-cover" />
                     <div className="absolute inset-0 flex flex-col items-center justify-center text-white px-4">
 
@@ -364,21 +373,37 @@ export default function MainPage() {
                             <img src={fotoMuter} alt="archive" className="h-48 shrink-0 rounded-xl" />
                         </div>
                     </div>
-                    <section className="relative w-screen h-[420px] overflow-hidden">
-                        <img src={bgBiruMuda} alt="bgBirumuda" className="absolute inset-0 w-full h-full object-cover" />
-                        <div className="relative z-10 flex h-full px-6 py-10">
-                            <div className="flex flex-col justify-center w-2/3 text-[#0B2E34]">
-                                <h2 className="text-3xl font-treamd font-bold leading-tight mb-4">
-                                    LET’S TAKE A LOOK <br /> AT OUR MERCH
+                    <section className="relative w-screen">
+                        <img
+                            src={bgBiruMuda}
+                            alt="bgBirumuda"
+                            className="absolute -top-[40px] left-0 w-full h-[calc(100%+40px)]"
+                        />
+
+                        <div className="relative z-10 container mx-auto px-4 sm:px-6 md:px-10 lg:px-16 pt-20 sm:pt-6 md:pt-12 lg:pt-16 pb-8 sm:pb-12 md:pb-16 lg:pb-20">
+                            <div className="flex md:hidden flex-col items-center text-center">
+                                <h2 className="text-xl sm:text-2xl font-treamd font-bold leading-tight mb-4 sm:mb-5 text-[#0B2E34]">
+                                    LET'S TAKE A LOOK AT<br />
+                                    OUR MERCH!
                                 </h2>
-                                <p className="text-sm leading-relaxed mb-6 text-justify">
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                    tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                    quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
+
+                                <div className="relative w-full max-w-[220px] sm:max-w-[260px] mb-4 sm:mb-5">
+                                    <img
+                                        src={gambarMerch}
+                                        alt="Merchandise Collection"
+                                        className="w-full h-auto object-contain drop-shadow-2xl"
+                                    />
+                                </div>
+
+                                <p className="text-xs sm:text-sm leading-relaxed mb-4 sm:mb-5 text-justify px-4 text-[#0B2E34]">
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
                                 </p>
-                                <button className="w-fit bg-[#E39A3B] text-[#1F2D2F]
-        px-6 py-2 rounded-lg font-semibold shadow-md">
-                                    Buy
+
+                                <button
+                                    onClick={() => navigate('/merchlist')}
+                                    className="w-fit bg-[#E39A3B] text-[#1F2D2F] px-6 py-2.5 rounded-lg font-bold text-sm shadow-lg hover:bg-[#d88f35] hover:scale-105 transition-all duration-300"
+                                >
+                                    Buy Merch
                                 </button>
                             </div>
                         </div>
@@ -454,7 +479,7 @@ export default function MainPage() {
                                             </h3>
 
                                             <p className="leading-relaxed text-left font-medium text-[clamp(0.65rem,1.5vw,1.875rem)] max-w-[90%] md:max-w-[85%] lg:max-w-[650px]">
-                                            Universitas Indonesia Goes To Celebes (UIGTC) adalah program tahunan Ikatan Mahasiswa Sulawesi Selatan (IMSS) UI yang bertujuan untuk memperkenalkan Universitas Indonesia kepada siswa-siswi SMA di Sulawesi Selatan. Kegiatan UIGTC terbagi menjadi roadshow ke berbagai sekolah di Sulawesi Selatan dan main event yang meliputi try out SNBT, talkshow inspiratif, dan kegiatan seru lainnya.
+                                                Universitas Indonesia Goes To Celebes (UIGTC) adalah program tahunan Ikatan Mahasiswa Sulawesi Selatan (IMSS) UI yang bertujuan untuk memperkenalkan Universitas Indonesia kepada siswa-siswi SMA di Sulawesi Selatan. Kegiatan UIGTC terbagi menjadi roadshow ke berbagai sekolah di Sulawesi Selatan dan main event yang meliputi try out SNBT, talkshow inspiratif, dan kegiatan seru lainnya.
                                             </p>
                                         </div>
                                     </div>
@@ -547,7 +572,6 @@ export default function MainPage() {
                                                 scrollBehavior: 'smooth',
                                             }}
                                         >
-                                            {/* CLOSE BUTTON */}
                                             <button
                                                 onClick={() => setShowPopup1(false)}
                                                 aria-label="Close popup"
@@ -574,8 +598,6 @@ export default function MainPage() {
                                                     />
                                                 </svg>
                                             </button>
-
-                                            {/* CONTENT */}
                                             <div className="flex flex-col items-center text-[#0B2E34]">
                                                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-treamd font-bold text-center uppercase pt-4 sm:pt-6">
                                                     Pre-Event
@@ -690,7 +712,6 @@ export default function MainPage() {
                                                 scrollBehavior: 'smooth',
                                             }}
                                         >
-                                            {/* CLOSE BUTTON */}
                                             <button
                                                 onClick={() => setShowPopup2(false)}
                                                 aria-label="Close popup"
@@ -717,8 +738,6 @@ export default function MainPage() {
                                                     />
                                                 </svg>
                                             </button>
-
-                                            {/* CONTENT */}
                                             <div className="flex flex-col items-center text-[#0B2E34]">
                                                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-treamd font-bold text-center uppercase pt-4 sm:pt-6">
                                                     RoadShow
@@ -862,8 +881,6 @@ export default function MainPage() {
                                                     />
                                                 </svg>
                                             </button>
-
-                                            {/* CONTENT */}
                                             <div className="flex flex-col items-center text-[#0B2E34]">
                                                 <h2 className="text-2xl sm:text-3xl md:text-4xl font-treamd font-bold text-center uppercase pt-4 sm:pt-6">
                                                     Main Event
@@ -957,24 +974,44 @@ export default function MainPage() {
                                 ))}
                             </div>
                         </div>
-                        <section className="relative w-screen h-[350px] sm:h-[400px] md:h-[500px] lg:h-[600px] xl:h-[700px] overflow-hidden">
-                            <img src={bgBiruMuda} alt="bgBirumuda" className="absolute inset-0 w-full h-full object-cover" />
-                            <div className="relative z-10 container mx-auto h-full px-4 sm:px-6 md:px-10 lg:px-16 xl:px-20 py-6 sm:py-8 md:py-10 flex items-center">
-                                <div className="flex flex-col justify-center w-full md:w-[55%] lg:w-1/2 text-[#0B2E34] bg-white/10 md:bg-transparent backdrop-blur-sm md:backdrop-blur-none p-4 sm:p-5 md:p-0 rounded-xl">
-                                    <h2 className="text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl 2xl:text-6xl font-treamd font-bold leading-tight mb-3 sm:mb-4 md:mb-5 lg:mb-6 xl:mb-8 drop-shadow-sm">
-                                        LET'S TAKE A LOOK <br /> AT OUR MERCH
-                                    </h2>
-                                    <p className="text-xs sm:text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl leading-relaxed mb-4 sm:mb-5 md:mb-6 lg:mb-8 xl:mb-10 text-justify md:text-left font-medium opacity-90 max-w-xl">
-                                        Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                        tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-                                        quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                                    </p>
-<button 
-    onClick={() => navigate('/merchlist')}
-    className="w-fit bg-[#E39A3B] text-[#1F2D2F] px-5 py-2 sm:px-6 sm:py-2.5 md:px-8 md:py-3 lg:px-9 lg:py-3.5 xl:px-10 xl:py-4 rounded-lg font-bold text-sm sm:text-base md:text-lg shadow-lg hover:bg-[#e89c3f] hover:scale-105 transition-all duration-300"
->
-    Buy Now
-</button>
+                        <section className="relative w-full">
+                            <img
+                                src={bgBiruMuda}
+                                alt="Background"
+                                className="absolute -top-35 left-0 w-full min-h-full object-cover"
+                            />
+
+                            <div className="relative z-10 container mx-auto px-4 sm:px-6 md:px-10 lg:px-16 xl:px-20 pt-8 sm:pt-12 md:pt-16 lg:pt-20 pb-12 sm:pb-16 md:pb-20 lg:pb-24">
+                                <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 lg:gap-12 items-center">
+                                    <div className="text-black space-y-4 sm:space-y-5 md:space-y-6 max-w-2xl">
+                                        <h2 className="font-bold leading-tight">
+                                            <div className="font-treamd text-xl sm:text-2xl md:text-3xl lg:text-4xl xl:text-5xl">
+                                                LET'S TAKE A LOOK AT
+                                            </div>
+                                            <div className="text-3xl font-treamd sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl mt-1 sm:mt-2">
+                                                OUR MERCH!
+                                            </div>
+                                        </h2>
+                                        <p className="text-xs sm:text-sm md:text-base lg:text-lg leading-relaxed text-justify max-w-lg pr-0 md:pr-4">
+                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                                        </p>
+
+                                        <button
+                                            onClick={() => navigate('/merchlist')}
+                                            className="bg-[#E39A3B] text-[#1F2D2F] px-6 py-2.5 sm:px-7 sm:py-3 md:px-8 md:py-3 lg:px-9 lg:py-3.5 rounded-lg font-bold text-sm sm:text-base md:text-lg shadow-lg hover:bg-[#d88f35] hover:scale-105 transition-all duration-300"
+                                        >
+                                            Buy Merch
+                                        </button>
+                                    </div>
+                                    <div className="relative flex justify-center md:justify-end mt-6 md:mt-0">
+                                        <div className="relative w-[280px] sm:w-[520px] md:w-[560px] lg:w-[620px] xl:w-[680px]">
+                                            <img
+                                                src={gambarMerch}
+                                                alt="Merchandise Collection"
+                                                className="w-full h-auto object-contain drop-shadow-2xl"
+                                            />
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </section>
