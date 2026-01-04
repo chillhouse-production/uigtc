@@ -8,7 +8,6 @@ import Vector69 from '../assets/background-TS/Vector 69.svg';
 import Vector71 from '../assets/background-TS/Vector 71.svg';
 import Vector72 from '../assets/background-TS/Vector 72.svg';
 import Vector73 from '../assets/background-TS/Vector 73.svg';
-import BadgeCheck from '../assets/badge-check.svg';
 import Navbar from '../salman/navBar';
 
 const API_BASE_URL = 'https://uigtc.id/api';
@@ -79,13 +78,35 @@ export default function TransactionSuccessPage() {
             <img src={Ellipse27} alt="" className="absolute bottom-20 right-20 opacity-60" />
             <img src={Ellipse28} alt="" className="absolute top-1/2 left-1/4 opacity-60" />
             <img src={Ellipse29} alt="" className="absolute bottom-10 left-1/3 opacity-60" />
+            
+            {/* Bird Decorations - menggunakan SVG untuk burung */}
+            <svg className="absolute top-20 left-20 w-12 h-8 opacity-70" viewBox="0 0 48 32" fill="none">
+                <path d="M2 16C2 16 8 8 16 8C24 8 28 14 32 14C36 14 42 8 46 8" stroke="#2C5F6F" strokeWidth="2" strokeLinecap="round"/>
+                <path d="M32 14C32 14 34 10 36 10C38 10 40 12 40 12" stroke="#2C5F6F" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+            
+            <svg className="absolute top-32 right-20 w-12 h-8 opacity-70" viewBox="0 0 48 32" fill="none">
+                <path d="M2 16C2 16 8 8 16 8C24 8 28 14 32 14C36 14 42 8 46 8" stroke="#2C5F6F" strokeWidth="2" strokeLinecap="round"/>
+                <path d="M32 14C32 14 34 10 36 10C38 10 40 12 40 12" stroke="#2C5F6F" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+            
+            <svg className="absolute bottom-40 left-32 w-10 h-6 opacity-60" viewBox="0 0 48 32" fill="none">
+                <path d="M2 16C2 16 8 8 16 8C24 8 28 14 32 14C36 14 42 8 46 8" stroke="#2C5F6F" strokeWidth="2" strokeLinecap="round"/>
+                <path d="M32 14C32 14 34 10 36 10C38 10 40 12 40 12" stroke="#2C5F6F" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+            
+            <svg className="absolute bottom-1/3 right-32 w-10 h-6 opacity-60" viewBox="0 0 48 32" fill="none">
+                <path d="M2 16C2 16 8 8 16 8C24 8 28 14 32 14C36 14 42 8 46 8" stroke="#2C5F6F" strokeWidth="2" strokeLinecap="round"/>
+                <path d="M32 14C32 14 34 10 36 10C38 10 40 12 40 12" stroke="#2C5F6F" strokeWidth="2" strokeLinecap="round"/>
+            </svg>
+
             <img src={Vector69} alt="" className="absolute top-20 right-1/4 w-12" />
             <img src={Vector71} alt="" className="absolute top-40 left-20 w-16" />
             <img src={Vector72} alt="" className="absolute bottom-1/3 right-10 w-10" />
             <img src={Vector73} alt="" className="absolute top-10 left-1/2 w-8" />
 
             <div
-                className={`relative z-10 bg-white shadow-xl flex flex-col items-center text-center
+                className={`relative z-10 bg-white shadow-xl flex flex-col items-center text-center border-4 border-[#5DAECC]
                     /* HP (Mobile) */
                     w-[90%] max-w-sm p-8 rounded-3xl mb-8
 
@@ -93,18 +114,23 @@ export default function TransactionSuccessPage() {
                     md:max-w-xl md:p-12
 
                     /* Laptop (Desktop) */
-                    lg:max-w-2xl lg:p-16 lg:rounded-[1rem]
+                    lg:max-w-2xl lg:p-16 lg:rounded-[2rem]
                 `}
             >
+                {/* Custom Checkmark Badge - menggantikan BadgeCheck.svg */}
                 <div className="mb-6 relative">
-                    <img src={BadgeCheck} alt="Success Badge" className="w-[120px] h-[120px] drop-shadow-md" />
+                    <div className="w-[120px] h-[120px] rounded-full border-[6px] border-[#5DAECC] bg-white flex items-center justify-center shadow-lg">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#5DAECC" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                            <polyline points="20 6 9 17 4 12"></polyline>
+                        </svg>
+                    </div>
                 </div>
 
                 <h1 className="text-4xl md:text-5xl font-['Pirata_One'] text-[#1a3c40] mb-8 font-normal tracking-wide">
                     PEMESANAN BERHASIL!
                 </h1>
 
-                <div className="bg-[#CFE3E8] rounded-lg px-8 py-4 flex items-center gap-4 text-[#1a3c40] mb-2 w-full max-w-sm border border-[#4FB4CE]/30">
+                <div className="bg-[#CFE3E8] rounded-lg px-8 py-4 flex items-center gap-4 text-[#1a3c40] mb-2 w-full max-w-sm border border-[#5DAECC]/30">
                     <span className="font-bold text-lg font-serif">Order ID:</span>
                     
                     <span className="font-serif text-lg tracking-wider flex-1 text-left truncate">
@@ -119,6 +145,7 @@ export default function TransactionSuccessPage() {
                         onClick={handleCopy} 
                         disabled={loading || !orderId}
                         className="text-[#1a3c40] hover:text-[#0f2426] transition-colors relative disabled:opacity-50"
+                        aria-label="Copy Order ID"
                     >
                         {copied ? (
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-green-600">
@@ -134,12 +161,21 @@ export default function TransactionSuccessPage() {
                 </div>
             </div>
             
-            <button
-                onClick={() => navigate('/')}
-                className="relative z-10 px-10 py-3 bg-[#133033] hover:bg-[#0b1c1e] text-white font-serif font-bold text-lg rounded-lg shadow-lg transition-colors"
-            >
-                Back To Home
-            </button>
+            {/* Button Group - menambahkan tombol Order History */}
+            <div className="relative z-10 flex flex-col md:flex-row gap-4 items-center">
+                <button
+                    onClick={() => navigate('/')}
+                    className="px-10 py-3 bg-[#E89F3C] hover:bg-[#d68f2a] text-white font-serif font-bold text-lg rounded-lg shadow-lg transition-colors min-w-[180px]"
+                >
+                    Back To Home
+                </button>
+                <button
+                    onClick={() => navigate('/history')}
+                    className="px-10 py-3 bg-[#133033] hover:bg-[#0b1c1e] text-white font-serif font-bold text-lg rounded-lg shadow-lg transition-colors min-w-[180px]"
+                >
+                    Order History
+                </button>
+            </div>
         </div>
     );
 }

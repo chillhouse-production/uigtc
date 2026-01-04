@@ -141,7 +141,7 @@ const MerchList = () => {
                         {/* Banner Title */}
                         <div className="w-full mt-8 mb-10">
                             <div className="text-center">
-                                <h1 className="text-5xl text-white font-bold tracking-wider"
+                                <h1 className="text-5xl text-white font-bree tracking-wider"
                                     style={{
                                         fontFamily: 'treamd',
                                         textShadow: '3px 3px 0px #3d2314, 5px 5px 0px rgba(61, 35, 20, 0.5)'
@@ -159,7 +159,7 @@ const MerchList = () => {
                                         <svg className="w-5 h-5 text-[#3d2314]" fill="currentColor" viewBox="0 0 20 20">
                                             <path fillRule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z" clipRule="evenodd" />
                                         </svg>
-                                        <h2 className="text-lg font-bold text-[#3d2314]">Filter</h2>
+                                        <h2 className="text-lg font-bree text-[#3d2314]">Filter</h2>
                                     </div>
                                     
                                     <div className="space-y-3">
@@ -232,10 +232,10 @@ const MerchList = () => {
 
                                                     {/* Info Container */}
                                                     <div className="px-2">
-                                                        <h3 className="font-bold text-[#3d2314] text-lg mb-3 line-clamp-2 min-h-[3.5rem]">
+                                                        <h3 className="font-bree text-[#3d2314] text-lg mb-3 line-clamp-2 min-h-[3.5rem]">
                                                             {item.name}
                                                         </h3>
-                                                        <p className="text-[#8B4513] font-bold text-xl mb-2">
+                                                        <p className="text-[#8B4513] font-bree text-xl mb-2">
                                                             {formatCurrency(item.price)}
                                                         </p>
                                                         <p className="text-gray-500 text-sm font-medium">
@@ -277,7 +277,7 @@ const MerchList = () => {
                         {/* Banner Section */}
                         <div className="px-4 pt-20 pb-4">
                             <div className="text-center">
-                                <h1 className="text-2xl text-white font-bold"
+                                <h1 className="text-2xl text-white font-bree"
                                     style={{
                                         fontFamily: 'treamd',
                                         textShadow: '2px 2px 0px #3d2314, 4px 4px 0px rgba(61, 35, 20, 0.6)'
@@ -294,7 +294,7 @@ const MerchList = () => {
                                     <svg className="w-5 h-5 text-[#3d2314]" fill="currentColor" viewBox="0 0 20 20">
                                         <path fillRule="evenodd" d="M3 3a1 1 0 011-1h12a1 1 0 011 1v3a1 1 0 01-.293.707L12 11.414V15a1 1 0 01-.293.707l-2 2A1 1 0 018 17v-5.586L3.293 6.707A1 1 0 013 6V3z" clipRule="evenodd" />
                                     </svg>
-                                    <h2 className="text-base font-bold text-[#3d2314]">Filter</h2>
+                                    <h2 className="text-base font-bree text-[#3d2314]">Filter</h2>
                                 </div>
 
                                 <div className="flex gap-2 overflow-x-auto pb-2 scrollbar-hide">
@@ -366,10 +366,10 @@ const MerchList = () => {
                                                     </div>
                                                 </div>
                                                 <div className="px-1">
-                                                    <h3 className="font-bold text-[#3d2314] text-base mb-2 line-clamp-2 min-h-[2.5rem]">
+                                                    <h3 className="font- text-[#3d2314] text-base mb-2 line-clamp-2 min-h-[2.5rem]">
                                                         {item.name}
                                                     </h3>
-                                                    <p className="text-[#8B4513] font-bold text-base mb-1">
+                                                    <p className="text-[#8B4513] font-bree text-base mb-1">
                                                         {formatCurrency(item.price)}
                                                     </p>
                                                     <p className="text-gray-500 text-xs font-medium">
