@@ -21,7 +21,7 @@ interface Product {
 }
 
 const API_BASE_URL = 'https://uigtc.id/api';
-const IMAGE_BASE_URL = 'https://uigtc.id'; // Base URL untuk gambar
+const IMAGE_BASE_URL = 'https://uigtc.id'; 
 
 const MerchList = () => {
     const navigate = useNavigate();
@@ -32,11 +32,9 @@ const MerchList = () => {
     const [isLoading, setIsLoading] = useState(true);
 
     // --- State Filtering ---
-    // Desktop: Multiple selection with checkboxes (menyimpan nama kategori)
     const [selectedCategoriesDesktop, setSelectedCategoriesDesktop] = useState<string[]>([]);
     const [filteredDataDesktop, setFilteredDataDesktop] = useState<Product[]>([]);
     
-    // Mobile: Single selection
     const [selectedCategoryMobile, setSelectedCategoryMobile] = useState("Semua");
     const [filteredDataMobile, setFilteredDataMobile] = useState<Product[]>([]);
 
@@ -55,49 +53,26 @@ const MerchList = () => {
             try {
                 setIsLoading(true);
 
-                const [
-                    catMerchRes,
-                    catTicketRes,
-                    prodMerchRes,
-                    prodTicketRes
-                ] = await Promise.all([
-                    fetch(`${API_BASE_URL}/products/merchandise`),
-                    fetch(`${API_BASE_URL}/products/tickets`), // Endpoint Tiket
-                    fetch(`${API_BASE_URL}/products/merchandise`),
-                    fetch(`${API_BASE_URL}/products/ticket`) // Endpoint Tiket
-                ]);
-
-                const catMerchResult = await catMerchRes.json();
-                const catTicketResult = await catTicketRes.json();
-                const prodMerchResult = await prodMerchRes.json();
-                const prodTicketResult = await prodTicketRes.json();
-
-                // --- 1. GABUNGKAN CATEGORIES ---
-                let combinedCategories: Category[] = [];
-                if (catMerchResult.success) {
-                    combinedCategories = [...combinedCategories, ...catMerchResult.data];
-                }
-                if (catTicketResult.success) {
-                    combinedCategories = [...combinedCategories, ...catTicketResult.data];
-                }
-                // Hapus duplikat kategori jika ada (opsional, jaga-jaga)
-                const uniqueCategories = Array.from(new Map(combinedCategories.map(item => [item.id, item])).values());
-                setCategories(uniqueCategories);
-
-                // --- 2. GABUNGKAN PRODUCTS ---
-                let combinedProducts: Product[] = [];
-                if (prodMerchResult.success) {
-                    combinedProducts = [...combinedProducts, ...prodMerchResult.data];
-                }
-                if (prodTicketResult.success) {
-                    combinedProducts = [...combinedProducts, ...prodTicketResult.data];
+                // KITA PANGGIL ENDPOINT UTAMA SAJA (Karena sudah mencakup Merch & Tiket)
+                
+                // 1. Fetch Categories (Gunakan /products/categories agar dapat semua)
+                const catResponse = await fetch(`${API_BASE_URL}/products/categories`);
+                const catResult = await catResponse.json();
+                
+                if (catResult.success) {
+                    setCategories(catResult.data);
                 }
 
-                setAllProducts(combinedProducts);
+                // 2. Fetch All Products (Gunakan /products saja, JANGAN /merchandise)
+                const prodResponse = await fetch(`${API_BASE_URL}/products`);
+                const prodResult = await prodResponse.json();
 
-                // Set initial filtered data dengan SEMUA produk (Merch + Ticket)
-                setFilteredDataDesktop(combinedProducts);
-                setFilteredDataMobile(combinedProducts);
+                if (prodResult.success) {
+                    setAllProducts(prodResult.data);
+                    // Set initial filtered data
+                    setFilteredDataDesktop(prodResult.data);
+                    setFilteredDataMobile(prodResult.data);
+                }
 
             } catch (error) {
                 console.error("Failed to fetch data:", error);

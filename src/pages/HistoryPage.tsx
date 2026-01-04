@@ -9,10 +9,12 @@ import { ordersApi, type Order } from '../config/api';
 export default function HistoryPage() {
     const navigate = useNavigate();
     
-    // --- STATE & LOGIC (Dari Kode Lama) ---
+    // --- STATE & LOGIC ---
     const { user, loading: authLoading } = useAuth();
     const [orders, setOrders] = useState<Order[]>([]);
     const [loading, setLoading] = useState(true);
+    
+    // Perbaikan: State error dideklarasikan dan sekarang akan digunakan di bawah
     const [error, setError] = useState<string | null>(null);
 
     // Fetch Data
@@ -26,6 +28,9 @@ export default function HistoryPage() {
 
         async function fetchOrders() {
             try {
+                // Reset error sebelum fetch ulang (opsional tapi praktik bagus)
+                setError(null);
+                
                 const response = await ordersApi.getMyOrders();
                 if (response.success && response.data) {
                     setOrders(response.data);
@@ -42,19 +47,18 @@ export default function HistoryPage() {
         fetchOrders();
     }, [user, authLoading]);
 
-    // --- HELPERS (Adaptasi Logic Lama ke Desain Baru) ---
+    // --- HELPERS ---
     const getStatusColor = (status: string) => {
-        // Mapping status API ke Design System Baru
         switch (status) {
             case 'pending': 
             case 'waiting_payment':
-                return 'bg-[#FCD34D] text-[#1a3c40]'; // Yellow
+                return 'bg-[#FCD34D] text-[#1a3c40]'; 
             case 'completed': 
             case 'payment_accepted':
-                return 'bg-[#6EE7B7] text-[#1a3c40]'; // Green
+                return 'bg-[#6EE7B7] text-[#1a3c40]'; 
             case 'rejected': 
             case 'cancelled':
-                return 'bg-[#EF4444] text-white'; // Red
+                return 'bg-[#EF4444] text-white'; 
             case 'payment_review':
                 return 'bg-blue-400 text-white';
             default: 
@@ -76,7 +80,8 @@ export default function HistoryPage() {
     const formatCurrency = (price: number) => new Intl.NumberFormat('id-ID').format(price);
 
     // --- RENDER CONDITIONALS ---
-    // Loading State
+    
+    // 1. Loading State
     if (authLoading || loading) {
         return (
             <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
@@ -89,7 +94,7 @@ export default function HistoryPage() {
         );
     }
 
-    // Not Login State
+    // 2. Not Login State
     if (!user) {
         return (
             <div className="min-h-screen flex flex-col relative overflow-hidden">
@@ -126,7 +131,7 @@ export default function HistoryPage() {
                 
                 {/* Header Title */}
                 <div className="flex items-center justify-center w-full mb-10 relative">
-                     <div className="text-center">
+                      <div className="text-center">
                         <h1
                             className="text-6xl md:text-7xl font-['Pirata_One'] text-white drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] tracking-wider"
                             style={{
@@ -140,7 +145,15 @@ export default function HistoryPage() {
 
                 {/* Orders List */}
                 <div className="w-full space-y-6 mb-12">
-                    {orders.length === 0 ? (
+                    {/* Perbaikan: Menampilkan Error Banner jika ada error */}
+                    {error && (
+                        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                            <strong className="font-bold">Error: </strong>
+                            <span className="block sm:inline">{error}</span>
+                        </div>
+                    )}
+
+                    {orders.length === 0 && !error ? (
                         <div className="bg-[#F8FDFF] rounded-lg shadow-md border border-[#E5F6F8] p-10 text-center">
                             <p className="font-serif text-[#1a3c40] text-xl mb-4">Belum ada riwayat pesanan.</p>
                             <button 
@@ -191,7 +204,7 @@ export default function HistoryPage() {
                                             {formatDate(order.createdAt)}
                                         </span>
                                         
-                                        {/* Logic Tombol Bayar (Penting untuk UX) */}
+                                        {/* Logic Tombol Bayar */}
                                         {['PENDING_PAYMENT', 'waiting_payment', 'pending'].includes(order.status) && (
                                             <button 
                                                 onClick={() => navigate(`/checkout?orderId=${order.id}`)}
