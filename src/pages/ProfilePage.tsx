@@ -13,7 +13,7 @@ import Footer from '../salman/footer';
 
 export default function ProfilePage() {
     const navigate = useNavigate();
-    const { user: authUser, logout } = useAuth();
+    const { user: authUser } = useAuth();
     const [isEditing, setIsEditing] = useState(false);
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
