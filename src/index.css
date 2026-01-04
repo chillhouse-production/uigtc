@@ -185,3 +185,7 @@
 @theme {
   --font-treamd: 'Treamd', sans-serif;
 }
+
+.font-bree {
+    font-family: 'Bree Serif', serif;
+}

@@ -50,19 +50,12 @@ export default function HistoryPage() {
     // --- HELPERS ---
     const getStatusColor = (status: string) => {
         switch (status) {
-            case 'pending': 
-            case 'waiting_payment':
-                return 'bg-[#FCD34D] text-[#1a3c40]'; 
-            case 'completed': 
-            case 'payment_accepted':
-                return 'bg-[#6EE7B7] text-[#1a3c40]'; 
-            case 'rejected': 
-            case 'cancelled':
-                return 'bg-[#EF4444] text-white'; 
-            case 'payment_review':
-                return 'bg-blue-400 text-white';
-            default: 
-                return 'bg-gray-400 text-white';
+            case 'pending':
+                return 'bg-yellow-500 text-black';
+            case 'accepted':
+                return 'bg-[#6EE7B7] text-black '; 
+            case 'rejected':
+                return 'bg-red-500 text-black';
         }
     };
 
@@ -102,7 +95,7 @@ export default function HistoryPage() {
                 <Navbar />
                 <div className="relative z-10 flex-1 flex items-center justify-center p-4">
                     <div className="bg-[#F8FDFF] p-8 rounded-lg shadow-md border border-[#E5F6F8] text-center max-w-md w-full">
-                        <h2 className="text-2xl font-bold font-serif text-[#1a3c40] mb-4">Login Required</h2>
+                        <h2 className="text-2xl font-bree font-serif text-[#1a3c40] mb-4">Login Required</h2>
                         <button onClick={() => navigate('/auth')} className="px-6 py-2 bg-[#1a3c40] text-white rounded font-serif hover:opacity-90 transition-opacity">
                             Login Sekarang
                         </button>
@@ -132,14 +125,13 @@ export default function HistoryPage() {
                 {/* Header Title */}
                 <div className="flex items-center justify-center w-full mb-10 relative">
                       <div className="text-center">
-                        <h1
-                            className="text-6xl md:text-7xl font-['Pirata_One'] text-white drop-shadow-[0_4px_4px_rgba(0,0,0,0.25)] tracking-wider"
-                            style={{
-                                textShadow: '-1px -1px 0 #1a3c40, 1px -1px 0 #1a3c40, -1px 1px 0 #1a3c40, 1px 1px 0 #1a3c40'
-                            }}
-                        >
-                            ORDER HISTORY
-                        </h1>
+                                <h1 className="text-5xl mt-8 mb-4 text-white font-bree tracking-wider"
+                                    style={{
+                                        fontFamily: 'treamd',
+                                        textShadow: '3px 3px 0px #3d2314, 5px 5px 0px rgba(61, 35, 20, 0.5)'
+                                    }}>
+                                    ORDER HISTORY
+                                </h1>
                     </div>
                 </div>
 
@@ -148,7 +140,7 @@ export default function HistoryPage() {
                     {/* Perbaikan: Menampilkan Error Banner jika ada error */}
                     {error && (
                         <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-                            <strong className="font-bold">Error: </strong>
+                            <strong className="font-bree">Error: </strong>
                             <span className="block sm:inline">{error}</span>
                         </div>
                     )}
@@ -158,7 +150,7 @@ export default function HistoryPage() {
                             <p className="font-serif text-[#1a3c40] text-xl mb-4">Belum ada riwayat pesanan.</p>
                             <button 
                                 onClick={() => navigate('/merchlist')}
-                                className="px-6 py-2 bg-[#e89c3f] text-[#1a3c40] font-bold rounded shadow hover:bg-[#d68b2e] transition-colors"
+                                className="px-6 py-2 bg-[#e89c3f] text-[#1a3c40] font-bree rounded shadow hover:bg-[#d68b2e] transition-colors"
                             >
                                 Mulai Belanja
                             </button>
@@ -171,13 +163,13 @@ export default function HistoryPage() {
                                 <div className="px-6 py-4 border-b border-[#E5F6F8] flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
                                     <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 w-full md:w-auto">
                                         <div className="flex items-center gap-2">
-                                            <span className="font-bold text-[#1a3c40] font-serif text-sm">Order ID:</span>
+                                            <span className="font-bree text-[#1a3c40] font-serif text-sm">Order ID:</span>
                                             <span className="font-serif text-[#1a3c40] text-sm tracking-wide bg-gray-100 px-2 rounded">#{order.id.substring(0, 8)}</span>
                                         </div>
 
                                         <div className="flex items-center gap-2">
                                             {/* Status Badge */}
-                                            <span className={`px-4 py-0.5 rounded-full text-xs font-bold ${getStatusColor(order.status)} font-serif tracking-wide uppercase`}>
+                                            <span className={`px-4 py-0.5 rounded-full text-xs font-bree ${getStatusColor(order.status)} font-serif tracking-wide uppercase`}>
                                                 {getStatusLabel(order.status)}
                                             </span>
 
@@ -190,7 +182,7 @@ export default function HistoryPage() {
                                                         <line x1="12" y1="8" x2="12.01" y2="8"></line>
                                                     </svg>
                                                     <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 w-max max-w-[200px] bg-white text-[#1a3c40] text-xs rounded-lg shadow-lg p-3 border border-gray-200 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all z-20 text-left">
-                                                        <p className="font-bold mb-1 font-serif text-red-600">Alasan Penolakan:</p>
+                                                        <p className="font-bree mb-1 font-serif text-red-600">Alasan Penolakan:</p>
                                                         <p className="font-serif">{order.rejectionReason || 'Tidak ada alasan spesifik.'}</p>
                                                         <div className="absolute top-full left-1/2 -translate-x-1/2 border-8 border-transparent border-t-white"></div>
                                                     </div>
@@ -200,7 +192,7 @@ export default function HistoryPage() {
                                     </div>
 
                                     <div className="flex items-center gap-4 w-full md:w-auto justify-between md:justify-end">
-                                        <span className="font-bold text-[#1a3c40] font-serif text-sm opacity-75">
+                                        <span className="font-bree text-[#1a3c40] font-serif text-sm opacity-75">
                                             {formatDate(order.createdAt)}
                                         </span>
                                         
@@ -212,7 +204,7 @@ export default function HistoryPage() {
                                     {order.items.map((item, i) => (
                                         <div key={i} className="flex gap-4 items-center">
                                             {/* Image with Fallback */}
-                                            <div className="w-20 h-14 rounded-md shadow-sm bg-gradient-to-br from-teal-400 to-teal-600 overflow-hidden flex-shrink-0">
+                                            <div className="w-20 h-14 rounded-md shadow-sm bg-gray-200 overflow-hidden flex-shrink-0">
                                                 {item.product?.image && (
                                                     <img 
                                                         src={`https://uigtc.id${item.product.image}`}
@@ -224,10 +216,10 @@ export default function HistoryPage() {
                                             </div>
 
                                             <div className="flex-1 min-w-0">
-                                                <h3 className="font-bold text-[#1a3c40] font-serif text-base md:text-lg line-clamp-1">{item.product?.name}</h3>
-                                                <p className="text-xs font-bold text-[#8B8B8B] font-serif">Rp {formatCurrency(item.price)}</p>
+                                                <h3 className="font-bree text-[#1a3c40] font-serif text-base md:text-lg line-clamp-1">{item.product?.name}</h3>
+                                                <p className="text-xs font-bree text-[#8B8B8B] font-serif">Rp {formatCurrency(item.price)}</p>
                                             </div>
-                                            <div className="px-2 py-1 border border-gray-300 rounded text-xs font-bold text-gray-500 font-serif whitespace-nowrap">
+                                            <div className="px-2 py-1 border border-gray-300 rounded text-xs font-bree text-gray-500 font-serif whitespace-nowrap">
                                                 {item.quantity} x
                                             </div>
                                         </div>
@@ -236,8 +228,8 @@ export default function HistoryPage() {
 
                                 {/* Card Footer */}
                                 <div className="px-6 py-4 border-t border-[#E5F6F8] flex justify-end items-center gap-2">
-                                    <span className="font-bold text-[#1a3c40] font-serif text-sm">Total Harga:</span>
-                                    <span className="font-bold text-[#e89c3f] font-serif text-xl">Rp {formatCurrency(order.totalAmount)}</span>
+                                    <span className="font-bree text-[#1a3c40] font-serif text-sm">Total Harga:</span>
+                                    <span className="font-bree text-[#e89c3f] font-serif text-xl">Rp {formatCurrency(order.totalAmount)}</span>
                                 </div>
                             </div>
                         ))

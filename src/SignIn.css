@@ -4,17 +4,14 @@
   position: relative;
   width: 100%;
   min-height: 100vh;
-  /* Darker, more muted gradient */
   background: linear-gradient(180deg, #6baed6 0%, #4292c6 40%, #2171b5 100%);
   display: flex;
   justify-content: center;
   align-items: center;
   overflow: hidden;
   font-family: 'Roboto', sans-serif;
-  /* padding: 2rem 0; Removed padding to fit screen exact */
 }
 
-/* Background Elements */
 .cloud {
   position: absolute;
   pointer-events: none;
@@ -105,7 +102,7 @@
 .signin-card {
   position: relative;
   z-index: 10;
-  background: rgba(255, 255, 255, 0.55);
+  background: white;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border-radius: 30px;
@@ -118,6 +115,8 @@
   flex-direction: column;
   align-items: center;
   box-sizing: border-box;
+  margin-top: 64px;
+  margin-bottom: 64px;
   /* IMPORTANT FIX */
 }
 
@@ -174,8 +173,9 @@
 }
 
 .form-input::placeholder {
-  color: rgba(255, 255, 255, 0.8);
+  color: black;
   font-weight: 400;
+  opacity: 40%;
 }
 
 .form-input:focus {
