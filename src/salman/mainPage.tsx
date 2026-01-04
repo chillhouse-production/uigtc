@@ -20,7 +20,7 @@ import bayang from '../assets/Bayang.svg'
 import fotoMuter from '../assets/RollingPhotos.png'
 import bgBiruMuda from '../assets/BackGroundBiruMuda.png'
 import gambarMerch from '../assets/gambarMerch.png'
-
+import { useRef } from 'react';
 
 
 export default function MainPage() {
@@ -33,6 +33,23 @@ export default function MainPage() {
     useEffect(() => {
         setMounted(true)
     }, [])
+
+
+    const descriptionRef = useRef<HTMLDivElement>(null);
+    const descriptionRefMobile = useRef<HTMLDivElement>(null);
+
+    const scrollToDescription = () => {
+        descriptionRef.current?.scrollIntoView({ 
+            behavior: 'smooth',
+            block: 'start'
+        });
+    };
+    const scrollToDescriptionMobile = () => {
+    descriptionRefMobile.current?.scrollIntoView({ 
+        behavior: 'smooth',
+        block: 'start'
+    });
+};
 
     return (
 
@@ -68,9 +85,15 @@ export default function MainPage() {
 
                 <div className="relative z-20 -translate-y-[60px]">
                     <img src={pasirBg} alt="" className="w-full" />
-                    <button className="absolute top-3/12 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#135D66] hover:bg-[#0E464D] text-[#E3FEF7] font-semibold py-2 px-6 rounded-lg shadow-md transition-all duration-300">
-                        Explore
-                    </button>
+            <button 
+                onClick={scrollToDescriptionMobile}
+                className="absolute top-3/12 left-1/2 -translate-x-1/2 -translate-y-1/2 
+                    bg-[#135D66] hover:bg-[#0E464D] text-[#E3FEF7] 
+                    font-semibold py-2 px-6 rounded-lg shadow-md 
+                    transition-all duration-300 hover:scale-105 active:scale-95"
+            >
+                Explore
+            </button>
                 </div>
                 <div className="relative z-30 mb-20 -translate-y-[120px] w-full h-[550px]">
                     <img
@@ -96,7 +119,7 @@ export default function MainPage() {
                             className="w-40 h-40 shrink-0"
                         />
 
-                        <div className="text-[#0B2E34] max-w-[260px]">
+                        <div ref={descriptionRefMobile} className="text-[#0B2E34] max-w-[260px]">
                             <h3 className="text-xl font-treamd text-center font-extrabold leading-tight mb-2">
                                 WHAT’S UI GOES TO CELEBES?
                             </h3>
@@ -109,7 +132,7 @@ export default function MainPage() {
 
                 </div>
 
-                <div className="relative pt-10 z-40 -translate-y-[220px] w-full">
+                <div  className="relative pt-10 z-40 -translate-y-[220px] w-full">
                     <img src={lautDalam} alt="" className="w-full h-[600px] object-cover" />
                     <div className="absolute inset-0 flex flex-col items-center justify-center text-white px-4">
 
@@ -451,9 +474,15 @@ export default function MainPage() {
 
                     <div className="relative z-20 w-full">
                         <img src={pasirBg} alt="Sand Background" className="w-full object-cover relative -mt-[8%] sm:-mt-[9%] md:-mt-[10%]" />
-                        <button className="absolute top-[8%] sm:top-[9%] md:top-[10%] left-1/2 -translate-x-1/2 -translate-y-1/2 bg-[#135D66] hover:bg-[#0E464D] text-[#E3FEF7] font-semibold py-2 px-6 sm:py-3 sm:px-8 md:py-4 md:px-12 rounded-lg shadow-md transition-all duration-300 text-base sm:text-lg md:text-xl lg:text-2xl whitespace-nowrap">
-                            Explore
-                        </button>
+            <button 
+                onClick={scrollToDescription}
+                className="absolute top-1/12 left-1/2 -translate-x-1/2 -translate-y-1/2 
+                    bg-[#135D66] hover:bg-[#0E464D] text-[#E3FEF7] 
+                    font-semibold py-2 px-6 rounded-lg shadow-md 
+                    transition-all duration-300 hover:scale-105 active:scale-95"
+            >
+                Explore
+            </button>
                     </div>
 
                     <div className="relative w-full z-30 overflow-hidden -mt-[30%] sm:-mt-[32%] md:-mt-[35%]">
@@ -493,7 +522,7 @@ export default function MainPage() {
                     <div className="relative w-full z-30 overflow-hidden -mt-[18%] sm:-mt-[19%] md:-mt-[20%]">
                         <img src={lautDalam} alt="lautDalam" className="w-full object-cover" />
 
-                        <div className="absolute inset-0 flex flex-col items-center justify-center text-white px-4">
+                        <div ref={descriptionRef} className="absolute inset-0 flex flex-col items-center justify-center text-white px-4">
                             <h3 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl 2xl:text-8xl -mt-[10%] font-treamd tracking-widest mb-12 sm:mb-16 md:mb-20 lg:mb-24 xl:mb-28 drop-shadow-md">
                                 TIMELINE
                             </h3>
