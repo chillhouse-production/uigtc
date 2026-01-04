@@ -11,7 +11,27 @@ import Vector73 from '../assets/background-TS/Vector 73.svg';
 import BadgeCheck from '../assets/badge-check.svg';
 import Navbar from '../salman/navBar';
 
+// --- TYPE DEFINITIONS ---
+interface Product {
+    id: string;
+    name: string;
+    productType: string; // Pastikan backend mengirim field ini (e.g., 'ticket_single', 'merchandise')
+    category?: { type: string }; // Atau cek via category type
+}
+
+interface OrderItem {
+    id: string;
+    product: Product;
+}
+
+interface Order {
+    id: string;
+    items: OrderItem[];
+}
+
 const API_BASE_URL = 'https://uigtc.id/api';
+// Ganti dengan Link Grup WhatsApp/Line yang asli
+const GROUP_LINK = "https://chat.whatsapp.com/BV8ugzbi8zhI6Ds7lFvpQH";
 
 export default function TransactionSuccessPage() {
     const navigate = useNavigate();
@@ -19,49 +39,76 @@ export default function TransactionSuccessPage() {
     
     // State
     const [orderId, setOrderId] = useState<string | null>(searchParams.get('orderId'));
-    const [loading, setLoading] = useState(!searchParams.get('orderId')); // Loading jika ID belum ada di URL
+    const [loading, setLoading] = useState(true);
     const [copied, setCopied] = useState(false);
+    
+    // State untuk logic tampilan
+    const [hasTicket, setHasTicket] = useState(false);
+    const [hasMerch, setHasMerch] = useState(false);
 
     // --- FETCHING LOGIC ---
     useEffect(() => {
-        // Jika orderId sudah ada dari URL, tidak perlu fetch
-        if (orderId) return;
-
-        const fetchLatestOrder = async () => {
+        const fetchOrderData = async () => {
             const token = localStorage.getItem('token');
             if (!token) {
-                // Jika tidak ada token, redirect atau biarkan kosong (tergantung flow)
                 setLoading(false);
                 return;
             }
 
             try {
-                // Fetch daftar order user
-                const response = await fetch(`${API_BASE_URL}/orders/my-orders`, {
-                    method: 'GET',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${token}`
+                let currentOrderId = orderId;
+
+                // 1. Jika ID tidak ada di URL, fetch latest order user
+                if (!currentOrderId) {
+                    const response = await fetch(`${API_BASE_URL}/orders/my-orders`, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    const result = await response.json();
+                    if (response.ok && result.success && result.data.length > 0) {
+                        currentOrderId = result.data[0].id;
+                        setOrderId(currentOrderId);
                     }
-                });
-
-                const result = await response.json();
-
-                if (response.ok && result.success && result.data && result.data.length > 0) {
-                    // Ambil order paling pertama (asumsi API mengembalikan order terbaru di index 0)
-                    // Jika API tidak sort by date, kita bisa sort manual di sini:
-                    // const sorted = result.data.sort((a: any, b: any) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
-                    setOrderId(result.data[0].id);
                 }
+
+                // 2. Jika sudah punya Order ID, fetch detailnya untuk cek Item Type
+                if (currentOrderId) {
+                    const detailRes = await fetch(`${API_BASE_URL}/orders/${currentOrderId}`, {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    const detailJson = await detailRes.json();
+
+                    if (detailRes.ok && detailJson.success) {
+                        const orderData: Order = detailJson.data;
+                        
+                        // Cek isi item
+                        let ticketFound = false;
+                        let merchFound = false;
+
+                        orderData.items.forEach(item => {
+                            // Cek berdasarkan productType atau category type dari backend
+                            const type = item.product.productType || item.product.category?.type || '';
+                            
+                            if (type.includes('ticket')) {
+                                ticketFound = true;
+                            } else if (type.includes('merchandise') || type === 'merch') {
+                                merchFound = true;
+                            }
+                        });
+
+                        setHasTicket(ticketFound);
+                        setHasMerch(merchFound);
+                    }
+                }
+
             } catch (error) {
-                console.error("Gagal mengambil Order ID:", error);
+                console.error("Error fetching order:", error);
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchLatestOrder();
-    }, [orderId]);
+        fetchOrderData();
+    }, [orderId]); // Dependency array cukup orderId, logic fetch handling di dalam
 
     const handleCopy = () => {
         if (orderId) {
@@ -86,14 +133,10 @@ export default function TransactionSuccessPage() {
 
             <div
                 className={`relative z-10 bg-white shadow-xl flex flex-col items-center text-center
-                    /* HP (Mobile) */
                     w-[90%] max-w-sm p-8 rounded-3xl mb-8
-
-                    /* iPad (Tablet) */
                     md:max-w-xl md:p-12
-
-                    /* Laptop (Desktop) */
                     lg:max-w-2xl lg:p-16 lg:rounded-[1rem]
+                    translate-y-20
                 `}
             >
                 <div className="mb-6 relative">
@@ -104,7 +147,7 @@ export default function TransactionSuccessPage() {
                     PEMESANAN BERHASIL!
                 </h1>
 
-                <div className="bg-[#CFE3E8] rounded-lg px-8 py-4 flex items-center gap-4 text-[#1a3c40] mb-2 w-full max-w-sm border border-[#4FB4CE]/30">
+                <div className="bg-[#CFE3E8] rounded-lg px-8 py-4 flex items-center gap-4 text-[#1a3c40] mb-6 w-full max-w-sm border border-[#4FB4CE]/30">
                     <span className="font-bold text-lg font-serif">Order ID:</span>
                     
                     <span className="font-serif text-lg tracking-wider flex-1 text-left truncate">
@@ -132,11 +175,58 @@ export default function TransactionSuccessPage() {
                         )}
                     </button>
                 </div>
+
+                {/* --- CONDITIONAL INFO --- */}
+                {!loading && (
+                    <div className="w-full max-w-md space-y-4 ">
+                        
+                        {/* 1. TICKET: Tampilkan Link Grup */}
+                        {hasTicket && (
+                            <div className="bg-[#e0f2fe] border border-blue-200 rounded-xl p-4 text-left">
+                                <h3 className="text-[#0369a1] font-bold text-lg mb-2 flex items-center gap-2">
+                                    🎟️ Info Peserta
+                                </h3>
+                                <p className="text-sm text-[#0c4a6e] mb-3">
+                                    Terima kasih telah membeli tiket! Silakan bergabung ke grup peserta melalui link di bawah ini untuk informasi lebih lanjut.
+                                </p>
+                                <a 
+                                    href={GROUP_LINK}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="block w-full text-center py-2 bg-[#0ea5e9] hover:bg-[#0284c7] text-white font-bold rounded-lg transition-colors"
+                                >
+                                    Gabung Grup WhatsApp
+                                </a>
+                            </div>
+                        )}
+
+                        {/* 2. MERCHANDISE: Tampilkan Info Pengambilan */}
+                        {hasMerch && (
+                            <div className="bg-[#fff7ed] border border-orange-200 rounded-xl p-4 text-left">
+                                <h3 className="text-[#c2410c] font-bold text-lg mb-2 flex items-center gap-2">
+                                    🛍️ Info Pengambilan Merchandise
+                                </h3>
+                                <p className="text-sm text-[#7c2d12]">
+                                    Merchandise yang kamu beli dapat diambil secara langsung pada saat <b>Main Event UIGTC</b> di tanggal 24 Januari 2026. Harap tunjukkan bukti transaksi ini kepada panitia di booth merchandise.
+                                    <p className="font-serif text-[#1a3c40] text-xl mb-4">Belum ada riwayat pesanan.</p>
+                            <button 
+                                onClick={() => navigate('/merchlist')}
+                                className="px-6 py-2 bg-[#e89c3f] text-[#1a3c40] font-bold rounded shadow hover:bg-[#d68b2e] transition-colors"
+                            >
+                                Mulai Belanja
+                            </button>
+                                </p>
+                            </div>
+                        )}
+
+                    </div>
+                )}
+
             </div>
             
             <button
                 onClick={() => navigate('/')}
-                className="relative z-10 px-10 py-3 bg-[#133033] hover:bg-[#0b1c1e] text-white font-serif font-bold text-lg rounded-lg shadow-lg transition-colors"
+                className="relative z-10 px-10 py-3 bg-[#133033] hover:bg-[#0b1c1e] text-white font-serif font-bold text-lg rounded-lg shadow-lg transition-colors mt-4"
             >
                 Back To Home
             </button>
