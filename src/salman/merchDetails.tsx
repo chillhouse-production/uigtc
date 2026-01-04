@@ -130,7 +130,7 @@ const MerchDetails = () => {
         return (
             <div className="min-h-screen bg-gradient-to-b from-[#EAB775] to-[#F3CC91] flex items-center justify-center">
                 <div className="text-center">
-                    <h1 className="text-3xl font-bold text-white mb-4">{error || 'Product Not Found'}</h1>
+                    <h1 className="text-3xl font-bree text-white mb-4">{error || 'Product Not Found'}</h1>
                     <button
                         onClick={() => navigate('/merchlist')}
                         className="bg-white text-[#3d2314] px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition-colors"
@@ -158,15 +158,15 @@ const MerchDetails = () => {
                                     </svg>
                                 </div>
 
-                                <h3 className="text-2xl font-bold text-[#3d2314] mb-2 font-serif">Berhasil Masuk Keranjang!</h3>
+                                <h3 className="text-2xl font-bree text-[#3d2314] mb-2 font-serif">Berhasil Masuk Keranjang!</h3>
                                 <p className="text-gray-600 mb-6 text-sm">
-                                    <span className="font-bold text-[#CD853F]">{quantity}x {product.name}</span> telah ditambahkan.
+                                    <span className="font-bree text-[#CD853F]">{quantity}x {product.name}</span> telah ditambahkan.
                                 </p>
 
                                 <div className="flex flex-col gap-3">
                                     <button
                                         onClick={() => navigate('/cart')}
-                                        className="w-full py-3 bg-[#CD853F] hover:bg-[#B8732F] text-white font-bold rounded-xl shadow-lg transition-transform active:scale-95 flex items-center justify-center gap-2"
+                                        className="w-full py-3 bg-[#CD853F] hover:bg-[#B8732F] text-white font-bree rounded-xl shadow-lg transition-transform active:scale-95 flex items-center justify-center gap-2"
                                     >
                                         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                                         Lihat Keranjang
@@ -174,7 +174,7 @@ const MerchDetails = () => {
 
                                     <button
                                         onClick={() => setShowSuccessModal(false)}
-                                        className="w-full py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-xl transition-colors"
+                                        className="w-full py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bree rounded-xl transition-colors"
                                     >
                                         Lanjut Belanja
                                     </button>
@@ -242,7 +242,7 @@ const MerchDetails = () => {
 
                                                 {product.stock <= 0 && (
                                                     <div className="absolute inset-0 bg-black/50 flex items-center justify-center backdrop-blur-sm">
-                                                        <span className="bg-red-500 text-white px-6 py-3 rounded-full font-bold text-xl shadow-lg rotate-[-10deg]">
+                                                        <span className="bg-red-500 text-white px-6 py-3 rounded-full font-bree text-xl shadow-lg rotate-[-10deg]">
                                                             STOK HABIS
                                                         </span>
                                                     </div>
@@ -262,12 +262,12 @@ const MerchDetails = () => {
 
                                     {/* Right Side - Product Info */}
                                     <div className="flex flex-col h-full">
-                                        <h1 className="text-3xl lg:text-4xl font-bold text-[#3d2314] mb-2 font-serif leading-tight">
+                                        <h1 className="text-3xl lg:text-4xl font-bree text-[#3d2314] mb-2 font-serif leading-tight">
                                             {product.name}
                                         </h1>
 
                                         <div className="flex items-center gap-4 mb-6">
-                                            <p className="text-[#CD853F] font-bold text-3xl">
+                                            <p className="text-[#CD853F] font-bree text-3xl">
                                                 {formatCurrency(product.price)}
                                             </p>
                                             <div className="h-6 w-px bg-gray-300"></div>
@@ -277,7 +277,7 @@ const MerchDetails = () => {
                                         </div>
 
                                         <div className="bg-white/50 rounded-xl p-4 mb-8 border border-white/50 flex-1">
-                                            <h3 className="font-bold text-[#3d2314] mb-2 text-sm uppercase tracking-wide opacity-70">Deskripsi Produk</h3>
+                                            <h3 className="font-bree text-[#3d2314] mb-2 text-sm uppercase tracking-wide opacity-70">Deskripsi Produk</h3>
                                             <p className="text-gray-700 text-base leading-relaxed whitespace-pre-line">
                                                 {product.description || 'Tidak ada deskripsi untuk produk ini.'}
                                             </p>
@@ -294,7 +294,7 @@ const MerchDetails = () => {
             rounded-xl 
             border-2 border-gray-200 
             bg-gray-50 hover:bg-gray-200 
-            text-[#3d2314] font-bold text-xl 
+            text-[#3d2314] font-bree text-xl 
             flex items-center justify-center 
             transition-colors 
             disabled:opacity-30
@@ -310,7 +310,7 @@ const MerchDetails = () => {
         border-2 border-gray-200 
         bg-white 
         flex items-center justify-center 
-        font-bold text-[#3d2314]
+        font-bree text-[#3d2314]
     ">
                                                         {quantity}
                                                     </div>
@@ -323,7 +323,7 @@ const MerchDetails = () => {
             rounded-xl 
             border-2 border-gray-200 
             bg-gray-50 hover:bg-gray-200 
-            text-[#3d2314] font-bold text-xl 
+            text-[#3d2314] font-bree text-xl 
             flex items-center justify-center 
             transition-colors 
             disabled:opacity-30
@@ -336,7 +336,7 @@ const MerchDetails = () => {
                                                 <button
                                                     onClick={handleAddToCart}
                                                     disabled={product.stock <= 0 || isAddingToCart}
-                                                    className={`flex-1 w-full h-12 rounded-xl font-bold text-lg transition-all shadow-lg flex items-center justify-center gap-2 ${product.stock > 0 && !isAddingToCart
+                                                    className={`flex-1 w-full h-12 rounded-xl font-bree text-lg transition-all shadow-lg flex items-center justify-center gap-2 ${product.stock > 0 && !isAddingToCart
                                                         ? 'bg-gradient-to-r from-[#CD853F] to-[#B8732F] text-white hover:shadow-orange-200/50 hover:scale-[1.02] active:scale-[0.98]'
                                                         : 'bg-gray-300 text-gray-500 cursor-not-allowed'
                                                         }`}
@@ -366,7 +366,7 @@ const MerchDetails = () => {
                                 <div className="bg-gradient-to-b from-[#FFFFFF] to-[#D1F4FC] rounded-3xl shadow-2xl p-6 backdrop-blur-md border border-white/30">
                                     <div className="flex items-center gap-3 mb-6">
                                         <div className="w-1.5 h-8 bg-[#CD853F] rounded-full"></div>
-                                        <h2 className="text-2xl font-bold text-[#3d2314] font-serif">Mungkin Anda Suka</h2>
+                                        <h2 className="text-2xl font-bree text-[#3d2314] font-serif">Mungkin Anda Suka</h2>
                                     </div>
 
                                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -392,10 +392,10 @@ const MerchDetails = () => {
                                                         <span className="text-2xl opacity-30">📦</span>
                                                     </div>
                                                 </div>
-                                                <h3 className="font-bold text-[#3d2314] text-sm mb-1 line-clamp-2 h-10 group-hover:text-[#CD853F] transition-colors">
+                                                <h3 className="font-bree text-[#3d2314] text-sm mb-1 line-clamp-2 h-10 group-hover:text-[#CD853F] transition-colors">
                                                     {item.name}
                                                 </h3>
-                                                <p className="text-[#CD853F] font-bold text-sm">
+                                                <p className="text-[#CD853F] font-bree text-sm">
                                                     {formatCurrency(item.price)}
                                                 </p>
                                             </div>
