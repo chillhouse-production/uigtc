@@ -93,8 +93,7 @@ export default function MainPage() {
                             </h3>
 
                             <p className="text-sm leading-relaxed text-justify hyphens-auto">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+                            Universitas Indonesia Goes To Celebes (UIGTC) adalah program tahunan Ikatan Mahasiswa Sulawesi Selatan (IMSS) UI yang bertujuan untuk memperkenalkan Universitas Indonesia kepada siswa-siswi SMA di Sulawesi Selatan. Kegiatan UIGTC terbagi menjadi roadshow ke berbagai sekolah di Sulawesi Selatan dan main event yang meliputi try out SNBT, talkshow inspiratif, dan kegiatan seru lainnya.
                             </p>
                         </div>
                     </div>
@@ -455,7 +454,7 @@ export default function MainPage() {
                                             </h3>
 
                                             <p className="leading-relaxed text-left font-medium text-[clamp(0.65rem,1.5vw,1.875rem)] max-w-[90%] md:max-w-[85%] lg:max-w-[650px]">
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                                            Universitas Indonesia Goes To Celebes (UIGTC) adalah program tahunan Ikatan Mahasiswa Sulawesi Selatan (IMSS) UI yang bertujuan untuk memperkenalkan Universitas Indonesia kepada siswa-siswi SMA di Sulawesi Selatan. Kegiatan UIGTC terbagi menjadi roadshow ke berbagai sekolah di Sulawesi Selatan dan main event yang meliputi try out SNBT, talkshow inspiratif, dan kegiatan seru lainnya.
                                             </p>
                                         </div>
                                     </div>
