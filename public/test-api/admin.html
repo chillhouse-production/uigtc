@@ -211,7 +211,7 @@
       <button class="tab-btn" onclick="switchTab('orders')">🛒 Orders</button>
     </div>
 
-    <div class="tab-content" id="dashboardTab">
+    <div class="tab-content active" id="dashboardTab">
       <div class="main-grid">
         <div class="sidebar">
           <div class="card">
@@ -305,8 +305,38 @@
     </div>
 
     <div class="tab-content" id="ordersTab">
-        <p style="padding: 20px; text-align: center;">Lihat tab Orders di kode sebelumnya...</p>
+      <div class="main-grid">
+        <div class="sidebar">
+          <div class="card">
+            <h2>🛒 Order Management</h2>
+            <button class="btn btn-primary" onclick="getAdminOrders()">🔄 Refresh Orders</button>
+            <div class="form-group" style="margin-top: 15px;">
+              <label for="orderStatusFilter">Filter Status</label>
+              <select id="orderStatusFilter" onchange="getAdminOrders()">
+                <option value="">All Status</option>
+                <option value="pending">Pending</option>
+                <option value="accepted">Accepted</option>
+                <option value="rejected">Rejected</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        
+        <div class="response-area">
+          <div class="response-card">
+            <div class="response-header">
+              <h3>📡 Orders List</h3>
+              <span class="status-badge pending" id="ordersStatus">Ready</span>
+            </div>
+            <div class="response-body">
+              <div id="ordersAlert"></div>
+              <div id="ordersDisplay"></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
   </div>
 
   <script>
@@ -526,6 +556,76 @@
         data.data.forEach(c => sel.innerHTML += `<option value="${c.id}">${c.name}</option>`);
       }
     }
+
+    async function getAdminOrders() {
+      showLoading('orders');
+      const status = document.getElementById('orderStatusFilter').value;
+      const endpoint = status ? `/admin/orders?status=${status}` : '/admin/orders';
+      
+      const { data, ok } = await apiCall(endpoint);
+      showStatus('orders', ok);
+      
+      if(ok && data.data) {
+        if(data.data.length === 0) {
+            document.getElementById('ordersDisplay').innerHTML = '<p style="padding:20px; text-align:center">Tidak ada pesanan.</p>';
+            return;
+        }
+
+        const html = `<div class="orders-list">${data.data.map(o => `
+          <div class="order-card">
+            <div style="display:flex; justify-content:space-between; align-items:start; margin-bottom:10px;">
+                <div>
+                    <h4 style="margin:0">Order #${o.id.substring(0,8)}</h4>
+                    <small style="color:#888">${formatDate(o.createdAt)}</small>
+                </div>
+                <span class="order-status ${o.status}">${o.status.toUpperCase()}</span>
+            </div>
+            
+            <div style="display:grid; grid-template-columns: 1fr 1fr; gap:10px; font-size:0.9rem;">
+                <div>
+                    <p><strong>User:</strong> ${o.user?.name || 'Guest'}</p>
+                    <p><strong>Total:</strong> ${formatCurrency(o.totalAmount)}</p>
+                </div>
+                <div>
+                    ${o.paymentProof ? `
+                        <p style="margin-bottom:5px;">Bukti Bayar:</p>
+                        <a href="${API_BASE_URL.replace('/api','')}${o.paymentProof}" target="_blank" style="display:inline-block; border:1px solid #555; padding:2px; border-radius:5px;">
+                            <img src="${API_BASE_URL.replace('/api','')}${o.paymentProof}" style="height:40px; display:block;">
+                        </a>
+                    ` : '<p style="color:#666">Belum upload bukti</p>'}
+                </div>
+            </div>
+
+            <div class="order-actions">
+              ${o.status === 'pending' ? `
+                <button onclick="handleAccept('${o.id}')" class="btn-small btn-accept">✅ Accept</button>
+                <button onclick="handleReject('${o.id}')" class="btn-small btn-reject">❌ Reject</button>
+              ` : ''}
+            </div>
+          </div>`).join('')}</div>`;
+        document.getElementById('ordersDisplay').innerHTML = html;
+      }
+    }
+
+    async function handleAccept(id) {
+      if(!confirm('Terima pesanan ini?')) return;
+      const { data, ok } = await apiCall(`/admin/orders/${id}/accept`, 'POST');
+      if(ok) { showAlert('orders', 'Order Accepted!', 'success'); getAdminOrders(); }
+      else showAlert('orders', data.message, 'error');
+   }
+
+   async function handleReject(id) {
+      const reason = prompt('Masukkan alasan penolakan:');
+      if(reason === null) return;
+      const { data, ok } = await apiCall(`/admin/orders/${id}/reject`, 'POST', { reason });
+      if(ok) { showAlert('orders', 'Order Rejected!', 'success'); getAdminOrders(); }
+      else showAlert('orders', data.message, 'error');
+   }
+
+   // --- INIT ---
+   document.getElementById('prodImage').addEventListener('change', function() {
+     document.getElementById('prodFileName').textContent = this.files[0]?.name || '';
+   });
 
     // --- DASHBOARD (Simplifed for context) ---
     async function getDashboard() {
