@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom"
+import { Routes, Route, } from "react-router-dom"
 import { useState } from 'react';
 import MainPage from "./salman/mainPage"
 import ProductsPage from "./pages/ProductsPage"
@@ -14,7 +14,7 @@ import MerchDetails from "./salman/merchDetails";
 import CartPage from "./salman/cartDetails";
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<'signin' | 'signup'>('signin');
+  const [currentPage, setCurrentPage] = useState('signin');
 
   return (
     <Routes>

@@ -3,7 +3,6 @@ import { useEffect, useState } from "react"
 import Navbar from "./navBar"
 import Footer from "./footer"
 import { useNavigate } from 'react-router-dom';
-
 import judulImg from '../assets/UIGTC-judul.png'
 import hartaTengah from '../assets/Hartakarun-Tengah.png'
 import batuKanan from '../assets/Batu-Kanan.png'
@@ -29,8 +28,6 @@ export default function MainPage() {
     const [showPopup2, setShowPopup2] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
     const navigate = useNavigate();
-
-
 
     useEffect(() => {
         setMounted(true)
@@ -96,8 +93,7 @@ export default function MainPage() {
                             </h3>
 
                             <p className="text-sm leading-relaxed text-justify hyphens-auto">
-                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod
-                                tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.
+                            Universitas Indonesia Goes To Celebes (UIGTC) adalah program tahunan Ikatan Mahasiswa Sulawesi Selatan (IMSS) UI yang bertujuan untuk memperkenalkan Universitas Indonesia kepada siswa-siswi SMA di Sulawesi Selatan. Kegiatan UIGTC terbagi menjadi roadshow ke berbagai sekolah di Sulawesi Selatan dan main event yang meliputi try out SNBT, talkshow inspiratif, dan kegiatan seru lainnya.
                             </p>
                         </div>
                     </div>
@@ -159,7 +155,7 @@ export default function MainPage() {
                                 />
                                 <div className="bg-[#3d2314] rounded-md border flex-col items-center flex  border-black/20 shadow-lg">
                                     <span className="text-[#f1e7d0] px-2 py-1 font-serif font-bold text-[10px] whitespace-nowrap">
-                                        25 January 2026
+                                        24 January 2026
                                     </span>
                                 </div>
                             </div>
@@ -315,7 +311,7 @@ export default function MainPage() {
                                 </p>
                                 <div className="bg-white rounded-lg px-4 py-2 mb-6 shadow-md">
                                     <span className="font-serif font-bold text-sm">
-                                        25 January 2026
+                                        24 January 2026
                                     </span>
                                 </div>
                                 <img
@@ -458,7 +454,7 @@ export default function MainPage() {
                                             </h3>
 
                                             <p className="leading-relaxed text-left font-medium text-[clamp(0.65rem,1.5vw,1.875rem)] max-w-[90%] md:max-w-[85%] lg:max-w-[650px]">
-                                                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                                            Universitas Indonesia Goes To Celebes (UIGTC) adalah program tahunan Ikatan Mahasiswa Sulawesi Selatan (IMSS) UI yang bertujuan untuk memperkenalkan Universitas Indonesia kepada siswa-siswi SMA di Sulawesi Selatan. Kegiatan UIGTC terbagi menjadi roadshow ke berbagai sekolah di Sulawesi Selatan dan main event yang meliputi try out SNBT, talkshow inspiratif, dan kegiatan seru lainnya.
                                             </p>
                                         </div>
                                     </div>
@@ -805,7 +801,7 @@ export default function MainPage() {
                                     />
                                     <div className="bg-[#3d2314] rounded-md border border-black/20 shadow-lg px-2 py-1 sm:px-3 sm:py-1.5">
                                         <span className="text-[#f1e7d0] font-serif font-bold text-[clamp(0.5rem,1.1vw,0.85rem)] whitespace-nowrap">
-                                            25 January 2026
+                                            24 January 2026
                                         </span>
                                     </div>
                                 </div>
@@ -879,7 +875,7 @@ export default function MainPage() {
 
                                                 <div className="bg-white rounded-lg px-4 py-2 mt-3 shadow-md">
                                                     <span className="font-bold text-sm sm:text-base">
-                                                        25 January 2026
+                                                        24 January 2026
                                                     </span>
                                                 </div>
 

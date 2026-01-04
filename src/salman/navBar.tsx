@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import iconProfileHitam from '../assets/IconProfileHitam.svg';
 import iconProfilePutih from '../assets/IconProfilePutih.svg';
 import iconHome from '../assets/IconRumah.svg';
@@ -8,11 +10,15 @@ import iconHistory from '../assets/IconHistory.svg'
 import LogoBulat from '../assets/LogoUIGTCKotak.svg';
 
 const Navbar = () => {
+  const navigate = useNavigate();
+  const { user, logout } = useAuth();
   const [activeMenu, setActiveMenu] = useState<string>('');
   const [showDropdown, setShowDropdown] = useState<boolean>(false);
   const [showMobileSidebar, setShowMobileSidebar] = useState<boolean>(false);
   const [showMobileProfileDropdown, setShowMobileProfileDropdown] = useState<boolean>(false);
-  const [isLoggedIn] = useState<boolean>(false);
+  
+  // Check if user is logged in based on AuthContext
+  const isLoggedIn = !!user;
 
   const menuItemsLoggedOut = [
     { id: 'home', icon: iconHome, path: '/', label: 'Home' },
@@ -52,7 +58,7 @@ const Navbar = () => {
               ))}
               {isLoggedIn ? (
                 <div className="relative">
-                  <button 
+                  <button
                     className={`flex items-center space-x-1 p-3 rounded-lg transition-all duration-200 ${showDropdown ? 'bg-[#5196AA] shadow-md' : 'hover:bg-gray-100'}`} 
                     onClick={() => setShowDropdown(!showDropdown)} 
                     onMouseEnter={() => setActiveMenu('profile')} 
@@ -65,16 +71,29 @@ const Navbar = () => {
                   </button>
                   {showDropdown && (
                     <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg shadow-lg border border-gray-200 py-2 z-50">
-                      <a href="/" className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors">
+                      <a href="/profile" className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors">
                         <img src={iconProfileHitam} alt="Profile" className="h-5 w-5 mr-3" />
                         Profile
                       </a>
-                      <a href="/" className="flex items-center px-4 py-2 text-red-600 hover:bg-red-50 transition-colors">
+                      <a href="/history" className="flex items-center px-4 py-2 text-gray-700 hover:bg-gray-100 transition-colors">
+                        <svg className="h-5 w-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                        </svg>
+                        Riwayat Pesanan
+                      </a>
+                      <button 
+                        onClick={() => {
+                          logout();
+                          setShowDropdown(false);
+                          navigate('/');
+                        }} 
+                        className="w-full flex items-center px-4 py-2 text-red-600 hover:bg-red-50 transition-colors"
+                      >
                         <svg className="h-5 w-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                         </svg>
                         Sign Out
-                      </a>
+                      </button>
                     </div>
                   )}
                 </div>
@@ -162,21 +181,34 @@ const Navbar = () => {
                 {showMobileProfileDropdown && (
                   <div className="bg-white/30">
                     <a 
-                      href="/" 
+                      href="/profile" 
                       className="flex items-center px-6 py-3 text-gray-800 hover:bg-white/50 transition-colors pl-12"
                     >
                       <img src={iconProfileHitam} alt="Profile" className="h-5 w-5 mr-3" />
                       View Profile
                     </a>
                     <a 
-                      href="/" 
-                      className="flex items-center px-6 py-3 text-red-600 hover:bg-red-50/50 transition-colors pl-12"
+                      href="/history" 
+                      className="flex items-center px-6 py-3 text-gray-800 hover:bg-white/50 transition-colors pl-12"
+                    >
+                      <svg className="h-5 w-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                      </svg>
+                      Riwayat Pesanan
+                    </a>
+                    <button 
+                      onClick={() => {
+                        logout();
+                        setShowMobileSidebar(false);
+                        navigate('/');
+                      }}
+                      className="w-full flex items-center px-6 py-3 text-red-600 hover:bg-red-50/50 transition-colors pl-12"
                     >
                       <svg className="h-5 w-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
                       </svg>
                       Sign Out
-                    </a>
+                    </button>
                   </div>
                 )}
               </>
