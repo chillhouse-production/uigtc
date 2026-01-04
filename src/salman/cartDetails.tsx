@@ -77,39 +77,54 @@ export default function CartPage() {
         setSelectAll(updatedItems.length > 0 && updatedItems.every(item => item.selected));
     };
 
+    const [updatingItems, setUpdatingItems] = useState<Record<string, boolean>>({});
     const handleQuantityChange = async (id: string, delta: number) => {
         const item = cartItems.find(i => i.id === id);
         if (!item) return;
 
         const newQty = item.quantity + delta;
 
+        // 2. Validasi dasar
         if (newQty < 1) return;
         if (newQty > item.product.stock) {
             alert(`Stok hanya tersedia ${item.product.stock}`);
             return;
         }
-        
-        const updatedItems = cartItems.map(i => 
-            i.id === id ? { ...i, quantity: newQty } : i
+
+        // 3. Optimistic UI Update (Update tampilan DULUAN biar kerasa cepet)
+        setCartItems(prevItems => 
+            prevItems.map(i => i.id === id ? { ...i, quantity: newQty } : i)
         );
-        setCartItems(updatedItems);
+
+        // 4. Set loading state untuk item ini (opsional, untuk disable tombol sementara)
+        setUpdatingItems(prev => ({ ...prev, [id]: true }));
 
         try {
+            // 5. Kirim request ke server
             const response = await cartApi.updateItem(id, newQty);
+            
             if (!response || !response.success) {
-                console.error("Gagal update di server:", response?.message);
-                setCartItems(cartItems); 
-                alert(response?.message || "Gagal mengupdate jumlah barang");
+                throw new Error(response?.message || "Gagal update");
             }
+            // Jika sukses, biarkan UI (karena sudah diupdate di langkah 3)
         } catch (error) {
             console.error("API Error:", error);
-            setCartItems(cartItems);
+            // 6. ROLLBACK: Jika error, kembalikan quantity ke semula
+            setCartItems(prevItems => 
+                prevItems.map(i => i.id === id ? { ...i, quantity: item.quantity } : i)
+            );
+            alert("Gagal mengupdate jumlah barang. Silakan coba lagi.");
+        } finally {
+            // 7. Hapus loading state
+            setUpdatingItems(prev => {
+                const newState = { ...prev };
+                delete newState[id];
+                return newState;
+            });
         }
     };
 
     const handleDelete = async (id: string) => {
-        if (!window.confirm('Hapus item ini dari keranjang?')) return; // Bisa diganti modal delete custom juga kalau mau
-
         try {
             const response = await cartApi.removeItem(id);
             if (response.success) {
@@ -336,11 +351,31 @@ export default function CartPage() {
                                                 </div>
 
                                                 <div className="flex items-center justify-between w-full sm:w-auto mt-2 sm:mt-0 gap-4">
-                                                    <div className="flex items-center gap-2 bg-white border border-gray-300 rounded-lg px-2 py-1 shadow-sm">
-                                                        <button onClick={() => handleQuantityChange(item.id, -1)} disabled={item.quantity <= 1} className="w-6 h-6 font-bold disabled:opacity-30">-</button>
-                                                        <span className="w-8 text-center font-semibold text-gray-800">{item.quantity}</span>
-                                                        <button onClick={() => handleQuantityChange(item.id, 1)} disabled={item.quantity >= item.product.stock} className="w-6 h-6 font-bold disabled:opacity-30">+</button>
-                                                    </div>
+                                                <div className="flex items-center gap-2 bg-white border border-gray-300 rounded-lg px-2 py-1 shadow-sm">
+    <button 
+        onClick={() => handleQuantityChange(item.id, -1)} 
+        disabled={item.quantity <= 1 || updatingItems[item.id]} // Disable jika loading
+        className="w-6 h-6 font-bold disabled:opacity-30 flex items-center justify-center"
+    >
+        −
+    </button>
+    
+    <span className="w-8 text-center font-semibold text-gray-800">
+        {updatingItems[item.id] ? (
+            <span className="animate-pulse">...</span> // Indikator loading kecil
+        ) : (
+            item.quantity
+        )}
+    </span>
+    
+    <button 
+        onClick={() => handleQuantityChange(item.id, 1)} 
+        disabled={item.quantity >= item.product.stock || updatingItems[item.id]} // Disable jika loading
+        className="w-6 h-6 font-bold disabled:opacity-30 flex items-center justify-center"
+    >
+        +
+    </button>
+</div>
                                                     <button onClick={() => handleDelete(item.id)} className="text-red-500 hover:text-red-700 p-2">
                                                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="3 6 5 6 21 6"></polyline><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"></path></svg>
                                                     </button>

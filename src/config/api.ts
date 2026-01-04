@@ -256,11 +256,11 @@ export const cartApi = {
     apiPost<Cart>('/cart', data),
 
   // Remove item from cart
-  removeItem: (itemId: string) => apiDelete<Cart>(`/cart/${itemId}`),
+  removeItem: (itemId: string) => apiDelete<Cart>(`/cart/items/${itemId}`),
 
   // Update item quantity (if available)
   updateItem: (itemId: string, quantity: number) => 
-    apiPut<Cart>(`/cart/${itemId}`, { quantity }),
+    apiPut<Cart>(`/cart/items/${itemId}`, { quantity }),
 };
 
 // ===========================================

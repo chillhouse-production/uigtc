@@ -63,6 +63,17 @@ const MerchDetails = () => {
         }).format(price);
     };
 
+    // --- LOGIC STOCK VISIBILITY ---
+    const shouldShowStock = (item: Product) => {
+        // Asumsi: 'category' object memiliki properti 'type' (seperti di MerchList)
+        // Jika type 'ticket' dan stock >= 10, sembunyikan angka
+        if (item.category?.type === 'ticket') {
+            return item.stock < 10; 
+        }
+        // Selain tiket (merch), selalu tampilkan
+        return true;
+    };
+
     const handleQuantityChange = (type: 'increase' | 'decrease') => {
         if (!product) return;
         if (type === 'increase' && quantity < product.stock) {
@@ -72,14 +83,12 @@ const MerchDetails = () => {
         }
     };
 
-    // --- ADD TO CART HANDLER (UPDATED) ---
+    // --- ADD TO CART HANDLER ---
     const handleAddToCart = async () => {
         if (!product) return;
 
-        // 1. Cek Token
         const token = localStorage.getItem('token');
         if (!token) {
-            // Bisa diganti modal login jika mau, sementara alert dulu
             alert("Silakan login terlebih dahulu untuk berbelanja!");
             return;
         }
@@ -87,7 +96,6 @@ const MerchDetails = () => {
         setIsAddingToCart(true);
 
         try {
-            // 2. Call API
             const response = await fetch(`${API_BASE_URL}/cart`, {
                 method: 'POST',
                 headers: {
@@ -102,9 +110,7 @@ const MerchDetails = () => {
 
             const result = await response.json();
 
-            // 3. Handle Result
             if (response.ok) {
-                // SUKSES: Tampilkan Modal Kustom, BUKAN Alert Browser
                 setShowSuccessModal(true);
             } else {
                 alert(result.message || "Gagal menambahkan ke keranjang.");
@@ -153,11 +159,9 @@ const MerchDetails = () => {
             {showSuccessModal && (
                 <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-fade-in">
                     <div className="bg-white rounded-3xl shadow-2xl max-w-sm w-full p-6 relative overflow-hidden border-4 border-[#CD853F] animate-scale-up">
-                        {/* Decorative Top Bar */}
                         <div className="absolute top-0 left-0 w-full h-2 bg-[#CD853F]"></div>
                         
                         <div className="text-center mt-2">
-                            {/* Icon Sukses */}
                             <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-4 border border-green-200">
                                 <svg className="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path>
@@ -170,17 +174,14 @@ const MerchDetails = () => {
                             </p>
                             
                             <div className="flex flex-col gap-3">
-                                {/* Tombol Ke Keranjang */}
                                 <button 
-    // PERBAIKAN: Arahkan ke '/cart' (Halaman Keranjang), BUKAN '/checkout'
-    onClick={() => navigate('/cart')} 
-    className="w-full py-3 bg-[#CD853F] hover:bg-[#B8732F] text-white font-bold rounded-xl shadow-lg transition-transform active:scale-95 flex items-center justify-center gap-2"
->
-    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-    Lihat Keranjang
-</button>
+                                    onClick={() => navigate('/cart')} 
+                                    className="w-full py-3 bg-[#CD853F] hover:bg-[#B8732F] text-white font-bold rounded-xl shadow-lg transition-transform active:scale-95 flex items-center justify-center gap-2"
+                                >
+                                    <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                                    Lihat Keranjang
+                                </button>
                                 
-                                {/* Tombol Tutup / Lanjut Belanja */}
                                 <button 
                                     onClick={() => setShowSuccessModal(false)}
                                     className="w-full py-3 bg-gray-100 hover:bg-gray-200 text-gray-700 font-bold rounded-xl transition-colors"
@@ -223,7 +224,6 @@ const MerchDetails = () => {
                             
                             {/* Left Side - Image Gallery */}
                             <div className="space-y-4">
-                                {/* Main Image */}
                                 <div className="bg-white rounded-2xl p-4 shadow-md">
                                     <div className="aspect-[4/3] bg-gradient-to-br from-[#1E3A5F] to-[#2A4A6F] relative overflow-hidden rounded-xl group">
                                         {product.image ? (
@@ -254,7 +254,6 @@ const MerchDetails = () => {
                                     </div>
                                 </div>
 
-                                {/* Category Badge */}
                                 {product.category && (
                                     <div className="flex justify-center">
                                         <span className="px-4 py-2 bg-[#E3FEF7] text-[#135D66] rounded-full font-semibold shadow-sm border border-[#135D66]/20">
@@ -266,7 +265,6 @@ const MerchDetails = () => {
 
                             {/* Right Side - Product Info */}
                             <div className="flex flex-col h-full">
-                                {/* Product Title */}
                                 <h1 className="text-3xl lg:text-4xl font-bold text-[#3d2314] mb-2 font-serif leading-tight">
                                     {product.name}
                                 </h1>
@@ -277,9 +275,17 @@ const MerchDetails = () => {
                                         {formatCurrency(product.price)}
                                     </p>
                                     <div className="h-6 w-px bg-gray-300"></div>
-                                    <p className={`text-sm font-semibold ${product.stock > 0 ? 'text-green-600' : 'text-red-500'}`}>
-                                        {product.stock > 0 ? `Tersedia: ${product.stock} Unit` : 'Stok Habis'}
-                                    </p>
+                                    
+                                    {/* --- LOGIC VISIBILITY STOK --- */}
+                                    {shouldShowStock(product) ? (
+                                        <p className={`text-sm font-semibold ${product.stock > 0 ? 'text-green-600' : 'text-red-500'}`}>
+                                            {product.stock > 0 ? `Tersedia: ${product.stock} Unit` : 'Stok Habis'}
+                                        </p>
+                                    ) : (
+                                        <p className="text-sm font-bold text-green-600">
+                                            Tersedia
+                                        </p>
+                                    )}
                                 </div>
 
                                 {/* Description */}

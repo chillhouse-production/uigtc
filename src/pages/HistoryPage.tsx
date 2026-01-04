@@ -204,15 +204,6 @@ export default function HistoryPage() {
                                             {formatDate(order.createdAt)}
                                         </span>
                                         
-                                        {/* Logic Tombol Bayar */}
-                                        {['PENDING_PAYMENT', 'waiting_payment', 'pending'].includes(order.status) && (
-                                            <button 
-                                                onClick={() => navigate(`/checkout?orderId=${order.id}`)}
-                                                className="px-3 py-1 bg-[#1a3c40] text-white text-xs font-bold rounded shadow hover:bg-[#122b2e] transition-colors animate-pulse"
-                                            >
-                                                Bayar →
-                                            </button>
-                                        )}
                                     </div>
                                 </div>
 
