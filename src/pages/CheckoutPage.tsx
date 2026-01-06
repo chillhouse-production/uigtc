@@ -13,7 +13,11 @@ interface Product {
     name: string;
     price: number;
     image: string | null;
-    category?: { name: string };
+    // Update interface agar bisa membaca tipe kategori
+    category?: { 
+        name: string;
+        type: string; // 'ticket' | 'merchandise'
+    };
 }
 
 interface OrderItem {
@@ -54,6 +58,10 @@ export default function CheckoutPage() {
     const [uploadedFileName, setUploadedFileName] = useState<string | null>(null);
     const [copied, setCopied] = useState(false);
     const [error, setError] = useState<string | null>(null);
+
+    // --- HELPER LOGIC: CEK TIPE ORDER ---
+    // Cek item pertama saja (karena backend sudah menjamin keranjang seragam)
+    const isTicketOrder = order?.items?.[0]?.product?.category?.type === 'ticket';
 
     // --- FETCH DATA ---
     useEffect(() => {
@@ -172,12 +180,8 @@ export default function CheckoutPage() {
                     backgroundAttachment: 'fixed'
                 }}
             >
-            
-
             <div className="flex-1 p-8 md:p-12 max-w-[1600px] mx-auto w-full">
-
-            <Navbar />
-
+                <Navbar />
                 
                 {/* Header Page */}
                 <div className="flex items-center gap-2 mb-8 text-[#1a3c40] pt-13">
@@ -259,49 +263,70 @@ export default function CheckoutPage() {
                         </div>
                     </div>
 
-                    {/* Column 3: Payment Methods */}
+                    {/* Column 3: Payment Methods (LOGIC BARU DI SINI) */}
                     <div className="lg:col-span-4 bg-white rounded-lg p-6 shadow-lg min-h-[500px] flex flex-col">
-                        <h2 className="text-xl font-bree text-[#1a3c40] mb-6 font-serif">Payment Methods</h2>
-
-                        <div className="flex-1 space-y-6">
-                            {/* Option 1: QRIS */}
-                            <div>
-                                <p className="text-xs font-bree text-[#1a3c40] mb-2">Option 1: QR Code</p>
-                                <div className="w-full flex justify-center bg-gray-50 border border-gray-200 rounded-lg p-4">
-                                     <img 
-                                        src={qrisUIGTC}
-                                        alt="QRIS UIGTC"
-                                        className="w-40 h-40 object-contain mix-blend-multiply"
-                                    />
+                        
+                        {/* CONDITIONAL RENDERING */}
+                        {isTicketOrder ? (
+                            // --- TAMPILAN TIKET ---
+                            <>
+                                <div className="flex items-center gap-2 mb-6">
+                                    <span className="text-2xl">🎟️</span>
+                                    <h2 className="text-xl font-bree text-[#1a3c40] font-serif">Payment Methods</h2>
                                 </div>
-                                <p className="text-[10px] text-center text-gray-400 mt-1">Scan via GoPay, OVO, Dana, BCA, dll.</p>
-                            </div>
-
-                            {/* Option 2: Bank Transfer */}
-                            <div className="pt-4 border-t border-gray-300">
-                                <p className="text-xs font-bree text-[#1a3c40] mb-2">Option 2: Bank Transfer</p>
-                                <div className="flex justify-between items-start bg-gray-50 p-3 rounded-lg border border-gray-200">
-                                    <div>
-                                        <p className="font-bree text-[#1a3c40] text-sm">Bank Jago</p>
-                                        <p className="text-[10px] text-gray-500 mb-1">a.n. M Naufal Zhafran</p>
-                                        <p className="text-lg font-mono text-[#1a3c40] tracking-wide">1290328292</p>
+                                <div className="flex-1 space-y-4">
+                                    <div className="bg-blue-50 border border-blue-200 rounded-lg p-4 text-center">
+                                        <p className="text-sm font-bree text-gray-700 mb-3">
+                                            Pembayaran tiket harus dilakukan instan.
+                                        </p>
+                                        <div className="w-full flex justify-center bg-white border border-gray-200 rounded-lg p-2 mb-2">
+                                            <img src={qrisUIGTC} alt="QRIS" className="w-40 h-40 object-contain mix-blend-multiply" />
+                                        </div>
+                                        <p className="text-xs text-gray-500">Scan QRIS di atas</p>
                                     </div>
-                                    <button onClick={handleCopy} className="text-gray-500 hover:text-[#1a3c40] transition-colors relative p-2" title="Copy Account Number">
-                                        {copied ? (
-                                            <span className="text-green-600 text-xs font-bree">Copied!</span>
-                                        ) : (
-                                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                                                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                                                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                                            </svg>
-                                        )}
-                                    </button>
+                                    <div className="p-3 bg-yellow-50 text-yellow-800 text-xs rounded border border-yellow-200 font-medium">
+                                        ⚠️ Tiket akan hangus jika tidak dibayar dalam 1 jam.
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
+                            </>
+                        ) : (
+                            // --- TAMPILAN MERCHANDISE ---
+                            <>
+                                <h2 className="text-xl font-bree text-[#1a3c40] mb-6 font-serif">Payment Methods</h2>
+                                <div className="flex-1 space-y-6">
+                                    {/* Option 1: QRIS */}
+                                    <div>
+                                        <p className="text-xs font-bree text-[#1a3c40] mb-2">Option 1: QR Code</p>
+                                        <div className="w-full flex justify-center bg-gray-50 border border-gray-200 rounded-lg p-4">
+                                            <img src={qrisUIGTC} alt="QRIS" className="w-40 h-40 object-contain mix-blend-multiply" />
+                                        </div>
+                                        <p className="text-[10px] text-center text-gray-400 mt-1">Scan via GoPay, OVO, Dana, BCA, dll.</p>
+                                    </div>
 
-                        {/* Buttons & File Upload */}
-                        <div className="mt-8 space-y-3">
+                                    {/* Option 2: Bank Transfer */}
+                                    <div className="pt-4 border-t border-gray-300">
+                                        <p className="text-xs font-bree text-[#1a3c40] mb-2">Option 2: Bank Transfer</p>
+                                        <div className="flex justify-between items-start bg-gray-50 p-3 rounded-lg border border-gray-200">
+                                            <div>
+                                                <p className="font-bree text-[#1a3c40] text-sm">Bank Jago</p>
+                                                <p className="text-[10px] text-gray-500 mb-1">a.n. M Naufal Zhafran</p>
+                                                <p className="text-lg font-mono text-[#1a3c40] tracking-wide">1290328292</p>
+                                            </div>
+                                            <button onClick={handleCopy} className="text-gray-500 hover:text-[#1a3c40] transition-colors relative p-2">
+                                                {copied ? <span className="text-green-600 text-xs font-bree">Copied!</span> : 
+                                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                                                    <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                                                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                                                </svg>}
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </>
+                        )}
+
+                        {/* Buttons & File Upload (SAMA UNTUK KEDUANYA) */}
+                        <div className="mt-8 space-y-3 pt-4 border-t border-gray-200">
                             {error && (
                                 <div className="p-3 bg-red-50 text-red-600 text-xs rounded-lg border border-red-200">
                                     {error}
