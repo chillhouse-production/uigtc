@@ -12,6 +12,11 @@ import './App.css';
 import MerchList from "./salman/merchList";
 import MerchDetails from "./salman/merchDetails";
 import CartPage from "./salman/cartDetails";
+import AdminGuard from "./components/AdminGuard";
+import AdminDashboard from "./pages/admin/AdminDashboard";
+import AdminProducts from "./pages/admin/AdminProducts";
+import AdminOrders from "./pages/admin/AdminOrders";
+import AdminLayout from "./pages/admin/AdminLayout";
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('signin');
@@ -38,6 +43,18 @@ export default function App() {
           )}
         </>
       } />
+      <Route
+        path="/admin"
+        element={
+          <AdminGuard>
+            <AdminLayout />
+          </AdminGuard>
+        }
+      >
+        <Route index element={<AdminDashboard />} />
+        <Route path="products" element={<AdminProducts />} />
+        <Route path="orders" element={<AdminOrders />} />
+      </Route>
       <Route path="*" element={
         <div className="flex h-screen items-center justify-center">
           <h1 className="text-2xl font-bold">404 - Halaman Tidak Ditemukan</h1>

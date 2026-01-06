@@ -177,7 +177,7 @@ export default function TransactionSuccessPage() {
 
                 <div className="bg-[#CFE3E8] rounded-lg px-8 py-4 flex items-center gap-4 text-[#1a3c40] mb-2 w-full max-w-sm border border-[#5DAECC]/30">
                     <span className="font-bree text-lg font-serif">Order ID:</span>
-                    
+
                     <span className="font-serif text-lg tracking-wider flex-1 text-left truncate">
                         {loading ? (
                             <span className="animate-pulse">Loading...</span>
@@ -208,8 +208,6 @@ export default function TransactionSuccessPage() {
                 {/* --- CONDITIONAL INFO --- */}
                 {!loading && (
                     <div className="w-full max-w-md space-y-4 ">
-                        
-                        {/* 1. TICKET: Tampilkan Link Grup */}
                         {hasTicket && (
                             <div className="bg-[#e0f2fe] border border-blue-200 rounded-xl p-4 text-left">
                                 <h3 className="text-[#0369a1] font-bold text-lg mb-2 flex items-center gap-2">
@@ -218,7 +216,7 @@ export default function TransactionSuccessPage() {
                                 <p className="text-sm text-[#0c4a6e] mb-3">
                                     Terima kasih telah membeli tiket! Silakan bergabung ke grup peserta melalui link di bawah ini untuk informasi lebih lanjut.
                                 </p>
-                                <a 
+                                <a
                                     href={GROUP_LINK}
                                     target="_blank"
                                     rel="noopener noreferrer"
@@ -228,31 +226,11 @@ export default function TransactionSuccessPage() {
                                 </a>
                             </div>
                         )}
-
-                        {/* 2. MERCHANDISE: Tampilkan Info Pengambilan */}
-                        {hasMerch && (
-                            <div className="bg-[#fff7ed] border border-orange-200 rounded-xl p-4 text-left">
-                                <h3 className="text-[#c2410c] font-bold text-lg mb-2 flex items-center gap-2">
-                                    🛍️ Info Pengambilan Merchandise
-                                </h3>
-                                <p className="text-sm text-[#7c2d12]">
-                                    Merchandise yang kamu beli dapat diambil secara langsung pada saat <b>Main Event UIGTC</b> di tanggal 24 Januari 2026. Harap tunjukkan bukti transaksi ini kepada panitia di booth merchandise.
-                                    <p className="font-serif text-[#1a3c40] text-xl mb-4">Belum ada riwayat pesanan.</p>
-                            <button 
-                                onClick={() => navigate('/merchlist')}
-                                className="px-6 py-2 bg-[#e89c3f] text-[#1a3c40] font-bold rounded shadow hover:bg-[#d68b2e] transition-colors"
-                            >
-                                Mulai Belanja
-                            </button>
-                                </p>
-                            </div>
-                        )}
-
                     </div>
                 )}
 
             </div>
-            
+
             {/* Button Group - menambahkan tombol Order History */}
             <div className="relative z-10 flex flex-col md:flex-row gap-4 items-center">
                 <button
