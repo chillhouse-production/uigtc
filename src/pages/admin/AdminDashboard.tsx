@@ -1,5 +1,5 @@
 // pages/admin/AdminDashboard.tsx
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useMemo } from 'react';
 import { apiCall } from '../../services/api';
 
 type OrderItem = {
@@ -7,6 +7,7 @@ type OrderItem = {
   productId: string;
   quantity: number;
   price: number;
+  // Nested product object (when included)
   product?: {
     id: string;
     name: string;
@@ -16,6 +17,11 @@ type OrderItem = {
       type: 'merchandise' | 'ticket';
     };
   };
+  // Flat properties (alternative structure from API)
+  productName?: string;
+  productType?: string;
+  categoryType?: string;
+  categoryName?: string;
 };
 
 type Order = {
@@ -25,8 +31,10 @@ type Order = {
   items: OrderItem[];
   createdAt: string;
   user?: {
+    id: string;
     name: string;
     email: string;
+    schoolOrigin?: string;
   };
 };
 
@@ -48,6 +56,19 @@ type RecentOrder = {
   createdAt: string;
 };
 
+type SchoolStats = {
+  name: string;
+  count: number;
+  revenue: number;
+};
+
+type DailySales = {
+  date: string;
+  label: string;
+  revenue: number;
+  orders: number;
+};
+
 export default function AdminDashboard() {
   const [orders, setOrders] = useState<Order[]>([]);
   const [stats, setStats] = useState<DashboardStats>({
@@ -60,6 +81,8 @@ export default function AdminDashboard() {
     rejectedOrders: 0,
   });
   const [recentOrders, setRecentOrders] = useState<RecentOrder[]>([]);
+  const [schoolStats, setSchoolStats] = useState<SchoolStats[]>([]);
+  const [dailySales, setDailySales] = useState<DailySales[]>([]);
   const [loading, setLoading] = useState(true);
   const [dateRange, setDateRange] = useState<'all' | 'today' | 'week' | 'month'>('all');
 
@@ -82,6 +105,12 @@ export default function AdminDashboard() {
         // Calculate statistics
         calculateStats(filteredOrders);
         
+        // Calculate school statistics
+        calculateSchoolStats(filteredOrders);
+        
+        // Calculate daily sales (last 7 days)
+        calculateDailySales(allOrders);
+        
         // Get recent orders (last 10)
         const recent = filteredOrders
           .sort((a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime())
@@ -89,7 +118,7 @@ export default function AdminDashboard() {
           .map(order => ({
             id: order.id,
             userName: order.user?.name || 'Unknown',
-            totalAmount: order.totalAmount,
+            totalAmount: order.totalAmount || 0,
             status: order.status,
             createdAt: order.createdAt,
           }));
@@ -130,25 +159,41 @@ export default function AdminDashboard() {
     let totalTicketsSold = 0;
 
     acceptedOrders.forEach(order => {
-      totalRevenue += order.totalAmount;
+      // Safe number conversion - handle undefined/null/NaN
+      const orderAmount = Number(order.totalAmount) || 0;
+      totalRevenue += orderAmount;
       
-      order.items.forEach(item => {
-        const productType = item.product?.productType;
-        const categoryType = item.product?.category?.type;
+      // Loop through each item and categorize
+      if (order.items && Array.isArray(order.items)) {
+        order.items.forEach(item => {
+          const quantity = Number(item.quantity) || 0;
+          
+          // Get item properties - handle both nested product object and flat structure
+          const itemData = item as any; // Cast for flexibility
+          const categoryType = itemData.product?.category?.type || itemData.categoryType;
+          const productType = itemData.product?.productType || itemData.productType;
+          const productName = itemData.product?.name || itemData.productName || '';
+          const categoryName = itemData.product?.category?.name || itemData.categoryName || '';
 
-        // Check if it's merchandise
-        if (productType === 'merchandise' || categoryType === 'merchandise') {
-          totalMerchSold += item.quantity;
-        }
-        
-        // Check if it's a ticket
-        if (categoryType === 'ticket' || productType === 'ticket_single' || productType === 'ticket_bundle') {
-          // For ticket bundles, multiply by the bundle size
-          // Assuming bundle naming convention like "Paket 3 Tiket", "Bundle 5", etc.
-          const bundleQuantity = extractBundleQuantity(item.product?.name || '', productType);
-          totalTicketsSold += item.quantity * bundleQuantity;
-        }
-      });
+          // Detect if it's a ticket by multiple methods
+          const isTicket = 
+            categoryType === 'ticket' || 
+            productType === 'ticket_single' || 
+            productType === 'ticket_bundle' ||
+            productName.toLowerCase().includes('tiket') ||
+            categoryName.toLowerCase().includes('tiket') ||
+            categoryName.toLowerCase().includes('ticket');
+
+          if (isTicket) {
+            // For ticket bundles, multiply by the bundle size
+            const bundleQuantity = extractBundleQuantity(productName, productType);
+            totalTicketsSold += quantity * bundleQuantity;
+          } else {
+            // Everything else is merchandise
+            totalMerchSold += quantity;
+          }
+        });
+      }
     });
 
     setStats({
@@ -162,12 +207,75 @@ export default function AdminDashboard() {
     });
   };
 
+  const calculateSchoolStats = (orders: Order[]) => {
+    const acceptedOrders = orders.filter(o => o.status === 'accepted');
+    const schoolMap = new Map<string, { count: number; revenue: number }>();
+
+    acceptedOrders.forEach(order => {
+      const school = order.user?.schoolOrigin || 'Tidak Diketahui';
+      const existing = schoolMap.get(school) || { count: 0, revenue: 0 };
+      schoolMap.set(school, {
+        count: existing.count + 1,
+        revenue: existing.revenue + (Number(order.totalAmount) || 0),
+      });
+    });
+
+    const stats: SchoolStats[] = Array.from(schoolMap.entries())
+      .map(([name, data]) => ({
+        name,
+        count: data.count,
+        revenue: data.revenue,
+      }))
+      .sort((a, b) => b.count - a.count)
+      .slice(0, 10); // Top 10 schools
+
+    setSchoolStats(stats);
+  };
+
+  const calculateDailySales = (allOrders: Order[]) => {
+    const acceptedOrders = allOrders.filter(o => o.status === 'accepted');
+    const dailyMap = new Map<string, { revenue: number; orders: number }>();
+    
+    // Initialize last 7 days
+    const days: DailySales[] = [];
+    for (let i = 6; i >= 0; i--) {
+      const date = new Date();
+      date.setDate(date.getDate() - i);
+      const dateStr = date.toISOString().split('T')[0];
+      const label = date.toLocaleDateString('id-ID', { weekday: 'short', day: 'numeric' });
+      dailyMap.set(dateStr, { revenue: 0, orders: 0 });
+      days.push({ date: dateStr, label, revenue: 0, orders: 0 });
+    }
+
+    // Aggregate orders by date
+    acceptedOrders.forEach(order => {
+      const dateStr = new Date(order.createdAt).toISOString().split('T')[0];
+      if (dailyMap.has(dateStr)) {
+        const existing = dailyMap.get(dateStr)!;
+        dailyMap.set(dateStr, {
+          revenue: existing.revenue + (Number(order.totalAmount) || 0),
+          orders: existing.orders + 1,
+        });
+      }
+    });
+
+    // Update days array with actual data
+    days.forEach(day => {
+      const data = dailyMap.get(day.date);
+      if (data) {
+        day.revenue = data.revenue;
+        day.orders = data.orders;
+      }
+    });
+
+    setDailySales(days);
+  };
+
   // Extract bundle quantity from product name or type
   const extractBundleQuantity = (productName: string, productType?: string): number => {
     if (productType === 'ticket_single') return 1;
     
     // Try to extract number from product name
-    // Common patterns: "Paket 3", "Bundle 3 Tiket", "3 Tiket", "Tiket x3"
     const patterns = [
       /paket\s*(\d+)/i,
       /bundle\s*(\d+)/i,
@@ -184,17 +292,17 @@ export default function AdminDashboard() {
       }
     }
 
-    // Default to 1 if no bundle pattern found
     return 1;
   };
 
   const formatCurrency = (amount: number) => {
+    const safeAmount = Number(amount) || 0;
     return new Intl.NumberFormat('id-ID', {
       style: 'currency',
       currency: 'IDR',
       minimumFractionDigits: 0,
       maximumFractionDigits: 0,
-    }).format(amount);
+    }).format(safeAmount);
   };
 
   const formatDate = (dateStr: string) => {
@@ -216,6 +324,11 @@ export default function AdminDashboard() {
     };
     return styles[status] || styles.pending;
   };
+
+  // Calculate max revenue for chart scaling
+  const maxDailyRevenue = useMemo(() => {
+    return Math.max(...dailySales.map(d => d.revenue), 1);
+  }, [dailySales]);
 
   if (loading) {
     return (
@@ -316,8 +429,59 @@ export default function AdminDashboard() {
         </div>
       </div>
 
-      {/* Order Status Distribution */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+      {/* Daily Sales Chart */}
+      <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-100">
+        <h3 className="text-lg font-semibold text-slate-800 mb-4">📈 Penjualan 7 Hari Terakhir</h3>
+        
+        <div className="h-64 flex items-end justify-between gap-2 px-4">
+          {dailySales.map((day) => {
+            const heightPercent = maxDailyRevenue > 0 ? (day.revenue / maxDailyRevenue) * 100 : 0;
+            return (
+              <div key={day.date} className="flex-1 flex flex-col items-center">
+                {/* Bar */}
+                <div className="w-full relative group">
+                  {/* Tooltip */}
+                  <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none z-10">
+                    <div className="bg-slate-800 text-white text-xs rounded-lg px-3 py-2 whitespace-nowrap">
+                      <p className="font-semibold">{formatCurrency(day.revenue)}</p>
+                      <p className="text-slate-300">{day.orders} order(s)</p>
+                    </div>
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-slate-800"></div>
+                  </div>
+                  
+                  {/* Bar itself */}
+                  <div 
+                    className="w-full bg-gradient-to-t from-cyan-500 to-cyan-400 rounded-t-lg transition-all duration-300 hover:from-cyan-600 hover:to-cyan-500 cursor-pointer min-h-[4px]"
+                    style={{ height: `${Math.max(heightPercent, 2)}%`, maxHeight: '200px' }}
+                  />
+                </div>
+                
+                {/* Label */}
+                <p className="text-xs text-slate-500 mt-2 text-center">{day.label}</p>
+              </div>
+            );
+          })}
+        </div>
+
+        {/* Chart Summary */}
+        <div className="mt-4 pt-4 border-t border-slate-100 flex justify-between text-sm">
+          <div>
+            <span className="text-slate-500">Total 7 Hari:</span>
+            <span className="ml-2 font-semibold text-slate-800">
+              {formatCurrency(dailySales.reduce((sum, d) => sum + d.revenue, 0))}
+            </span>
+          </div>
+          <div>
+            <span className="text-slate-500">Rata-rata Harian:</span>
+            <span className="ml-2 font-semibold text-slate-800">
+              {formatCurrency(dailySales.reduce((sum, d) => sum + d.revenue, 0) / 7)}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      {/* Order Status + School Stats */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Status Cards */}
         <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-100">
           <h3 className="text-lg font-semibold text-slate-800 mb-4">Status Order</h3>
@@ -366,52 +530,108 @@ export default function AdminDashboard() {
           </div>
         </div>
 
-        {/* Recent Orders */}
-        <div className="lg:col-span-2 bg-white rounded-2xl p-6 shadow-lg border border-slate-100">
-          <h3 className="text-lg font-semibold text-slate-800 mb-4">Order Terbaru</h3>
+        {/* School Statistics */}
+        <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-100">
+          <h3 className="text-lg font-semibold text-slate-800 mb-4">🏫 Statistik Sekolah</h3>
           
-          {recentOrders.length === 0 ? (
+          {schoolStats.length === 0 ? (
             <div className="text-center py-8 text-slate-400">
               <span className="text-4xl">📭</span>
-              <p className="mt-2">Belum ada order</p>
+              <p className="mt-2">Belum ada data sekolah</p>
             </div>
           ) : (
-            <div className="overflow-x-auto">
-              <table className="w-full">
-                <thead>
-                  <tr className="text-left text-slate-500 text-sm border-b border-slate-100">
-                    <th className="pb-3 font-medium">Order ID</th>
-                    <th className="pb-3 font-medium">Customer</th>
-                    <th className="pb-3 font-medium">Total</th>
-                    <th className="pb-3 font-medium">Status</th>
-                    <th className="pb-3 font-medium">Tanggal</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-slate-50">
-                  {recentOrders.map((order) => (
-                    <tr key={order.id} className="hover:bg-slate-50 transition-colors">
-                      <td className="py-3 font-mono text-sm text-slate-600">
-                        #{order.id.substring(0, 8)}
-                      </td>
-                      <td className="py-3 text-slate-800">{order.userName}</td>
-                      <td className="py-3 font-medium text-slate-800">
-                        {formatCurrency(order.totalAmount)}
-                      </td>
-                      <td className="py-3">
-                        <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getStatusBadge(order.status)}`}>
-                          {order.status.toUpperCase()}
+            <div className="space-y-3 max-h-[280px] overflow-y-auto pr-2">
+              {schoolStats.map((school, index) => {
+                const maxCount = schoolStats[0]?.count || 1;
+                const widthPercent = (school.count / maxCount) * 100;
+                return (
+                  <div key={school.name} className="group">
+                    <div className="flex items-center justify-between mb-1">
+                      <div className="flex items-center gap-2">
+                        <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold ${
+                          index === 0 ? 'bg-amber-100 text-amber-700' :
+                          index === 1 ? 'bg-slate-200 text-slate-600' :
+                          index === 2 ? 'bg-orange-100 text-orange-700' :
+                          'bg-slate-100 text-slate-500'
+                        }`}>
+                          {index + 1}
                         </span>
-                      </td>
-                      <td className="py-3 text-sm text-slate-500">
-                        {formatDate(order.createdAt)}
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+                        <span className="text-sm text-slate-700 truncate max-w-[150px]" title={school.name}>
+                          {school.name}
+                        </span>
+                      </div>
+                      <div className="text-right">
+                        <span className="text-sm font-semibold text-slate-800">{school.count}</span>
+                        <span className="text-xs text-slate-400 ml-1">order</span>
+                      </div>
+                    </div>
+                    <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
+                      <div 
+                        className={`h-full rounded-full transition-all ${
+                          index === 0 ? 'bg-gradient-to-r from-amber-400 to-amber-500' :
+                          index === 1 ? 'bg-gradient-to-r from-slate-300 to-slate-400' :
+                          index === 2 ? 'bg-gradient-to-r from-orange-400 to-orange-500' :
+                          'bg-gradient-to-r from-cyan-400 to-cyan-500'
+                        }`}
+                        style={{ width: `${widthPercent}%` }}
+                      />
+                    </div>
+                    <p className="text-xs text-slate-400 text-right mt-0.5">
+                      {formatCurrency(school.revenue)}
+                    </p>
+                  </div>
+                );
+              })}
             </div>
           )}
         </div>
+      </div>
+
+      {/* Recent Orders */}
+      <div className="bg-white rounded-2xl p-6 shadow-lg border border-slate-100">
+        <h3 className="text-lg font-semibold text-slate-800 mb-4">Order Terbaru</h3>
+        
+        {recentOrders.length === 0 ? (
+          <div className="text-center py-8 text-slate-400">
+            <span className="text-4xl">📭</span>
+            <p className="mt-2">Belum ada order</p>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full">
+              <thead>
+                <tr className="text-left text-slate-500 text-sm border-b border-slate-100">
+                  <th className="pb-3 font-medium">Order ID</th>
+                  <th className="pb-3 font-medium">Customer</th>
+                  <th className="pb-3 font-medium">Total</th>
+                  <th className="pb-3 font-medium">Status</th>
+                  <th className="pb-3 font-medium">Tanggal</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-slate-50">
+                {recentOrders.map((order) => (
+                  <tr key={order.id} className="hover:bg-slate-50 transition-colors">
+                    <td className="py-3 font-mono text-sm text-slate-600">
+                      #{order.id.substring(0, 8)}
+                    </td>
+                    <td className="py-3 text-slate-800">{order.userName}</td>
+                    <td className="py-3 font-medium text-slate-800">
+                      {formatCurrency(order.totalAmount)}
+                    </td>
+                    <td className="py-3">
+                      <span className={`px-2 py-1 rounded-full text-xs font-medium border ${getStatusBadge(order.status)}`}>
+                        {order.status.toUpperCase()}
+                      </span>
+                    </td>
+                    <td className="py-3 text-sm text-slate-500">
+                      {formatDate(order.createdAt)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
 
       {/* Quick Stats Summary */}
@@ -449,4 +669,3 @@ export default function AdminDashboard() {
     </div>
   );
 }
-
