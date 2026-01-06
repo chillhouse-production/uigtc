@@ -1,6 +1,6 @@
 
 // components/AdminGuard.tsx
-import { useEffect, useState } from 'react';
+import { useEffect, useState, type JSX } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { apiCall } from '../services/api';
 

@@ -101,6 +101,7 @@ export default function AdminOrders() {
     setProcessing(true);
 
     try {
+      // Use POST method with correct endpoints (based on admin.html reference)
       const endpoint = actionType === 'accept'
         ? `/admin/orders/${selectedOrder.id}/accept`
         : `/admin/orders/${selectedOrder.id}/reject`;
@@ -109,7 +110,7 @@ export default function AdminOrders() {
       
       const { ok, data } = await apiCall<{ success: boolean; message?: string }>(
         endpoint,
-        'PUT',
+        'POST',
         body
       );
 
