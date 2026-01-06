@@ -70,7 +70,6 @@ type DailySales = {
 };
 
 export default function AdminDashboard() {
-  const [orders, setOrders] = useState<Order[]>([]);
   const [stats, setStats] = useState<DashboardStats>({
     totalRevenue: 0,
     totalMerchSold: 0,
@@ -100,8 +99,6 @@ export default function AdminDashboard() {
         
         // Filter by date range
         const filteredOrders = filterOrdersByDateRange(allOrders);
-        setOrders(filteredOrders);
-        
         // Calculate statistics
         calculateStats(filteredOrders);
         

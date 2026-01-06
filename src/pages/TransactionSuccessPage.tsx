@@ -43,7 +43,6 @@ export default function TransactionSuccessPage() {
     
     // State untuk logic tampilan
     const [hasTicket, setHasTicket] = useState(false);
-    const [hasMerch, setHasMerch] = useState(false);
 
     // --- FETCHING LOGIC ---
     useEffect(() => {
@@ -81,7 +80,6 @@ export default function TransactionSuccessPage() {
                         
                         // Cek isi item
                         let ticketFound = false;
-                        let merchFound = false;
 
                         orderData.items.forEach(item => {
                             // Cek berdasarkan productType atau category type dari backend
@@ -89,13 +87,10 @@ export default function TransactionSuccessPage() {
                             
                             if (type.includes('ticket')) {
                                 ticketFound = true;
-                            } else if (type.includes('merchandise') || type === 'merch') {
-                                merchFound = true;
                             }
                         });
 
                         setHasTicket(ticketFound);
-                        setHasMerch(merchFound);
                     }
                 }
 
