@@ -16,7 +16,9 @@ import AdminGuard from "./components/AdminGuard";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminProducts from "./pages/admin/AdminProducts";
 import AdminOrders from "./pages/admin/AdminOrders";
+import AdminOrders from "./pages/admin/AdminOrders";
 import AdminLayout from "./pages/admin/AdminLayout";
+import AnalyticsPage from "./pages/admin/AnalyticsPage";
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('signin');
@@ -29,10 +31,10 @@ export default function App() {
       <Route path="/checkout" element={<CheckoutPage />} />
       <Route path="/transactionsuccess" element={<TransactionSuccessPage />} />
       <Route path="/history" element={<HistoryPage />} />
-      <Route path="/merchlist" element={<MerchList/>}/>
-      <Route path="/cart" element={<CartPage/>}/>
+      <Route path="/merchlist" element={<MerchList />} />
+      <Route path="/cart" element={<CartPage />} />
 
-      <Route path="/product/:id" element={<MerchDetails/>}/>
+      <Route path="/product/:id" element={<MerchDetails />} />
       <Route path="/auth" element={
         <>
           {currentPage === 'signin' && (
@@ -53,7 +55,9 @@ export default function App() {
       >
         <Route index element={<AdminDashboard />} />
         <Route path="products" element={<AdminProducts />} />
+        <Route path="products" element={<AdminProducts />} />
         <Route path="orders" element={<AdminOrders />} />
+        <Route path="analytics" element={<AnalyticsPage />} />
       </Route>
       <Route path="*" element={
         <div className="flex h-screen items-center justify-center">
