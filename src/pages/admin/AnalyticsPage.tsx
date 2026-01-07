@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { AnalyticsOverview, AnalyticsService, MerchAnalytics, TicketAnalytics, TransferAudit } from "../../services/analytics";
+import { AnalyticsService } from "../../services/analytics";
+import type { AnalyticsOverview, MerchAnalytics, TicketAnalytics, TransferAudit } from "../../services/analytics";
 import OverviewCards from "../../components/admin/analytics/OverviewCards";
 import TicketSection from "../../components/admin/analytics/TicketSection";
 import MerchSection from "../../components/admin/analytics/MerchSection";

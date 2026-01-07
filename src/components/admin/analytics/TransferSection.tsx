@@ -1,4 +1,4 @@
-import { TransferAudit } from "../../../services/analytics";
+import type { TransferAudit } from "../../../services/analytics";
 
 interface Props {
     data: TransferAudit | null;

@@ -1,4 +1,4 @@
-import { AnalyticsOverview } from "../../../services/analytics";
+import type { AnalyticsOverview } from "../../../services/analytics";
 
 interface Props {
     data: AnalyticsOverview | null;

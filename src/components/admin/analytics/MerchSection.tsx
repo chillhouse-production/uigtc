@@ -1,4 +1,4 @@
-import { MerchAnalytics } from "../../../services/analytics";
+import type { MerchAnalytics } from "../../../services/analytics";
 
 interface Props {
     data: MerchAnalytics | null;
