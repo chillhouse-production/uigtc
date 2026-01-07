@@ -1,4 +1,4 @@
-import { TicketAnalytics } from "../../../services/analytics";
+import type { TicketAnalytics } from "../../../services/analytics";
 
 interface Props {
     data: TicketAnalytics | null;

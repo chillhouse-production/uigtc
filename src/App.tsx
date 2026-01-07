@@ -16,7 +16,6 @@ import AdminGuard from "./components/AdminGuard";
 import AdminDashboard from "./pages/admin/AdminDashboard";
 import AdminProducts from "./pages/admin/AdminProducts";
 import AdminOrders from "./pages/admin/AdminOrders";
-import AdminOrders from "./pages/admin/AdminOrders";
 import AdminLayout from "./pages/admin/AdminLayout";
 import AnalyticsPage from "./pages/admin/AnalyticsPage";
 
