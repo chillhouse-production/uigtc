@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react"
 import Navbar from "./navBar"
 import Footer from "./footer"
+import AmbassadorSection from "../components/AmbassadorSection"
 import { useNavigate } from 'react-router-dom';
 import judulImg from '../assets/UIGTC-judul.png'
 import hartaTengah from '../assets/Hartakarun-Tengah.png'
@@ -39,17 +40,17 @@ export default function MainPage() {
     const descriptionRefMobile = useRef<HTMLDivElement>(null);
 
     const scrollToDescription = () => {
-        descriptionRef.current?.scrollIntoView({ 
+        descriptionRef.current?.scrollIntoView({
             behavior: 'smooth',
             block: 'start'
         });
     };
     const scrollToDescriptionMobile = () => {
-    descriptionRefMobile.current?.scrollIntoView({ 
-        behavior: 'smooth',
-        block: 'start'
-    });
-};
+        descriptionRefMobile.current?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'start'
+        });
+    };
 
     return (
 
@@ -85,15 +86,15 @@ export default function MainPage() {
 
                 <div className="relative z-20 -translate-y-[60px]">
                     <img src={pasirBg} alt="" className="w-full" />
-            <button 
-                onClick={scrollToDescriptionMobile}
-                className="absolute top-3/12 left-1/2 -translate-x-1/2 -translate-y-1/2 
+                    <button
+                        onClick={scrollToDescriptionMobile}
+                        className="absolute top-3/12 left-1/2 -translate-x-1/2 -translate-y-1/2 
                     bg-[#135D66] hover:bg-[#0E464D] text-[#E3FEF7] 
                     font-semibold py-2 px-6 rounded-lg shadow-md 
                     transition-all duration-300 hover:scale-105 active:scale-95"
-            >
-                Explore
-            </button>
+                    >
+                        Explore
+                    </button>
                 </div>
                 <div className="relative z-30 mb-20 -translate-y-[120px] w-full h-[550px]">
                     <img
@@ -132,7 +133,7 @@ export default function MainPage() {
 
                 </div>
 
-                <div  className="relative pt-10 z-40 -translate-y-[220px] w-full">
+                <div className="relative pt-10 z-40 -translate-y-[220px] w-full">
                     <img src={lautDalam} alt="" className="w-full h-[600px] object-cover" />
                     <div className="absolute inset-0 flex flex-col items-center justify-center text-white px-4">
 
@@ -377,7 +378,10 @@ export default function MainPage() {
                         </div>
                     </div>
                 )}
-                <div className="flex flex-col items-center justify-center -mt-60">
+                <div className="relative z-50">
+                    <AmbassadorSection />
+                </div>
+                <div className="flex flex-col items-center justify-center">
                     <div className="mb-10 items-center justify-center flex flex-col">
                         <h2 className="text-4xl text-center italic font-treamd text-white
                [text-shadow:1px_1px_2px_rgba(0,0,0,0.7),0_4px_8px_rgba(0,0,0,0.6)]">
@@ -474,15 +478,15 @@ export default function MainPage() {
 
                     <div className="relative z-20 w-full">
                         <img src={pasirBg} alt="Sand Background" className="w-full object-cover relative -mt-[8%] sm:-mt-[9%] md:-mt-[10%]" />
-            <button 
-                onClick={scrollToDescription}
-                className="absolute top-1/12 left-1/2 -translate-x-1/2 -translate-y-1/2 
+                        <button
+                            onClick={scrollToDescription}
+                            className="absolute top-1/12 left-1/2 -translate-x-1/2 -translate-y-1/2 
                     bg-[#135D66] hover:bg-[#0E464D] text-[#E3FEF7] 
                     font-semibold py-2 px-6 rounded-lg shadow-md 
                     transition-all duration-300 hover:scale-105 active:scale-95"
-            >
-                Explore
-            </button>
+                        >
+                            Explore
+                        </button>
                     </div>
 
                     <div className="relative w-full z-30 overflow-hidden -mt-[30%] sm:-mt-[32%] md:-mt-[35%]">
@@ -981,6 +985,9 @@ export default function MainPage() {
                             </div>
                         </div>
                     </div>
+                    <div className="relative z-25 w-full">
+                        <AmbassadorSection />
+                    </div>
                     <div className="flex flex-col items-center justify-center mt-[8%] sm:mt-[9%] md:mt-[10%] z-20 relative w-full">
                         <div className="mb-8 sm:mb-10 md:mb-14 lg:mb-20 xl:mb-24 2xl:mb-28 text-center px-4">
                             <h2 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl 2xl:text-9xl italic font-treamd text-white [text-shadow:2px_2px_4px_rgba(0,0,0,0.8),0_6px_12px_rgba(0,0,0,0.7)] tracking-wide">
@@ -1045,6 +1052,7 @@ export default function MainPage() {
                             </div>
                         </section>
                     </div>
+
                     <Footer />
                 </div>
             </section>
