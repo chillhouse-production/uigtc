@@ -18,6 +18,7 @@ import AdminProducts from "./pages/admin/AdminProducts";
 import AdminOrders from "./pages/admin/AdminOrders";
 import AdminLayout from "./pages/admin/AdminLayout";
 import AnalyticsPage from "./pages/admin/AnalyticsPage";
+import RsvpPage from "./pages/RsvpPage";
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('signin');
@@ -32,6 +33,7 @@ export default function App() {
       <Route path="/history" element={<HistoryPage />} />
       <Route path="/merchlist" element={<MerchList />} />
       <Route path="/cart" element={<CartPage />} />
+      <Route path="/rsvp" element={<RsvpPage />} />
 
       <Route path="/product/:id" element={<MerchDetails />} />
       <Route path="/auth" element={
