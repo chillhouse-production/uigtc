@@ -369,35 +369,100 @@ export default function RsvpPage() {
                     </div>
                 )}
 
-                {/* Step 3: Success */}
-                {step === 'success' && successData && (
-                    <div className="bg-white rounded-2xl shadow-xl border border-slate-100 p-8 text-center">
-                        <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-6">
-                            <span className="text-4xl">🎉</span>
-                        </div>
-                        <h2 className="text-2xl font-bold text-slate-800 mb-2">RSVP Berhasil!</h2>
-                        <p className="text-slate-500 mb-6">
-                            Selamat, {successData.name}! Simpan kode tiket Anda.
-                        </p>
-
-                        <div className="bg-gradient-to-r from-violet-50 to-amber-50 rounded-xl p-6 mb-6">
-                            <p className="text-xs text-slate-500 uppercase tracking-wide mb-2">Kode Tiket Anda</p>
-                            <p className="text-2xl font-bold font-mono text-violet-600 select-all">
-                                {successData.ticketCode}
-                            </p>
-                            <p className="text-xs text-slate-500 mt-2">
-                                Tunjukkan kode ini saat registrasi di venue
-                            </p>
+                {/* Step 3: Success - Show Ticket */}
+                {step === 'success' && successData && orderData && (
+                    <div className="space-y-6">
+                        {/* Success Header */}
+                        <div className="text-center">
+                            <div className="w-20 h-20 bg-emerald-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                                <span className="text-4xl">🎉</span>
+                            </div>
+                            <h2 className="text-2xl font-bold text-slate-800">RSVP Berhasil!</h2>
+                            <p className="text-slate-500 mt-1">Simpan tiket Anda di bawah ini</p>
                         </div>
 
+                        {/* Ticket Card */}
+                        <div className="relative">
+                            {/* Ticket Border Gradient */}
+                            <div className="absolute inset-0 bg-gradient-to-r from-violet-500 via-purple-500 to-amber-500 rounded-3xl blur-sm opacity-50"></div>
+
+                            <div className="relative bg-gradient-to-br from-violet-600 via-purple-600 to-violet-700 rounded-3xl p-1">
+                                <div className="bg-white rounded-[22px] overflow-hidden">
+                                    {/* Ticket Header */}
+                                    <div className="bg-gradient-to-r from-violet-600 to-purple-600 text-white px-6 py-4">
+                                        <div className="flex items-center justify-between">
+                                            <div>
+                                                <p className="text-violet-200 text-xs uppercase tracking-wider">E-Ticket</p>
+                                                <h3 className="text-xl font-bold">UIGTC 2026</h3>
+                                            </div>
+                                            <div className="text-right">
+                                                <p className="text-violet-200 text-xs">Order</p>
+                                                <p className="font-mono font-bold">{orderData.orderNumber}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Ticket Tear Line */}
+                                    <div className="relative">
+                                        <div className="absolute left-0 w-4 h-4 bg-violet-50 rounded-full -translate-x-1/2"></div>
+                                        <div className="absolute right-0 w-4 h-4 bg-violet-50 rounded-full translate-x-1/2"></div>
+                                        <div className="border-t-2 border-dashed border-slate-200 mx-4"></div>
+                                    </div>
+
+                                    {/* Ticket Body */}
+                                    <div className="px-6 py-6">
+                                        {/* Attendee Info */}
+                                        <div className="mb-6">
+                                            <p className="text-slate-400 text-xs uppercase tracking-wide mb-1">Nama Peserta</p>
+                                            <p className="text-xl font-bold text-slate-800">{successData.name}</p>
+                                        </div>
+
+                                        {/* Ticket Code - Main Focus */}
+                                        <div className="bg-gradient-to-r from-violet-50 to-purple-50 rounded-2xl p-6 text-center border-2 border-violet-100">
+                                            <p className="text-slate-500 text-xs uppercase tracking-wider mb-2">Kode Tiket</p>
+                                            <p className="text-3xl font-bold font-mono text-violet-600 select-all tracking-wider">
+                                                {successData.ticketCode}
+                                            </p>
+                                            <p className="text-slate-400 text-xs mt-3">
+                                                📱 Tunjukkan kode ini saat registrasi di venue
+                                            </p>
+                                        </div>
+
+                                        {/* Additional Info */}
+                                        <div className="mt-6 grid grid-cols-2 gap-4 text-sm">
+                                            <div className="bg-slate-50 rounded-xl p-3">
+                                                <p className="text-slate-400 text-xs">Status</p>
+                                                <p className="text-emerald-600 font-semibold flex items-center gap-1">
+                                                    <span className="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                                                    Confirmed
+                                                </p>
+                                            </div>
+                                            <div className="bg-slate-50 rounded-xl p-3">
+                                                <p className="text-slate-400 text-xs">Sisa Kuota</p>
+                                                <p className="text-slate-700 font-semibold">{successData.remainingQuota} peserta</p>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    {/* Ticket Footer */}
+                                    <div className="bg-slate-50 px-6 py-4 text-center">
+                                        <p className="text-xs text-slate-400">
+                                            📸 Screenshot halaman ini sebagai bukti pendaftaran
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Action Buttons */}
                         <div className="flex gap-3">
                             {successData.remainingQuota > 0 ? (
                                 <>
                                     <button
-                                        onClick={handleStartOver}
+                                        onClick={() => navigate('/rsvp/status')}
                                         className="flex-1 py-3 border border-slate-200 text-slate-600 rounded-xl font-medium hover:bg-slate-50 transition-colors"
                                     >
-                                        Selesai
+                                        Lihat Semua Tiket
                                     </button>
                                     <button
                                         onClick={handleRegisterAnother}
@@ -408,10 +473,10 @@ export default function RsvpPage() {
                                 </>
                             ) : (
                                 <button
-                                    onClick={handleStartOver}
+                                    onClick={() => navigate('/rsvp/status')}
                                     className="w-full py-3 bg-violet-600 text-white rounded-xl font-medium hover:bg-violet-700 transition-colors"
                                 >
-                                    Selesai
+                                    Lihat Semua Tiket
                                 </button>
                             )}
                         </div>
