@@ -142,6 +142,17 @@ const MerchDetails = () => {
         );
     }
 
+    const shouldShowStock = (item: Product) => {
+        // Jika BUKAN tiket, selalu tampilkan stock (Merch)
+        if (item.category?.type !== 'ticket') return true;
+
+        // Jika TIKET, hanya tampilkan jika stock < 10
+        if (item.stock < 10) return true;
+
+        // Selain itu (Tiket dengan stock >= 10), sembunyikan
+        return false;
+    };
+
     return (
         <>
             <section className="relative overflow-hidden min-h-screen w-full bg-gradient-to-b from-[#EAB775] to-[#F3CC91] overflow-x-hidden flex justify-center">
@@ -266,6 +277,8 @@ const MerchDetails = () => {
                                             {product.name}
                                         </h1>
 
+
+
                                         <div className="flex items-center gap-4 mb-6">
                                             <p className="text-[#CD853F] font-bree text-3xl">
                                                 {formatCurrency(product.price)}
@@ -275,6 +288,8 @@ const MerchDetails = () => {
                                                 {product.stock > 0 ? `Tersedia: ${product.stock} Unit` : 'Stok Habis'}
                                             </p>
                                         </div>
+
+
 
                                         <div className="bg-white/50 rounded-xl p-4 mb-8 border border-white/50 flex-1">
                                             <h3 className="font-bree text-[#3d2314] mb-2 text-sm uppercase tracking-wide opacity-70">Deskripsi Produk</h3>

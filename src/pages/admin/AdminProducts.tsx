@@ -19,6 +19,7 @@ type Product = {
   productType: 'merchandise' | 'ticket_single' | 'ticket_bundle';
   isActive: boolean;
   category: Category | null;
+  bundleQuantity: number;
   createdAt: string;
   updatedAt: string;
 };
@@ -31,6 +32,7 @@ type ProductFormData = {
   categoryId: string;
   productType: 'merchandise' | 'ticket_single' | 'ticket_bundle';
   isActive: boolean;
+  bundleQuantity: number;
 };
 
 export default function AdminProducts() {
@@ -40,7 +42,7 @@ export default function AdminProducts() {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterType, setFilterType] = useState<'all' | 'merchandise' | 'ticket'>('all');
   const [filterActive, setFilterActive] = useState<'all' | 'active' | 'inactive'>('all');
-  
+
   // Modal states
   const [showModal, setShowModal] = useState(false);
   const [editingProduct, setEditingProduct] = useState<Product | null>(null);
@@ -52,6 +54,7 @@ export default function AdminProducts() {
     categoryId: '',
     productType: 'merchandise',
     isActive: true,
+    bundleQuantity: 1,
   });
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [submitting, setSubmitting] = useState(false);
@@ -84,7 +87,7 @@ export default function AdminProducts() {
   const filteredProducts = products.filter(product => {
     const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesType = filterType === 'all' || product.category?.type === filterType;
-    const matchesActive = filterActive === 'all' || 
+    const matchesActive = filterActive === 'all' ||
       (filterActive === 'active' ? product.isActive : !product.isActive);
     return matchesSearch && matchesType && matchesActive;
   });
@@ -99,6 +102,7 @@ export default function AdminProducts() {
       categoryId: '',
       productType: 'merchandise',
       isActive: true,
+      bundleQuantity: 1,
     });
     setImageFile(null);
     setShowModal(true);
@@ -114,6 +118,7 @@ export default function AdminProducts() {
       categoryId: product.category?.id || '',
       productType: product.productType,
       isActive: product.isActive,
+      bundleQuantity: product.bundleQuantity || 1,
     });
     setImageFile(null);
     setShowModal(true);
@@ -132,6 +137,7 @@ export default function AdminProducts() {
       formDataToSend.append('categoryId', formData.categoryId);
       formDataToSend.append('productType', formData.productType);
       formDataToSend.append('isActive', formData.isActive.toString());
+      formDataToSend.append('bundleQuantity', formData.bundleQuantity.toString());
       if (imageFile) {
         formDataToSend.append('image', imageFile);
       }
@@ -140,10 +146,10 @@ export default function AdminProducts() {
       const headers: Record<string, string> = {};
       if (token) headers.Authorization = `Bearer ${token}`;
 
-      const url = editingProduct 
+      const url = editingProduct
         ? `https://uigtc.id/api/admin/products/${editingProduct.id}`
         : 'https://uigtc.id/api/admin/products';
-      
+
       const response = await fetch(url, {
         method: editingProduct ? 'PUT' : 'POST',
         headers,
@@ -182,7 +188,7 @@ export default function AdminProducts() {
 
   const deleteProduct = async (product: Product) => {
     if (!confirm(`Hapus produk "${product.name}"?`)) return;
-    
+
     try {
       const { ok } = await apiCall(`/admin/products/${product.id}`, 'DELETE');
       if (ok) {
@@ -323,11 +329,10 @@ export default function AdminProducts() {
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <span className={`px-2 py-1 text-xs font-medium rounded-full ${
-                        product.category?.type === 'ticket'
-                          ? 'bg-amber-100 text-amber-800'
-                          : 'bg-violet-100 text-violet-800'
-                      }`}>
+                      <span className={`px-2 py-1 text-xs font-medium rounded-full ${product.category?.type === 'ticket'
+                        ? 'bg-amber-100 text-amber-800'
+                        : 'bg-violet-100 text-violet-800'
+                        }`}>
                         {product.category?.name || '-'}
                       </span>
                     </td>
@@ -342,14 +347,12 @@ export default function AdminProducts() {
                     <td className="px-6 py-4">
                       <button
                         onClick={() => toggleProductStatus(product)}
-                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${
-                          product.isActive ? 'bg-emerald-500' : 'bg-slate-300'
-                        }`}
+                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors ${product.isActive ? 'bg-emerald-500' : 'bg-slate-300'
+                          }`}
                       >
                         <span
-                          className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${
-                            product.isActive ? 'translate-x-6' : 'translate-x-1'
-                          }`}
+                          className={`inline-block h-4 w-4 transform rounded-full bg-white transition-transform ${product.isActive ? 'translate-x-6' : 'translate-x-1'
+                            }`}
                         />
                       </button>
                     </td>
@@ -401,7 +404,7 @@ export default function AdminProducts() {
                 {editingProduct ? '✏️ Edit Produk' : '➕ Tambah Produk'}
               </h3>
             </div>
-            
+
             <form onSubmit={handleSubmit} className="p-6 space-y-4">
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Nama Produk</label>
@@ -474,6 +477,25 @@ export default function AdminProducts() {
                   </select>
                 </div>
               </div>
+
+              {/* Kapasitas Tiket - Only show for ticket types */}
+              {(formData.productType === 'ticket_single' || formData.productType === 'ticket_bundle') && (
+                <div>
+                  <label className="block text-sm font-medium text-slate-700 mb-1">
+                    Kapasitas Tiket (Jumlah Orang)
+                  </label>
+                  <input
+                    type="number"
+                    min={1}
+                    value={formData.bundleQuantity}
+                    onChange={(e) => setFormData({ ...formData, bundleQuantity: parseInt(e.target.value) || 1 })}
+                    className="w-full px-4 py-2 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-violet-500"
+                  />
+                  <p className="mt-1 text-xs text-slate-500">
+                    Contoh: Tiket 1 orang = 1, Tiket 3 orang = 3, Tiket 5 orang = 5
+                  </p>
+                </div>
+              )}
 
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Gambar Produk</label>
