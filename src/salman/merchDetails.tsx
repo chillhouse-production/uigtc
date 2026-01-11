@@ -142,17 +142,6 @@ const MerchDetails = () => {
         );
     }
 
-    const shouldShowStock = (item: Product) => {
-        // Jika BUKAN tiket, selalu tampilkan stock (Merch)
-        if (item.category?.type !== 'ticket') return true;
-
-        // Jika TIKET, hanya tampilkan jika stock < 10
-        if (item.stock < 10) return true;
-
-        // Selain itu (Tiket dengan stock >= 10), sembunyikan
-        return false;
-    };
-
     return (
         <>
             <section className="relative overflow-hidden min-h-screen w-full bg-gradient-to-b from-[#EAB775] to-[#F3CC91] overflow-x-hidden flex justify-center">
