@@ -158,9 +158,9 @@ export const productApi = {
 // ===========================================
 export const authApi = {
   // Register
-  register: (data: { 
-    email: string; 
-    password: string; 
+  register: (data: {
+    email: string;
+    password: string;
     name: string;
     phoneNumber: string;
     schoolOrigin: string;
@@ -190,8 +190,9 @@ export type OrderItem = {
 
 export type Order = {
   id: string;
+  orderNumber: string;
   userId: string;
-  status: 'pending' | 'waiting_payment' | 'payment_review' | 'completed' | 'rejected' | 'cancelled';
+  status: 'pending' | 'waiting_payment' | 'payment_review' | 'completed' | 'rejected' | 'cancelled' | 'awaiting_payment' | 'accepted';
   totalAmount: number;
   shippingName?: string;
   shippingPhone?: string;
@@ -252,14 +253,14 @@ export const cartApi = {
   get: () => apiGet<Cart>('/cart'),
 
   // Add item to cart
-  addItem: (data: { productId: string; quantity: number }) => 
+  addItem: (data: { productId: string; quantity: number }) =>
     apiPost<Cart>('/cart', data),
 
   // Remove item from cart
   removeItem: (itemId: string) => apiDelete<Cart>(`/cart/items/${itemId}`),
 
   // Update item quantity (if available)
-  updateItem: (itemId: string, quantity: number) => 
+  updateItem: (itemId: string, quantity: number) =>
     apiPut<Cart>(`/cart/items/${itemId}`, { quantity }),
 };
 
@@ -274,7 +275,7 @@ export async function apiUpload<T>(
   const token = getAuthToken();
 
   const headers: Record<string, string> = {};
-  
+
   // Add Authorization header if token exists
   if (token) {
     headers['Authorization'] = `Bearer ${token}`;

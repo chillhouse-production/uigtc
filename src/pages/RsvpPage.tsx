@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useSearchParams, useNavigate } from 'react-router-dom';
 import { apiCall } from '../services/api';
 
 type AttendeeData = {
@@ -27,11 +28,21 @@ type OrderValidationData = {
 };
 
 export default function RsvpPage() {
+    const [searchParams] = useSearchParams();
+    const navigate = useNavigate();
     const [step, setStep] = useState<'verify' | 'form' | 'success'>('verify');
     const [orderNumber, setOrderNumber] = useState('');
     const [orderData, setOrderData] = useState<OrderValidationData | null>(null);
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
+
+    // Auto-fill order from URL parameter
+    useEffect(() => {
+        const orderParam = searchParams.get('order');
+        if (orderParam) {
+            setOrderNumber(orderParam.toUpperCase());
+        }
+    }, [searchParams]);
 
     // Form state
     const [formData, setFormData] = useState({
@@ -137,6 +148,14 @@ export default function RsvpPage() {
                     <p className="text-sm text-slate-500 text-center mt-1">
                         Daftarkan data peserta untuk tiket Anda
                     </p>
+                    <div className="flex justify-center mt-2">
+                        <button
+                            onClick={() => navigate('/rsvp/status')}
+                            className="text-sm text-violet-600 hover:text-violet-700 font-medium"
+                        >
+                            Sudah RSVP? Cek status tiket →
+                        </button>
+                    </div>
                 </div>
             </div>
 
@@ -147,10 +166,10 @@ export default function RsvpPage() {
                         <div key={s} className="flex items-center">
                             <div
                                 className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium transition-colors ${step === s
-                                        ? 'bg-violet-600 text-white'
-                                        : i < ['verify', 'form', 'success'].indexOf(step)
-                                            ? 'bg-emerald-500 text-white'
-                                            : 'bg-slate-200 text-slate-500'
+                                    ? 'bg-violet-600 text-white'
+                                    : i < ['verify', 'form', 'success'].indexOf(step)
+                                        ? 'bg-emerald-500 text-white'
+                                        : 'bg-slate-200 text-slate-500'
                                     }`}
                             >
                                 {i + 1}
@@ -158,8 +177,8 @@ export default function RsvpPage() {
                             {i < 2 && (
                                 <div
                                     className={`w-12 h-1 mx-1 rounded ${i < ['verify', 'form', 'success'].indexOf(step)
-                                            ? 'bg-emerald-500'
-                                            : 'bg-slate-200'
+                                        ? 'bg-emerald-500'
+                                        : 'bg-slate-200'
                                         }`}
                                 />
                             )}
@@ -189,12 +208,12 @@ export default function RsvpPage() {
                                     type="text"
                                     value={orderNumber}
                                     onChange={(e) => setOrderNumber(e.target.value.toUpperCase())}
-                                    placeholder="Contoh: UIGTC-ABC123-XYZ"
+                                    placeholder="Contoh: UIGTC-M5WXK8NG-D5RE"
                                     className="w-full px-4 py-3 border border-slate-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-violet-500 focus:border-transparent text-center font-mono text-lg"
                                     required
                                 />
                                 <p className="mt-2 text-xs text-slate-500">
-                                    Order number dapat ditemukan di email konfirmasi atau halaman riwayat pesanan
+                                    Order Number dapat dilihat di halaman Riwayat Pesanan
                                 </p>
                             </div>
                             <button

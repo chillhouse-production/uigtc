@@ -8,19 +8,19 @@ import { ordersApi, type Order } from '../config/api';
 
 export default function HistoryPage() {
     const navigate = useNavigate();
-    
+
     // --- STATE & LOGIC ---
     const { user, loading: authLoading } = useAuth();
     const [orders, setOrders] = useState<Order[]>([]);
     const [loading, setLoading] = useState(true);
-    
+
     // Perbaikan: State error dideklarasikan dan sekarang akan digunakan di bawah
     const [error, setError] = useState<string | null>(null);
 
     // Fetch Data
     useEffect(() => {
         if (authLoading) return;
-        
+
         if (!user) {
             setLoading(false);
             return;
@@ -30,7 +30,7 @@ export default function HistoryPage() {
             try {
                 // Reset error sebelum fetch ulang (opsional tapi praktik bagus)
                 setError(null);
-                
+
                 const response = await ordersApi.getMyOrders();
                 if (response.success && response.data) {
                     setOrders(response.data);
@@ -53,7 +53,7 @@ export default function HistoryPage() {
             case 'pending':
                 return 'bg-yellow-500 text-black';
             case 'accepted':
-                return 'bg-[#6EE7B7] text-black '; 
+                return 'bg-[#6EE7B7] text-black ';
             case 'rejected':
                 return 'bg-red-500 text-black';
         }
@@ -73,16 +73,16 @@ export default function HistoryPage() {
     const formatCurrency = (price: number) => new Intl.NumberFormat('id-ID').format(price);
 
     // --- RENDER CONDITIONALS ---
-    
+
     // 1. Loading State
     if (authLoading || loading) {
         return (
             <div className="min-h-screen flex items-center justify-center relative overflow-hidden">
-                 <img src={HistoryBG} alt="Background" className="fixed inset-0 w-full h-full object-cover z-0" />
-                 <div className="relative z-10 bg-[#F8FDFF] p-8 rounded-lg shadow-md border border-[#E5F6F8]">
+                <img src={HistoryBG} alt="Background" className="fixed inset-0 w-full h-full object-cover z-0" />
+                <div className="relative z-10 bg-[#F8FDFF] p-8 rounded-lg shadow-md border border-[#E5F6F8]">
                     <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-[#1a3c40] mx-auto mb-4"></div>
                     <p className="font-serif text-[#1a3c40]">Memuat riwayat...</p>
-                 </div>
+                </div>
             </div>
         );
     }
@@ -121,17 +121,17 @@ export default function HistoryPage() {
 
             {/* Content */}
             <div className="relative z-10 w-full max-w-[1200px] p-4 md:p-8 flex flex-col items-center flex-1 pt-24">
-                
+
                 {/* Header Title */}
                 <div className="flex items-center justify-center w-full mb-10 relative">
-                      <div className="text-center">
-                                <h1 className="text-5xl mt-8 mb-4 text-white font-bree tracking-wider"
-                                    style={{
-                                        fontFamily: 'treamd',
-                                        textShadow: '3px 3px 0px #3d2314, 5px 5px 0px rgba(61, 35, 20, 0.5)'
-                                    }}>
-                                    ORDER HISTORY
-                                </h1>
+                    <div className="text-center">
+                        <h1 className="text-5xl mt-8 mb-4 text-white font-bree tracking-wider"
+                            style={{
+                                fontFamily: 'treamd',
+                                textShadow: '3px 3px 0px #3d2314, 5px 5px 0px rgba(61, 35, 20, 0.5)'
+                            }}>
+                            ORDER HISTORY
+                        </h1>
                     </div>
                 </div>
 
@@ -148,7 +148,7 @@ export default function HistoryPage() {
                     {orders.length === 0 && !error ? (
                         <div className="bg-[#F8FDFF] rounded-lg shadow-md border border-[#E5F6F8] p-10 text-center">
                             <p className="font-serif text-[#1a3c40] text-xl mb-4">Belum ada riwayat pesanan.</p>
-                            <button 
+                            <button
                                 onClick={() => navigate('/merchlist')}
                                 className="px-6 py-2 bg-[#e89c3f] text-[#1a3c40] font-bree rounded shadow hover:bg-[#d68b2e] transition-colors"
                             >
@@ -158,13 +158,13 @@ export default function HistoryPage() {
                     ) : (
                         orders.map((order) => (
                             <div key={order.id} className="bg-[#F8FDFF] rounded-lg shadow-md border border-[#E5F6F8] relative transition-transform hover:-translate-y-1 duration-300">
-                                
+
                                 {/* Card Header */}
                                 <div className="px-6 py-4 border-b border-[#E5F6F8] flex flex-col md:flex-row justify-between items-start md:items-center gap-3">
                                     <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 w-full md:w-auto">
                                         <div className="flex items-center gap-2">
                                             <span className="font-bree text-[#1a3c40] font-serif text-sm">Order ID:</span>
-                                            <span className="font-serif text-[#1a3c40] text-sm tracking-wide bg-gray-100 px-2 rounded">#{order.id.substring(0, 8)}</span>
+                                            <span className="font-serif text-[#1a3c40] text-sm tracking-wide bg-gray-100 px-2 rounded font-mono">{order.orderNumber}</span>
                                         </div>
 
                                         <div className="flex items-center gap-2">
@@ -195,7 +195,7 @@ export default function HistoryPage() {
                                         <span className="font-bree text-[#1a3c40] font-serif text-sm opacity-75">
                                             {formatDate(order.createdAt)}
                                         </span>
-                                        
+
                                     </div>
                                 </div>
 
@@ -206,11 +206,11 @@ export default function HistoryPage() {
                                             {/* Image with Fallback */}
                                             <div className="w-20 h-14 rounded-md shadow-sm bg-gray-200 overflow-hidden flex-shrink-0">
                                                 {item.product?.image && (
-                                                    <img 
+                                                    <img
                                                         src={`https://uigtc.id${item.product.image}`}
                                                         alt={item.product.name}
                                                         className="w-full h-full object-cover"
-                                                        onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }} 
+                                                        onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                                                     />
                                                 )}
                                             </div>
