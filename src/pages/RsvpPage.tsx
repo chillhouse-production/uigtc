@@ -207,12 +207,6 @@ export default function RsvpPage() {
         }
     };
 
-    const handleRegisterAnother = () => {
-        setFormData({ name: '', schoolOrigin: '', whatsappNumber: '', email: '' });
-        setSuccessData(null);
-        setStep('form');
-    };
-
     const formatDate = (dateStr: string) => {
         return new Date(dateStr).toLocaleDateString('id-ID', {
             day: 'numeric',
