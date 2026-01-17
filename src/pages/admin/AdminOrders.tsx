@@ -20,6 +20,7 @@ type OrderItem = {
 
 type Order = {
   id: string;
+  orderNumber: string;
   userId: string;
   status: 'pending' | 'accepted' | 'rejected' | 'cancelled';
   totalAmount: number;
@@ -35,6 +36,7 @@ type Order = {
     phoneNumber?: string;
     schoolOrigin?: string;
   };
+  rsvpAttendees?: { id: string }[];
 };
 
 export default function AdminOrders() {
@@ -42,11 +44,11 @@ export default function AdminOrders() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState<'all' | 'pending' | 'accepted' | 'rejected'>('all');
-  
+
   // Detail modal
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [showDetailModal, setShowDetailModal] = useState(false);
-  
+
   // Action modal
   const [showActionModal, setShowActionModal] = useState(false);
   const [actionType, setActionType] = useState<'accept' | 'reject'>('accept');
@@ -77,12 +79,26 @@ export default function AdminOrders() {
 
   const filteredOrders = orders.filter((order) => {
     const matchesSearch =
+      order.orderNumber?.toLowerCase().includes(searchTerm.toLowerCase()) ||
       order.id.toLowerCase().includes(searchTerm.toLowerCase()) ||
       order.user?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       order.user?.email.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = filterStatus === 'all' || order.status === filterStatus;
     return matchesSearch && matchesStatus;
   });
+
+  // Helper to calculate ticket quota
+  const getTicketQuota = (order: Order) => {
+    const ticketItems = order.items.filter(item =>
+      item.product?.category?.type === 'ticket'
+    );
+    if (ticketItems.length === 0) return null;
+
+    // Calculate total slots (quantity * bundleQuantity, default 1)
+    const totalSlots = ticketItems.reduce((sum, item) => sum + item.quantity, 0);
+    const usedSlots = order.rsvpAttendees?.length || 0;
+    return { total: totalSlots, used: usedSlots, remaining: totalSlots - usedSlots };
+  };
 
   const openDetailModal = (order: Order) => {
     setSelectedOrder(order);
@@ -105,9 +121,9 @@ export default function AdminOrders() {
       const endpoint = actionType === 'accept'
         ? `/admin/orders/${selectedOrder.id}/accept`
         : `/admin/orders/${selectedOrder.id}/reject`;
-      
+
       const body = actionType === 'reject' ? { reason: rejectionReason } : undefined;
-      
+
       const { ok, data } = await apiCall<{ success: boolean; message?: string }>(
         endpoint,
         'POST',
@@ -232,11 +248,10 @@ export default function AdminOrders() {
               <button
                 key={status}
                 onClick={() => setFilterStatus(status)}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${
-                  filterStatus === status
-                    ? 'bg-cyan-600 text-white shadow-lg shadow-cyan-200'
-                    : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
-                }`}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${filterStatus === status
+                  ? 'bg-cyan-600 text-white shadow-lg shadow-cyan-200'
+                  : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                  }`}
               >
                 {status === 'all' && 'Semua'}
                 {status === 'pending' && '⏳ Pending'}
@@ -254,10 +269,11 @@ export default function AdminOrders() {
           <table className="w-full">
             <thead className="bg-slate-50 border-b border-slate-100">
               <tr>
-                <th className="text-left px-6 py-4 text-sm font-semibold text-slate-600">Order ID</th>
+                <th className="text-left px-6 py-4 text-sm font-semibold text-slate-600">Order Number</th>
                 <th className="text-left px-6 py-4 text-sm font-semibold text-slate-600">Customer</th>
                 <th className="text-left px-6 py-4 text-sm font-semibold text-slate-600">Items</th>
                 <th className="text-left px-6 py-4 text-sm font-semibold text-slate-600">Total</th>
+                <th className="text-left px-6 py-4 text-sm font-semibold text-slate-600">RSVP</th>
                 <th className="text-left px-6 py-4 text-sm font-semibold text-slate-600">Status</th>
                 <th className="text-left px-6 py-4 text-sm font-semibold text-slate-600">Tanggal</th>
                 <th className="text-right px-6 py-4 text-sm font-semibold text-slate-600">Aksi</th>
@@ -266,7 +282,7 @@ export default function AdminOrders() {
             <tbody className="divide-y divide-slate-50">
               {filteredOrders.length === 0 ? (
                 <tr>
-                  <td colSpan={7} className="px-6 py-12 text-center text-slate-400">
+                  <td colSpan={8} className="px-6 py-12 text-center text-slate-400">
                     <span className="text-4xl">📭</span>
                     <p className="mt-2">Tidak ada order ditemukan</p>
                   </td>
@@ -274,10 +290,11 @@ export default function AdminOrders() {
               ) : (
                 filteredOrders.map((order) => {
                   const statusStyle = getStatusBadge(order.status);
+                  const quota = getTicketQuota(order);
                   return (
                     <tr key={order.id} className="hover:bg-slate-50 transition-colors">
                       <td className="px-6 py-4">
-                        <span className="font-mono text-sm text-slate-600">#{order.id.substring(0, 8)}</span>
+                        <span className="font-mono text-sm text-slate-800 font-medium">{order.orderNumber || `#${order.id.substring(0, 8)}`}</span>
                       </td>
                       <td className="px-6 py-4">
                         <div>
@@ -290,6 +307,20 @@ export default function AdminOrders() {
                       </td>
                       <td className="px-6 py-4">
                         <span className="font-medium text-slate-800">{formatCurrency(order.totalAmount)}</span>
+                      </td>
+                      <td className="px-6 py-4">
+                        {quota ? (
+                          <div className="text-sm">
+                            <span className={`font-medium ${quota.remaining > 0 ? 'text-amber-600' : 'text-emerald-600'}`}>
+                              {quota.used}/{quota.total}
+                            </span>
+                            <span className="text-slate-400 text-xs ml-1">
+                              {quota.remaining > 0 ? `(sisa ${quota.remaining})` : '✓'}
+                            </span>
+                          </div>
+                        ) : (
+                          <span className="text-slate-300">-</span>
+                        )}
                       </td>
                       <td className="px-6 py-4">
                         <span className={`inline-flex items-center gap-1 px-2 py-1 text-xs font-medium rounded-full ${statusStyle.bg} ${statusStyle.text}`}>
@@ -312,7 +343,7 @@ export default function AdminOrders() {
                               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                             </svg>
                           </button>
-                          
+
                           {order.status === 'pending' && (
                             <>
                               <button
@@ -366,8 +397,8 @@ export default function AdminOrders() {
               {/* Order Info */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <p className="text-sm text-slate-500">Order ID</p>
-                  <p className="font-mono text-slate-800">{selectedOrder.id}</p>
+                  <p className="text-sm text-slate-500">Order Number</p>
+                  <p className="font-mono text-slate-800 font-medium">{selectedOrder.orderNumber}</p>
                 </div>
                 <div>
                   <p className="text-sm text-slate-500">Status</p>
@@ -509,8 +540,8 @@ export default function AdminOrders() {
             <div className="p-6 space-y-4">
               <p className="text-slate-600">
                 {actionType === 'accept'
-                  ? `Apakah Anda yakin ingin menerima order #${selectedOrder.id.substring(0, 8)}?`
-                  : `Apakah Anda yakin ingin menolak order #${selectedOrder.id.substring(0, 8)}?`}
+                  ? `Apakah Anda yakin ingin menerima order ${selectedOrder.orderNumber}?`
+                  : `Apakah Anda yakin ingin menolak order ${selectedOrder.orderNumber}?`}
               </p>
 
               {actionType === 'reject' && (
@@ -535,11 +566,10 @@ export default function AdminOrders() {
                 <button
                   onClick={handleAction}
                   disabled={processing || (actionType === 'reject' && !rejectionReason.trim())}
-                  className={`flex-1 px-4 py-2 text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 ${
-                    actionType === 'accept'
-                      ? 'bg-emerald-600 hover:bg-emerald-700'
-                      : 'bg-red-600 hover:bg-red-700'
-                  }`}
+                  className={`flex-1 px-4 py-2 text-white rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2 ${actionType === 'accept'
+                    ? 'bg-emerald-600 hover:bg-emerald-700'
+                    : 'bg-red-600 hover:bg-red-700'
+                    }`}
                 >
                   {processing && (
                     <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>

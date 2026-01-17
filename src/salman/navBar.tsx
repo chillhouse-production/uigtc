@@ -17,15 +17,14 @@ const Navbar = () => {
   const [showMobileProfileDropdown, setShowMobileProfileDropdown] = useState<boolean>(false);
   const isLoggedIn = !!user;
 
-  // Menu untuk user yang belum login - tampilkan semua
+  // Menu untuk user yang sudah login
   const menuItemsLoggedIn = [
     { id: 'home', icon: iconHome, path: '/', label: 'Home' },
     { id: 'toko', icon: iconToko, path: '/merchlist', label: 'Merchandise' },
     { id: 'keranjang', icon: iconKeranjang, path: '/cart', label: 'Cart' },
   ];
 
-  // Menu untuk user yang sudah login - HANYA Home dan Toko
-  // Cart dan History dipindah ke dropdown profile
+  // Menu untuk user yang belum login - HANYA Home dan Toko (no RSVP)
   const menuItemsLoggedOut = [
     { id: 'home', icon: iconHome, path: '/', label: 'Home' },
     { id: 'toko', icon: iconToko, path: '/merchlist', label: 'Merchandise' },
@@ -43,22 +42,33 @@ const Navbar = () => {
             </div>
             <div className="flex items-center space-x-2">
               {menuItems.map((item) => (
-                <a 
-                  key={item.id} 
-                  href={item.path} 
-                  className={`p-3 rounded-lg transition-all duration-200 ${activeMenu === item.id ? 'bg-[#5196AA] shadow-md' : 'hover:bg-gray-100'}`} 
-                  onMouseEnter={() => setActiveMenu(item.id)} 
+                <a
+                  key={item.id}
+                  href={item.path}
+                  className={`p-3 rounded-lg transition-all duration-200 ${activeMenu === item.id ? 'bg-[#5196AA] shadow-md' : 'hover:bg-gray-100'}`}
+                  onMouseEnter={() => setActiveMenu(item.id)}
                   onMouseLeave={() => setActiveMenu('')}
                 >
                   <img src={item.icon} alt={item.id} className="h-6 w-6" />
                 </a>
               ))}
+              {/* RSVP Button - only for logged in users, styled like text link */}
+              {isLoggedIn && (
+                <a
+                  href="/rsvp"
+                  className={`px-3 py-2 rounded-lg transition-all duration-200 flex items-center gap-1 ${activeMenu === 'rsvp' ? 'bg-[#5196AA] text-white shadow-md' : 'hover:bg-gray-100 text-gray-700'}`}
+                  onMouseEnter={() => setActiveMenu('rsvp')}
+                  onMouseLeave={() => setActiveMenu('')}
+                >
+                  <span className="text-lg">🎫</span>
+                </a>
+              )}
               {isLoggedIn ? (
                 <div className="relative">
                   <button
-                    className={`flex items-center space-x-1 p-3 rounded-lg transition-all duration-200 ${showDropdown ? 'bg-[#5196AA] shadow-md' : 'hover:bg-gray-100'}`} 
-                    onClick={() => setShowDropdown(!showDropdown)} 
-                    onMouseEnter={() => setActiveMenu('profile')} 
+                    className={`flex items-center space-x-1 p-3 rounded-lg transition-all duration-200 ${showDropdown ? 'bg-[#5196AA] shadow-md' : 'hover:bg-gray-100'}`}
+                    onClick={() => setShowDropdown(!showDropdown)}
+                    onMouseEnter={() => setActiveMenu('profile')}
                     onMouseLeave={() => setActiveMenu('')}
                   >
                     <img src={showDropdown ? iconProfileHitam : iconProfilePutih} alt="Profile" className="h-6 w-6" />
@@ -78,12 +88,12 @@ const Navbar = () => {
                         </svg>
                         Riwayat Pesanan
                       </a>
-                      <button 
+                      <button
                         onClick={() => {
                           logout();
                           setShowDropdown(false);
                           navigate('/');
-                        }} 
+                        }}
                         className="w-full flex items-center px-4 py-2 text-red-600 hover:bg-red-50 transition-colors"
                       >
                         <svg className="h-5 w-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -114,8 +124,8 @@ const Navbar = () => {
             <div className="flex-shrink-0">
               <img src={LogoBulat} alt="UIGTC Logo" className="h-10 w-auto" />
             </div>
-            <button 
-              onClick={() => setShowMobileSidebar(!showMobileSidebar)} 
+            <button
+              onClick={() => setShowMobileSidebar(!showMobileSidebar)}
               className="p-2"
             >
               <svg className="h-6 w-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -128,15 +138,15 @@ const Navbar = () => {
 
       {/* Mobile Sidebar */}
       <div className={`fixed inset-0 z-[200] md:hidden transform transition-transform duration-300 ${showMobileSidebar ? 'translate-x-0' : 'translate-x-full'}`}>
-        <div 
-          className="fixed inset-0 bg-black/50 backdrop-blur-sm" 
-          onClick={() => setShowMobileSidebar(false)} 
+        <div
+          className="fixed inset-0 bg-black/50 backdrop-blur-sm"
+          onClick={() => setShowMobileSidebar(false)}
         />
         <div className="fixed right-0 top-0 h-full w-64 bg-white/90 backdrop-blur-md shadow-xl">
           <div className="p-4 border-b border-gray-200/50 flex items-center justify-between">
             <img src={LogoBulat} alt="UIGTC Logo" className="h-10 w-auto" />
-            <button 
-              onClick={() => setShowMobileSidebar(false)} 
+            <button
+              onClick={() => setShowMobileSidebar(false)}
               className="p-2"
             >
               <svg className="h-6 w-6 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -146,30 +156,40 @@ const Navbar = () => {
           </div>
           <div className="py-4">
             {menuItems.map((item) => (
-              <a 
-                key={item.id} 
-                href={item.path} 
+              <a
+                key={item.id}
+                href={item.path}
                 className="flex items-center px-6 py-3 text-gray-800 hover:bg-white/50 transition-colors font-medium"
               >
                 <img src={item.icon} alt={item.label} className="h-5 w-5 mr-3" />
                 {item.label}
               </a>
             ))}
+            {/* RSVP Link - only for logged in users */}
+            {isLoggedIn && (
+              <a
+                href="/rsvp"
+                className="flex items-center px-6 py-3 text-gray-800 hover:bg-white/50 transition-colors font-medium"
+              >
+                <span className="text-lg mr-3">🎫</span>
+                RSVP
+              </a>
+            )}
             {isLoggedIn ? (
               <>
                 <div className="border-t border-gray-200/50 my-2" />
-                <button 
-                  onClick={() => setShowMobileProfileDropdown(!showMobileProfileDropdown)} 
+                <button
+                  onClick={() => setShowMobileProfileDropdown(!showMobileProfileDropdown)}
                   className="w-full flex items-center justify-between px-6 py-3 text-gray-800 hover:bg-white/50 transition-colors font-medium"
                 >
                   <div className="flex items-center">
                     <img src={iconProfileHitam} alt="Profile" className="h-5 w-5 mr-3" />
                     <span>Profile</span>
                   </div>
-                  <svg 
-                    className={`h-4 w-4 transition-transform duration-200 ${showMobileProfileDropdown ? 'rotate-180' : ''}`} 
-                    fill="none" 
-                    stroke="currentColor" 
+                  <svg
+                    className={`h-4 w-4 transition-transform duration-200 ${showMobileProfileDropdown ? 'rotate-180' : ''}`}
+                    fill="none"
+                    stroke="currentColor"
                     viewBox="0 0 24 24"
                   >
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
@@ -177,15 +197,15 @@ const Navbar = () => {
                 </button>
                 {showMobileProfileDropdown && (
                   <div className="bg-white/30">
-                    <a 
-                      href="/profile" 
+                    <a
+                      href="/profile"
                       className="flex items-center px-6 py-3 text-gray-800 hover:bg-white/50 transition-colors pl-12"
                     >
                       <img src={iconProfileHitam} alt="Profile" className="h-5 w-5 mr-3" />
                       View Profile
                     </a>
-                    <a 
-                      href="/history" 
+                    <a
+                      href="/history"
                       className="flex items-center px-6 py-3 text-gray-800 hover:bg-white/50 transition-colors pl-12"
                     >
                       <svg className="h-5 w-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -193,7 +213,7 @@ const Navbar = () => {
                       </svg>
                       Riwayat Pesanan
                     </a>
-                    <button 
+                    <button
                       onClick={() => {
                         logout();
                         setShowMobileSidebar(false);
@@ -211,8 +231,8 @@ const Navbar = () => {
               </>
             ) : (
               <div className="px-6 py-4">
-                <a 
-                  href="/auth" 
+                <a
+                  href="/auth"
                   className="block w-full text-center bg-[#5196AA] text-white py-2 px-4 rounded-lg hover:bg-[#4585a0] transition-colors font-medium"
                 >
                   Sign In

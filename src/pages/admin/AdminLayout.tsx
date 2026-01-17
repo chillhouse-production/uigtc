@@ -36,6 +36,7 @@ export default function AdminLayout() {
     { path: '/admin', icon: '📊', label: 'Dashboard', exact: true },
     { path: '/admin/products', icon: '📦', label: 'Produk' },
     { path: '/admin/orders', icon: '🛒', label: 'Orders' },
+    { path: '/admin/rsvp', icon: '🎫', label: 'RSVP' },
   ];
 
   const isActivePath = (path: string, exact?: boolean) => {
@@ -74,9 +75,8 @@ export default function AdminLayout() {
 
       {/* Sidebar */}
       <aside
-        className={`fixed top-0 left-0 h-full w-64 bg-gradient-to-b from-slate-900 to-slate-800 z-50 transform transition-transform duration-300 lg:translate-x-0 ${
-          sidebarOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
+        className={`fixed top-0 left-0 h-full w-64 bg-gradient-to-b from-slate-900 to-slate-800 z-50 transform transition-transform duration-300 lg:translate-x-0 ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'
+          }`}
       >
         {/* Logo */}
         <div className="p-6 border-b border-slate-700">
@@ -100,11 +100,10 @@ export default function AdminLayout() {
                 key={item.path}
                 to={item.path}
                 onClick={() => setSidebarOpen(false)}
-                className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${
-                  isActive
+                className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${isActive
                     ? 'bg-gradient-to-r from-cyan-500 to-cyan-600 text-white shadow-lg shadow-cyan-500/30'
                     : 'text-slate-400 hover:bg-slate-700/50 hover:text-white'
-                }`}
+                  }`}
               >
                 <span className="text-xl">{item.icon}</span>
                 <span className="font-medium">{item.label}</span>
@@ -167,7 +166,7 @@ export default function AdminLayout() {
               })}
             </p>
           </div>
-          
+
           <div className="flex items-center gap-4">
             {/* Notification Bell (placeholder) */}
             <button className="p-2 text-slate-400 hover:text-slate-600 hover:bg-slate-100 rounded-lg transition-colors relative">
