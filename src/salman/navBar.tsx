@@ -64,6 +64,15 @@ const Navbar = () => {
                   <span className="text-lg">🎫</span>
                 </a>
               )}
+              {/* Sponsors Link */}
+              <a
+                href="/sponsors"
+                className={`px-3 py-2 rounded-lg transition-all duration-200 flex items-center gap-1 ${activeMenu === 'sponsors' ? 'bg-[#5196AA] text-white shadow-md' : 'hover:bg-gray-100 text-gray-700'}`}
+                onMouseEnter={() => setActiveMenu('sponsors')}
+                onMouseLeave={() => setActiveMenu('')}
+              >
+                <span className="text-lg">⭐</span>
+              </a>
               {isLoggedIn ? (
                 <div className="relative">
                   <button
@@ -179,6 +188,14 @@ const Navbar = () => {
                 RSVP
               </a>
             )}
+            {/* Sponsors Link */}
+            <a
+              href="/sponsors"
+              className="flex items-center px-6 py-3 text-gray-800 hover:bg-white/50 transition-colors font-medium"
+            >
+              <span className="text-lg mr-3">⭐</span>
+              Sponsors
+            </a>
             {isLoggedIn ? (
               <>
                 <div className="border-t border-gray-200/50 my-2" />
