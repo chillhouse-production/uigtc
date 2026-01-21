@@ -1,0 +1,182 @@
+/* Sponsor Marquee Styles */
+.sponsor-marquee-link {
+  display: block;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.sponsor-marquee-wrapper {
+  width: 100%;
+  background: linear-gradient(90deg, #f8f9fa 0%, #ffffff 50%, #f8f9fa 100%);
+  border-bottom: 1px solid rgba(61, 35, 20, 0.1);
+  overflow: hidden;
+  position: relative;
+}
+
+/* Desktop: di bawah navbar (fixed) */
+@media (min-width: 768px) {
+  .sponsor-marquee-wrapper {
+    position: fixed;
+    top: 64px;
+    /* Height of desktop navbar */
+    left: 0;
+    right: 0;
+    z-index: 99;
+    padding: 8px 0;
+  }
+}
+
+/* Mobile: paling atas (fixed) */
+@media (max-width: 767px) {
+  .sponsor-marquee-wrapper {
+    position: fixed;
+    top: 64px;
+    /* Below mobile navbar */
+    left: 0;
+    right: 0;
+    z-index: 99;
+    padding: 6px 0;
+  }
+}
+
+.sponsor-marquee-container {
+  max-width: 2000px;
+  margin: 0 auto;
+  position: relative;
+}
+
+/* Fade edges */
+.sponsor-marquee-container::before,
+.sponsor-marquee-container::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 60px;
+  z-index: 2;
+  pointer-events: none;
+}
+
+.sponsor-marquee-container::before {
+  left: 0;
+  background: linear-gradient(to right, #f8f9fa 0%, transparent 100%);
+}
+
+.sponsor-marquee-container::after {
+  right: 0;
+  background: linear-gradient(to left, #f8f9fa 0%, transparent 100%);
+}
+
+.sponsor-marquee-track {
+  display: flex;
+  align-items: center;
+  gap: 40px;
+  animation: marquee 30s linear infinite;
+  width: max-content;
+}
+
+.sponsor-marquee-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-33.33%);
+  }
+}
+
+.sponsor-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 16px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 8px;
+  border: 1px solid rgba(81, 150, 170, 0.15);
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.sponsor-item:hover {
+  background: rgba(81, 150, 170, 0.1);
+  border-color: rgba(81, 150, 170, 0.3);
+  transform: scale(1.02);
+}
+
+/* Size S - Silver sponsor (larger) */
+.sponsor-size-S .sponsor-logo {
+  height: 36px;
+  width: auto;
+}
+
+.sponsor-size-S .sponsor-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: #3d2314;
+}
+
+/* Size B - Bronze sponsor (smaller) */
+.sponsor-size-B .sponsor-logo {
+  height: 26px;
+  width: auto;
+}
+
+.sponsor-size-B .sponsor-name {
+  font-size: 11px;
+  font-weight: 500;
+  color: #666;
+}
+
+.sponsor-logo {
+  object-fit: contain;
+}
+
+.sponsor-name {
+  white-space: nowrap;
+}
+
+/* Mobile adjustments */
+@media (max-width: 767px) {
+  .sponsor-marquee-track {
+    gap: 24px;
+  }
+
+  .sponsor-item {
+    padding: 3px 12px;
+    gap: 8px;
+  }
+
+  .sponsor-size-S .sponsor-logo {
+    height: 28px;
+  }
+
+  .sponsor-size-S .sponsor-name {
+    font-size: 11px;
+  }
+
+  .sponsor-size-B .sponsor-logo {
+    height: 20px;
+  }
+
+  .sponsor-size-B .sponsor-name {
+    font-size: 10px;
+  }
+}
+
+/* Spacer to push content below the fixed marquee */
+.sponsor-marquee-spacer {
+  height: 56px;
+  /* Height of marquee on desktop */
+  width: 100%;
+}
+
+@media (max-width: 767px) {
+  .sponsor-marquee-spacer {
+    height: 44px;
+    /* Height of marquee on mobile */
+  }
+}

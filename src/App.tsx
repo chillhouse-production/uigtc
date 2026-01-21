@@ -19,7 +19,9 @@ import AdminOrders from "./pages/admin/AdminOrders";
 import AdminLayout from "./pages/admin/AdminLayout";
 import AnalyticsPage from "./pages/admin/AnalyticsPage";
 import AdminRsvp from "./pages/admin/AdminRsvp";
+import AdminMerchOrders from "./pages/admin/AdminMerchOrders";
 import RsvpPage from "./pages/RsvpPage";
+import SponsorsPage from "./pages/SponsorsPage";
 
 export default function App() {
   const [currentPage, setCurrentPage] = useState('signin');
@@ -35,6 +37,7 @@ export default function App() {
       <Route path="/merchlist" element={<MerchList />} />
       <Route path="/cart" element={<CartPage />} />
       <Route path="/rsvp" element={<RsvpPage />} />
+      <Route path="/sponsors" element={<SponsorsPage />} />
 
       <Route path="/product/:id" element={<MerchDetails />} />
       <Route path="/auth" element={
@@ -60,6 +63,7 @@ export default function App() {
         <Route path="orders" element={<AdminOrders />} />
         <Route path="analytics" element={<AnalyticsPage />} />
         <Route path="rsvp" element={<AdminRsvp />} />
+        <Route path="merch-orders" element={<AdminMerchOrders />} />
       </Route>
       <Route path="*" element={
         <div className="flex h-screen items-center justify-center">

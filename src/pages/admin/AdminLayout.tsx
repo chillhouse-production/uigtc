@@ -36,6 +36,7 @@ export default function AdminLayout() {
     { path: '/admin', icon: '📊', label: 'Dashboard', exact: true },
     { path: '/admin/products', icon: '📦', label: 'Produk' },
     { path: '/admin/orders', icon: '🛒', label: 'Orders' },
+    { path: '/admin/merch-orders', icon: '👕', label: 'Merch Orders' },
     { path: '/admin/rsvp', icon: '🎫', label: 'RSVP' },
   ];
 
@@ -101,8 +102,8 @@ export default function AdminLayout() {
                 to={item.path}
                 onClick={() => setSidebarOpen(false)}
                 className={`flex items-center gap-3 px-4 py-3 rounded-xl transition-all ${isActive
-                    ? 'bg-gradient-to-r from-cyan-500 to-cyan-600 text-white shadow-lg shadow-cyan-500/30'
-                    : 'text-slate-400 hover:bg-slate-700/50 hover:text-white'
+                  ? 'bg-gradient-to-r from-cyan-500 to-cyan-600 text-white shadow-lg shadow-cyan-500/30'
+                  : 'text-slate-400 hover:bg-slate-700/50 hover:text-white'
                   }`}
               >
                 <span className="text-xl">{item.icon}</span>

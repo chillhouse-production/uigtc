@@ -7,6 +7,7 @@ import iconHome from '../assets/IconRumah.svg';
 import iconToko from '../assets/IconToko.svg';
 import iconKeranjang from '../assets/IconKeranjang.svg';
 import LogoBulat from '../assets/LogoUIGTCKotak.svg';
+import SponsorMarquee from '../components/SponsorMarquee';
 
 const Navbar = () => {
   const navigate = useNavigate();
@@ -116,6 +117,9 @@ const Navbar = () => {
           <div className="fixed inset-0 z-40" onClick={() => setShowDropdown(false)} />
         )}
       </nav>
+
+      {/* Sponsor Running Text */}
+      <SponsorMarquee />
 
       {/* Mobile Navbar */}
       <nav className="fixed top-0 left-0 right-0 bg-white shadow-md md:hidden z-[100]">
