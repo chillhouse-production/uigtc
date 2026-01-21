@@ -184,6 +184,71 @@ export default function AdminOrders() {
     );
   }
 
+  // Export orders to CSV
+  const exportToCSV = () => {
+    const headers = [
+      'Order Number',
+      'Customer Name',
+      'Customer Email',
+      'Customer Phone',
+      'School',
+      'Items',
+      'Total Amount',
+      'Status',
+      'Payment Proof',
+      'RSVP Used/Total',
+      'Created At',
+      'Updated At'
+    ];
+
+    const csvData = orders.map(order => {
+      const ticketItems = order.items.filter(item => item.product?.category?.type === 'ticket');
+      const totalSlots = ticketItems.reduce((sum, item) => sum + item.quantity, 0);
+      const usedSlots = order.rsvpAttendees?.length || 0;
+      const rsvpInfo = totalSlots > 0 ? `${usedSlots}/${totalSlots}` : '-';
+
+      return [
+        order.orderNumber || order.id,
+        order.user?.name || '-',
+        order.user?.email || '-',
+        order.user?.phoneNumber || '-',
+        order.user?.schoolOrigin || '-',
+        order.items.map(item => `${item.product?.name || 'Unknown'} x${item.quantity}`).join(' | '),
+        order.totalAmount,
+        order.status,
+        order.paymentProof ? `https://uigtc.id${order.paymentProof}` : '-',
+        rsvpInfo,
+        new Date(order.createdAt).toLocaleString('id-ID'),
+        new Date(order.updatedAt).toLocaleString('id-ID')
+      ];
+    });
+
+    // Use semicolon as delimiter for Excel compatibility in Indonesian locale
+    const escapeCell = (cell: string | number) => {
+      const str = String(cell);
+      // Escape quotes and wrap in quotes if contains special chars
+      if (str.includes(';') || str.includes('"') || str.includes('\n') || str.includes('\r')) {
+        return `"${str.replace(/"/g, '""')}"`;
+      }
+      return str;
+    };
+
+    const csvContent = [
+      headers.join(';'),
+      ...csvData.map(row => row.map(escapeCell).join(';'))
+    ].join('\r\n');
+
+    const blob = new Blob(['\ufeff' + csvContent], { type: 'text/csv;charset=utf-8;' });
+    const link = document.createElement('a');
+    const url = URL.createObjectURL(blob);
+    link.setAttribute('href', url);
+    link.setAttribute('download', `orders_export_${new Date().toISOString().split('T')[0]}.csv`);
+    link.style.visibility = 'hidden';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -192,15 +257,26 @@ export default function AdminOrders() {
           <h2 className="text-2xl font-bold text-slate-800">🛒 Manajemen Order</h2>
           <p className="text-slate-500 mt-1">Kelola pesanan pelanggan</p>
         </div>
-        <button
-          onClick={loadOrders}
-          className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700 transition-colors shadow-lg shadow-cyan-200"
-        >
-          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-          </svg>
-          Refresh
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={exportToCSV}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors shadow-lg shadow-emerald-200"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            Export CSV
+          </button>
+          <button
+            onClick={loadOrders}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-cyan-600 text-white rounded-lg hover:bg-cyan-700 transition-colors shadow-lg shadow-cyan-200"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+            Refresh
+          </button>
+        </div>
       </div>
 
       {/* Stats Cards */}
