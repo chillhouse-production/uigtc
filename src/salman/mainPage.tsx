@@ -86,15 +86,24 @@ export default function MainPage() {
 
                 <div className="relative z-20 -translate-y-[60px]">
                     <img src={pasirBg} alt="" className="w-full" />
-                    <button
-                        onClick={scrollToDescriptionMobile}
-                        className="absolute top-3/12 left-1/2 -translate-x-1/2 -translate-y-1/2 
-                    bg-[#135D66] hover:bg-[#0E464D] text-[#E3FEF7] 
-                    font-semibold py-2 px-6 rounded-lg shadow-md 
-                    transition-all duration-300 hover:scale-105 active:scale-95"
-                    >
-                        Explore
-                    </button>
+                    <div className="absolute top-3/12 left-1/2 -translate-x-1/2 -translate-y-1/2 flex gap-3">
+                        <button
+                            onClick={scrollToDescriptionMobile}
+                            className="bg-[#135D66] hover:bg-[#0E464D] text-[#E3FEF7] 
+                            font-semibold py-2 px-6 rounded-lg shadow-md 
+                            transition-all duration-300 hover:scale-105 active:scale-95"
+                        >
+                            Explore
+                        </button>
+                        <button
+                            onClick={() => navigate('/sponsors')}
+                            className="bg-[#135D66] hover:bg-[#0E464D] text-[#E3FEF7] 
+                            font-semibold py-2 px-6 rounded-lg shadow-md 
+                            transition-all duration-300 hover:scale-105 active:scale-95"
+                        >
+                            Sponsors
+                        </button>
+                    </div>
                 </div>
                 <div className="relative z-30 mb-20 -translate-y-[120px] w-full h-[550px]">
                     <img
@@ -478,15 +487,24 @@ export default function MainPage() {
 
                     <div className="relative z-20 w-full">
                         <img src={pasirBg} alt="Sand Background" className="w-full object-cover relative -mt-[8%] sm:-mt-[9%] md:-mt-[10%]" />
-                        <button
-                            onClick={scrollToDescription}
-                            className="absolute top-1/12 left-1/2 -translate-x-1/2 -translate-y-1/2 
-                    bg-[#135D66] hover:bg-[#0E464D] text-[#E3FEF7] 
-                    font-semibold py-2 px-6 rounded-lg shadow-md 
-                    transition-all duration-300 hover:scale-105 active:scale-95"
-                        >
-                            Explore
-                        </button>
+                        <div className="absolute top-1/12 left-1/2 -translate-x-1/2 -translate-y-1/2 flex gap-4">
+                            <button
+                                onClick={scrollToDescription}
+                                className="bg-[#135D66] hover:bg-[#0E464D] text-[#E3FEF7] 
+                                font-semibold py-2 px-6 rounded-lg shadow-md 
+                                transition-all duration-300 hover:scale-105 active:scale-95"
+                            >
+                                Explore
+                            </button>
+                            <button
+                                onClick={() => navigate('/sponsors')}
+                                className="bg-[#135D66] hover:bg-[#0E464D] text-[#E3FEF7] 
+                                font-semibold py-2 px-6 rounded-lg shadow-md 
+                                transition-all duration-300 hover:scale-105 active:scale-95 flex items-center gap-2"
+                            >
+                                Sponsors
+                            </button>
+                        </div>
                     </div>
 
                     <div className="relative w-full z-30 overflow-hidden -mt-[30%] sm:-mt-[32%] md:-mt-[35%]">
