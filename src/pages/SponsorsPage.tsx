@@ -7,6 +7,8 @@ import AASFoundationLogo from '../assets/logo_sponsor/aas.png';
 import BankSulSelBarLogo from '../assets/logo_sponsor/BANK SULSELBAR.png';
 import HaluoleoLandLogo from '../assets/logo_sponsor/Haluoleo Land.png';
 import AjabaIndustriLogo from '../assets/logo_sponsor/OFFICIAL LOGO Ajaba Industri  Default Horizontal.png';
+import KallaLogo from '../assets/logo_sponsor/Logo KALLA.png';
+import PelindoLogo from '../assets/logo_sponsor/Pelindo Jasa Maritim-putih (3) (1).png';
 
 interface Sponsor {
     id: string;
@@ -21,28 +23,41 @@ interface Sponsor {
 const sponsors: Sponsor[] = [
     {
         id: '1',
+        name: 'PT Pelindo Jasa Maritim',
+        logo: PelindoLogo,
+        size: 'S', // Silver
+    },
+    {
+        id: '2',
         name: 'AAS Foundation',
         logo: AASFoundationLogo,
         size: 'S', // Silver
     },
     {
-        id: '2',
+        id: '3',
+        name: 'KALLA',
+        logo: KallaLogo,
+        size: 'S', // Silver
+    },
+    {
+        id: '4',
         name: 'Bank SulSelBar',
         logo: BankSulSelBarLogo,
         size: 'B', // Bronze
     },
     {
-        id: '3',
+        id: '5',
         name: 'Haluoleo Land',
         logo: HaluoleoLandLogo,
         size: 'B', // Bronze
     },
     {
-        id: '4',
+        id: '6',
         name: 'Ajaba Industri',
         logo: AjabaIndustriLogo,
         size: 'B', // Bronze
     },
+
 ];
 
 export default function SponsorsPage() {

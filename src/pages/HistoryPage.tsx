@@ -33,7 +33,11 @@ export default function HistoryPage() {
 
                 const response = await ordersApi.getMyOrders();
                 if (response.success && response.data) {
-                    setOrders(response.data);
+                    // Filter hanya menampilkan order dengan status accepted atau rejected
+                    const filteredOrders = response.data.filter(
+                        (order) => order.status === 'accepted' || order.status === 'rejected'
+                    );
+                    setOrders(filteredOrders);
                 } else {
                     setError(response.message || 'Gagal mengambil data pesanan');
                 }

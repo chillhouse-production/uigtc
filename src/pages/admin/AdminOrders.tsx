@@ -22,7 +22,7 @@ type Order = {
   id: string;
   orderNumber: string;
   userId: string;
-  status: 'pending' | 'accepted' | 'rejected' | 'cancelled';
+  status: 'awaiting_payment' | 'pending' | 'accepted' | 'rejected' | 'cancelled';
   totalAmount: number;
   paymentProof: string | null;
   rejectionReason?: string;
@@ -44,6 +44,7 @@ export default function AdminOrders() {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState<'all' | 'pending' | 'accepted' | 'rejected'>('all');
+  const [filterType, setFilterType] = useState<'all' | 'ticket' | 'merch'>('all');
 
   // Detail modal
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
@@ -77,6 +78,15 @@ export default function AdminOrders() {
     }
   };
 
+  // Helper to get order type
+  const getOrderType = (order: Order): 'ticket' | 'merch' | 'mixed' => {
+    const hasTicket = order.items.some(item => item.product?.category?.type === 'ticket');
+    const hasMerch = order.items.some(item => item.product?.category?.type === 'merchandise');
+    if (hasTicket && hasMerch) return 'mixed';
+    if (hasTicket) return 'ticket';
+    return 'merch';
+  };
+
   const filteredOrders = orders.filter((order) => {
     const matchesSearch =
       order.orderNumber?.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -84,7 +94,9 @@ export default function AdminOrders() {
       order.user?.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
       order.user?.email.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = filterStatus === 'all' || order.status === filterStatus;
-    return matchesSearch && matchesStatus;
+    const orderType = getOrderType(order);
+    const matchesType = filterType === 'all' || orderType === filterType || (filterType === 'ticket' && orderType === 'mixed') || (filterType === 'merch' && orderType === 'mixed');
+    return matchesSearch && matchesStatus && matchesType;
   });
 
   // Helper to calculate ticket quota
@@ -185,7 +197,11 @@ export default function AdminOrders() {
   }
 
   // Export orders to CSV
-  const exportToCSV = () => {
+  const exportToCSV = (statusFilter?: 'accepted' | 'pending' | 'rejected') => {
+    const ordersToExport = statusFilter
+      ? orders.filter(o => o.status === statusFilter)
+      : orders;
+
     const headers = [
       'Order Number',
       'Customer Name',
@@ -201,7 +217,7 @@ export default function AdminOrders() {
       'Updated At'
     ];
 
-    const csvData = orders.map(order => {
+    const csvData = ordersToExport.map(order => {
       const ticketItems = order.items.filter(item => item.product?.category?.type === 'ticket');
       const totalSlots = ticketItems.reduce((sum, item) => sum + item.quantity, 0);
       const usedSlots = order.rsvpAttendees?.length || 0;
@@ -257,15 +273,24 @@ export default function AdminOrders() {
           <h2 className="text-2xl font-bold text-slate-800">🛒 Manajemen Order</h2>
           <p className="text-slate-500 mt-1">Kelola pesanan pelanggan</p>
         </div>
-        <div className="flex gap-2">
+        <div className="flex flex-wrap gap-2">
           <button
-            onClick={exportToCSV}
+            onClick={() => exportToCSV('accepted')}
             className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors shadow-lg shadow-emerald-200"
           >
             <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
             </svg>
-            Export CSV
+            Export Accepted
+          </button>
+          <button
+            onClick={() => exportToCSV()}
+            className="inline-flex items-center gap-2 px-4 py-2 bg-slate-600 text-white rounded-lg hover:bg-slate-700 transition-colors shadow-lg shadow-slate-200"
+          >
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+            Export All
           </button>
           <button
             onClick={loadOrders}
@@ -336,6 +361,25 @@ export default function AdminOrders() {
               </button>
             ))}
           </div>
+        </div>
+
+        {/* Type Filter */}
+        <div className="flex gap-2 mt-4">
+          <span className="text-sm text-slate-500 self-center mr-2">Tipe:</span>
+          {(['all', 'ticket', 'merch'] as const).map((type) => (
+            <button
+              key={type}
+              onClick={() => setFilterType(type)}
+              className={`px-4 py-2 rounded-lg text-sm font-medium transition-all ${filterType === type
+                ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-200'
+                : 'bg-slate-100 text-slate-600 hover:bg-slate-200'
+                }`}
+            >
+              {type === 'all' && '📦 Semua'}
+              {type === 'ticket' && '🎟️ Tiket'}
+              {type === 'merch' && '👕 Merch'}
+            </button>
+          ))}
         </div>
       </div>
 
