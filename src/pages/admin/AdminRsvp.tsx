@@ -81,6 +81,32 @@ export default function AdminRsvp() {
         }
     };
 
+    const deleteAttendee = async (attendee: RsvpAttendee) => {
+        const confirmed = window.confirm(
+            `Apakah Anda yakin ingin menghapus data RSVP untuk:\n\nNama: ${attendee.name}\nKode Tiket: ${attendee.ticketCode}\n\nData yang dihapus tidak dapat dikembalikan!`
+        );
+        if (!confirmed) return;
+
+        setProcessingId(attendee.id);
+        try {
+            const { data, ok } = await apiCall<{ success: boolean; message: string }>(
+                `/rsvp/admin/attendee/${attendee.id}`,
+                'DELETE'
+            );
+
+            if (ok && data.success) {
+                setAttendees(attendees.filter(att => att.id !== attendee.id));
+                alert(data.message);
+            } else {
+                alert('Gagal menghapus data RSVP');
+            }
+        } catch {
+            alert('Terjadi kesalahan saat menghapus data');
+        } finally {
+            setProcessingId(null);
+        }
+    };
+
     const filteredAttendees = attendees.filter((att) => {
         const query = searchQuery.toLowerCase();
         return (
@@ -249,12 +275,13 @@ export default function AdminRsvp() {
                                     <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Email</th>
                                     <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Kode Tiket</th>
                                     <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Order</th>
+                                    <th className="px-4 py-3 text-left text-xs font-semibold text-gray-600 uppercase">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-100">
                                 {filteredAttendees.length === 0 ? (
                                     <tr>
-                                        <td colSpan={7} className="px-4 py-8 text-center text-gray-500">
+                                        <td colSpan={8} className="px-4 py-8 text-center text-gray-500">
                                             {searchQuery ? 'Tidak ada hasil untuk pencarian tersebut' : 'Belum ada data RSVP'}
                                         </td>
                                     </tr>
@@ -303,6 +330,16 @@ export default function AdminRsvp() {
                                                 </span>
                                             </td>
                                             <td className="px-4 py-3 text-xs font-mono text-gray-500">{att.orderNumber}</td>
+                                            <td className="px-4 py-3">
+                                                <button
+                                                    onClick={() => deleteAttendee(att)}
+                                                    disabled={processingId === att.id}
+                                                    className="px-3 py-1.5 bg-red-100 text-red-600 text-xs font-medium rounded hover:bg-red-200 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                                                    title="Hapus data RSVP"
+                                                >
+                                                    🗑️ Hapus
+                                                </button>
+                                            </td>
                                         </tr>
                                     ))
                                 )}
