@@ -500,7 +500,7 @@ export default function MainPage() {
                                 onClick={() => navigate('/sponsors')}
                                 className="bg-[#135D66] hover:bg-[#0E464D] text-[#E3FEF7] 
                                 font-semibold py-2 px-6 rounded-lg shadow-md 
-                                transition-all duration-300 hover:scale-105 active:scale-95 flex items-center gap-2"
+                                transition-all duration-300 hover:scale-105 active:scale-95"
                             >
                                 Sponsors
                             </button>
